@@ -1,14 +1,52 @@
-<!DOCTYPE html>
-<html>
-
-  {% include head.html %}
-
+<!doctype html>
+<html lang="{{ site.lang | default: 'ko-KR' }}" data-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+    <meta name="description" content="{{ page.description | default: site.description | strip_html | escape }}">
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta property="og:description" content="{{ page.description | default: site.description | strip_html | escape }}">
+    <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <script>
+      (function () {
+        var saved = localStorage.getItem('theme');
+        var preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.dataset.theme = saved || preferred;
+      })();
+    </script>
+  </head>
   <body>
-{% include header.html %}
-<section>
-{{content}}
-</section>
-{% include footer.html %}
-  </body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="{{ '/' | relative_url }}" aria-label="홈으로 이동">
+          <span class="brand-mark">&gt;_</span>
+          <span>{{ site.title }}</span>
+        </a>
+        <nav class="site-nav" aria-label="주요 메뉴">
+          <a href="{{ '/' | relative_url }}">Posts</a>
+          <a href="{{ '/about/' | relative_url }}">About</a>
+          <a href="https://github.com/choi-jiwoong" target="_blank" rel="noreferrer">GitHub</a>
+          <button class="theme-toggle" type="button" aria-label="테마 전환" title="테마 전환">
+            <span class="theme-icon" aria-hidden="true">◐</span>
+          </button>
+        </nav>
+      </header>
 
+      <main>{{ content }}</main>
+
+      <footer class="site-footer">
+        <div>
+          <strong>{{ site.title }}</strong>
+          <span>Built with Jekyll · Hosted on GitHub Pages</span>
+        </div>
+        <span>© {{ 'now' | date: '%Y' }} Choi Jiwoong</span>
+      </footer>
+    </div>
+    <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
+  </body>
 </html>

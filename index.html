@@ -1,44 +1,72 @@
 ---
 layout: default
+title: Home
+description: DevOps, Infrastructure, Backend 개발 기록
 ---
-
-<section>
-  <div class="jumbotron">
-    <div class="container">
-      {{site.description}}
-
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">DEVELOPER · DEVOPS · BACKEND</p>
+    <h1>복잡한 것을<br><span>단순하게 만드는</span><br>개발 기록.</h1>
+    <p class="hero-description">
+      DevOps, Terraform, Java, Node.js 그리고 운영 환경에서 부딪히며 배운 내용을 기록합니다.
+      정답보다 문제를 풀어가는 과정에 집중합니다.
+    </p>
+    <div class="hero-actions">
+      <a class="primary-button" href="#posts">글 보러가기 <span>↓</span></a>
+      <a class="text-link" href="{{ '/about/' | relative_url }}">About me →</a>
     </div>
+  </div>
+  <div class="terminal-card" aria-label="개발자 프로필 요약">
+    <div class="terminal-bar"><i></i><i></i><i></i><span>profile.sh</span></div>
+    <pre><code><span class="prompt">$</span> whoami
+choi-jiwoong
 
-</div>
+<span class="prompt">$</span> cat stack.txt
+DevOps      Terraform
+Java        Node.js
+Cloud       Automation
+
+<span class="prompt">$</span> echo $MOTTO
+"Automate the boring things."
+
+<span class="prompt">$</span> <span class="cursor">█</span></code></pre>
+  </div>
 </section>
 
-<section id="page-content">
-  <div class="container">
-    <div class="post-list">
-  {%  for post in site.posts %}
-  <div class="post-box">
-    <div class="post-title">
-    <a class="post-title" href="{{post.url | prepend:site.baseurl }}" > {{ post.title }}</a>
+<section class="posts-section" id="posts">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">LATEST NOTES</p>
+      <h2>최근 글</h2>
     </div>
-    <div class="post-excerpt">
-      {{ post.content | strip_html | truncatewords:20}}
-    </div>
-    <div class="posted">
-      posted on
-      <span class="posted-on">
+    <span class="post-count">{{ site.posts | size }} posts</span>
+  </div>
 
-        {{ post.date | date: "%A, %B %-d, %Y" }}
-      </span>
-      <span class="in">
-        in
-      </span>
-      <span class="categories-on">
-        {% for category in post.categories%}
-        {{category}} &nbsp;{% if forloop.last %}{% else %},{% endif %}
-        {% endfor %}
-      </span>
+  {% if site.posts.size > 0 %}
+    <div class="post-grid">
+      {% for post in site.posts %}
+        <article class="post-card">
+          <a class="post-card-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title }} 읽기"></a>
+          <div class="post-meta">
+            <span>{{ post.categories | first | default: 'Development' }}</span>
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+          </div>
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.description | default: post.excerpt | strip_html | truncate: 125 }}</p>
+          <div class="post-card-footer">
+            <div class="tag-list compact">
+              {% for tag in post.tags limit:3 %}<span class="tag">#{{ tag }}</span>{% endfor %}
+            </div>
+            <span class="arrow">↗</span>
+          </div>
+        </article>
+      {% endfor %}
     </div>
-  </div>
-  {% endfor %}
-  </div>
+  {% else %}
+    <div class="empty-state">
+      <span class="empty-icon">⌁</span>
+      <h3>첫 번째 글을 준비 중입니다.</h3>
+      <p><code>_posts</code> 폴더에 Markdown 파일을 추가하면 이곳에 자동으로 표시됩니다.</p>
+    </div>
+  {% endif %}
 </section>

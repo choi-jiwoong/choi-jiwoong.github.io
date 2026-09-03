@@ -1,87 +1,40 @@
 ---
-layout: page
+layout: default
 title: About
+description: 개발자 최지웅의 소개와 기술 관심사
 permalink: /about/
 ---
-<div class="man-title">
-  UP AND RUNNING WITH DevJournal
-</div>
-<div class="manual manual-title">
-  Posting
-  </div>
-<p>  <div class="manual-content">
+<section class="about-page">
+  <p class="eyebrow">ABOUT ME</p>
+  <h1>안녕하세요.<br>개발자 최지웅입니다.</h1>
+  <p class="about-lead">
+    반복되는 일은 자동화하고, 복잡한 시스템은 이해하기 쉽게 만드는 것을 좋아합니다.
+    이 블로그에는 실무에서 만난 문제, 해결 과정, 그리고 다시 찾아보고 싶은 기술 메모를 남깁니다.
+  </p>
 
-      - Create a .markdown file inside <code class="highlighter-rouge">_posts</code> folder.<br />
-      - Name the file according to the format YY-MM-DD-[short name for your post].<br />
-      &nbsp;&nbsp;&nbsp;<code>2016-03-30-i-love-design.markdown</code><br />
-      - Write the <a href="jekyll">Front Matter</a> and content in the file.<br><br>
-      <div class="example">
-
-        <div class="highlight">
-        <pre>
-          ---
-          layout: post | default | page
-          title:  String<span class="hint"> Post Title</span>
-          date:   Time Stamp
-          categories: String | Array of Strings<span class="hint"> Category / Categories </span>
-          ---
-        </pre>
-        </div>
-
-      </div>
-      <div class="example">
-        <div class="highlight">
-        <pre>
-        ---
-        layout: post
-        title:  "The One with the Blackout"
-        date:   2016-03-30 19:45:31 +0530
-        categories: ["life", "friends"]
-        ---
-      </pre>
+  <div class="about-grid">
+    <div class="about-panel">
+      <span class="panel-number">01</span>
+      <h2>What I do</h2>
+      <p>서비스를 안정적으로 배포하고 운영하기 위한 인프라와 백엔드 개발에 관심이 많습니다.</p>
     </div>
-      </div>
-
-
-
-</p>
-</div>
-<p><br /></p>
-
-  <div class="manual manual-title">
-  Create Pages
+    <div class="about-panel">
+      <span class="panel-number">02</span>
+      <h2>Stack</h2>
+      <p>DevOps · Terraform · Java · Node.js · Cloud · CI/CD · Automation</p>
+    </div>
+    <div class="about-panel">
+      <span class="panel-number">03</span>
+      <h2>Writing</h2>
+      <p>기억보다 기록을 믿습니다. 시행착오까지 포함해 다음의 나와 다른 개발자에게 도움이 되는 글을 쓰고 싶습니다.</p>
+    </div>
   </div>
-<p>  <div class="manual-content">
 
-      - Create a .md file in the root directory.<br />
-      - Name the file with the desired page link name.<br />
-        &nbsp;&nbsp;&nbsp;<code>about.md</code><br />
-          &nbsp;&nbsp;&nbsp;<code>design.md</code><br />
-      - Write the <a href="jekyll">Front Matter</a> and content in the file.<br><br>
-      <div class="highlight">
-
-
-        <pre>
-          ---
-          layout: page
-          title: String <span class="hint">Title of the webpage</span>
-          permalink: / String / <span class="hint">Permalink for the webpage</span>
-          tagline: String <span class="hint">Optional DevJournal Feature : Tagline for the page</span>
-          ---
-      </pre><br />
-    </div><br>
-      <div class="highlight">
-
-        <pre>
-        ---
-        layout: page
-        title:  "Science"
-        permalink:   /science/
-        tagline : "Humanity is overrated."
-        ---
-      </pre>
-      </div>
-
-
+  <div class="about-cta">
+    <div>
+      <p class="eyebrow">ELSEWHERE</p>
+      <h2>코드는 GitHub에서.</h2>
+    </div>
+    <a class="primary-button" href="https://github.com/choi-jiwoong" target="_blank" rel="noreferrer">GitHub 방문하기 ↗</a>
   </div>
-</p>
+</section>

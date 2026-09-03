@@ -1,19 +1,33 @@
 ---
 layout: default
 ---
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="jumbotron">
-    <div class="container">
-      <h1 class="post-title-main" itemprop="name headline">{{ page.title }}</h1>
-      <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
-      
+<article class="post-page">
+  <a class="back-link" href="{{ '/' | relative_url }}">← 모든 글</a>
+
+  <header class="post-header">
+    <div class="post-kicker">
+      {% if page.categories and page.categories.size > 0 %}
+        <span>{{ page.categories | first }}</span>
+      {% else %}
+        <span>Development</span>
+      {% endif %}
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time>
     </div>
+    <h1>{{ page.title }}</h1>
+    {% if page.description %}<p class="post-description">{{ page.description }}</p>{% endif %}
+    {% if page.tags and page.tags.size > 0 %}
+      <div class="tag-list">
+        {% for tag in page.tags %}<span class="tag">#{{ tag }}</span>{% endfor %}
+      </div>
+    {% endif %}
+  </header>
 
-</div>
-
-
-  <div class="post-content container" itemprop="articleBody">
+  <div class="post-content">
     {{ content }}
   </div>
 
+  <footer class="post-end">
+    <span>EOF</span>
+    <a href="{{ '/' | relative_url }}">다른 글 보기 →</a>
+  </footer>
 </article>
