@@ -25,3 +25,5 @@ defaults:
       type: posts
     values:
       layout: post
+
+# Keep publish dates explicit in KST; this comment also retriggers Pages after the latest post time.
