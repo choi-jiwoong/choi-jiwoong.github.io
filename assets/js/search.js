@@ -1,13 +1,13 @@
 (function () {
   const overlay = document.querySelector('.search-overlay');
-  const openButton = document.querySelector('.search-open');
+  const openButtons = Array.from(document.querySelectorAll('.search-open'));
   const closeButton = document.querySelector('.search-close');
   const input = document.querySelector('.search-input');
   const results = document.querySelector('.search-results');
   const count = document.querySelector('.search-count');
   const tags = document.querySelector('.search-tags');
 
-  if (!overlay || !openButton || !input || !results || !count || !tags) return;
+  if (!overlay || !openButtons.length || !input || !results || !count || !tags) return;
 
   let posts = [];
   let activeTag = '';
@@ -136,7 +136,9 @@
     document.body.classList.remove('search-opened');
   }
 
-  openButton.addEventListener('click', openSearch);
+  openButtons.forEach(function (button) {
+    button.addEventListener('click', openSearch);
+  });
   if (closeButton) closeButton.addEventListener('click', closeSearch);
   input.addEventListener('input', renderResults);
 
