@@ -12,6 +12,7 @@
     <meta property="og:url" content="{{ page.url | absolute_url }}">
     <link rel="canonical" href="{{ page.url | absolute_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/search.css' | relative_url }}">
     <script>
       (function () {
         var saved = localStorage.getItem('theme');
@@ -31,6 +32,11 @@
           <a href="{{ '/' | relative_url }}">Posts</a>
           <a href="{{ '/about/' | relative_url }}">About</a>
           <a href="https://github.com/choi-jiwoong" target="_blank" rel="noreferrer">GitHub</a>
+          <button class="search-open" type="button" aria-label="포스트 검색" title="포스트 검색">
+            <span aria-hidden="true">⌕</span>
+            <span>Search</span>
+            <kbd>⌘K</kbd>
+          </button>
           <button class="theme-toggle" type="button" aria-label="테마 전환" title="테마 전환">
             <span class="theme-icon" aria-hidden="true">◐</span>
           </button>
@@ -47,6 +53,28 @@
         <span>© {{ 'now' | date: '%Y' }} Choi Jiwoong</span>
       </footer>
     </div>
+
+    <div class="search-overlay" hidden>
+      <section class="search-panel" role="dialog" aria-modal="true" aria-label="포스트 검색">
+        <div class="search-head">
+          <div class="search-input-wrap">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input class="search-input" type="search" placeholder="제목, 태그, 본문을 검색하세요..." autocomplete="off" spellcheck="false">
+          </div>
+          <button class="search-close" type="button" aria-label="검색 닫기">Esc</button>
+        </div>
+        <div class="search-body">
+          <div class="search-toolbar">
+            <span class="search-label">Filter</span>
+            <span class="search-count">0 posts</span>
+          </div>
+          <div class="search-tags" aria-label="태그 필터"></div>
+          <div class="search-results"></div>
+        </div>
+      </section>
+    </div>
+
     <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
   </body>
 </html>
