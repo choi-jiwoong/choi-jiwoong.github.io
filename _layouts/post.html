@@ -2,7 +2,14 @@
 layout: default
 ---
 <article class="post-page">
-  <a class="back-link" href="{{ '/' | relative_url }}">← 모든 글</a>
+  <div class="post-tools">
+    <a class="back-link" href="{{ '/' | relative_url }}">← 모든 글</a>
+    <button class="post-search-button search-open" type="button" aria-label="포스트 검색">
+      <span aria-hidden="true">⌕</span>
+      <span>글 검색</span>
+      <kbd>⌘K</kbd>
+    </button>
+  </div>
 
   <header class="post-header">
     <div class="post-kicker">
