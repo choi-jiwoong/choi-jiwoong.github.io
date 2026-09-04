@@ -137,6 +137,35 @@ button { font: inherit; }
 .post-content :not(pre) > code { padding: 3px 6px; border-radius: 5px; background: var(--accent-soft); color: var(--accent); font: .88em ui-monospace, monospace; }
 .post-content pre { overflow-x: auto; margin: 28px 0; padding: 22px; border: 1px solid var(--line); border-radius: 10px; background: var(--code); color: #e9edf1; }
 .post-content pre code { font: 13px/1.75 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.post-content table {
+  width: 100%;
+  margin: 28px 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+  font-size: 14px;
+}
+.post-content th,
+.post-content td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+.post-content th:first-child,
+.post-content td:first-child { text-align: left; }
+.post-content th {
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .01em;
+}
+.post-content tbody tr:last-child td { border-bottom: 0; }
+.post-content tbody tr:hover { background: var(--accent-soft); }
 .post-end { display: flex; justify-content: space-between; padding-top: 28px; border-top: 1px solid var(--line); color: var(--muted); font: 700 12px/1 ui-monospace, monospace; }
 .post-end span { color: var(--accent); }
 
@@ -167,6 +196,8 @@ button { font: inherit; }
   .about-grid { grid-template-columns: 1fr; }
   .about-panel { padding: 30px 0; }
   .about-panel + .about-panel { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .post-content { overflow-x: auto; }
+  .post-content table { min-width: 680px; }
 }
 
 @media (max-width: 620px) {
@@ -185,6 +216,7 @@ button { font: inherit; }
   .post-page { padding-top: 50px; }
   .post-header { padding-top: 46px; }
   .post-content { font-size: 16px; }
+  .post-content table { min-width: 640px; }
   .about-page { padding: 72px 0 80px; }
   .about-lead { margin-bottom: 50px; font-size: 17px; }
   .about-cta { margin-top: 62px; padding: 28px; align-items: flex-start; flex-direction: column; }
