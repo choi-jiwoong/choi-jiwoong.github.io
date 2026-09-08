@@ -1,6 +1,6 @@
 ---
-title: "프롬프트 엔지니어링 다음은 왜 Harness Engineering인가"
-description: "GPT-6 Astra처럼 모델이 강해질수록 중요한 것은 프롬프트보다 에이전트가 일할 환경이다. Harness Engineering이 무엇이고 왜 DevOps와 Platform Engineering의 다음 관심사가 될 수 있는지 정리해봤다."
+title: "AI Agent 시대, 왜 Harness Engineering이 중요해졌을까"
+description: "모델이 강해질수록 중요한 것은 모델 자체보다 에이전트가 일하는 환경이다. Harness Engineering이 무엇이고 왜 DevOps와 Platform Engineering의 다음 관심사가 될 수 있는지 정리해봤다."
 date: 2026-09-08 14:20:00 +0900
 categories: [AI]
 tags: [AI, Agent, HarnessEngineering, GPT6, Astra, Codex, DevOps, PlatformEngineering]
@@ -134,62 +134,6 @@ Review 피드백 반영
 결국 모델이 **두뇌**라면,
 
 Harness는 그 두뇌가 실제 세상에서 일할 수 있도록 만들어주는 **몸과 작업 환경**에 가깝다.
-
----
-
-# Prompt Engineering과는 뭐가 다를까?
-
-처음 LLM을 사용하기 시작했을 때 가장 많이 이야기했던 것은 Prompt Engineering이었다.
-
-```text
-AI에게 어떻게 질문해야
-좋은 답을 받을 수 있을까?
-```
-
-그러다 Context Engineering이라는 개념이 중요해졌다.
-
-```text
-AI에게 어떤 정보를
-보여줘야 할까?
-```
-
-Harness Engineering은 범위가 더 크다.
-
-| 영역 | 핵심 질문 |
-|---|---|
-| Prompt Engineering | AI에게 어떻게 지시할까? |
-| Context Engineering | AI에게 무엇을 보여줄까? |
-| Harness Engineering | AI가 어떤 환경에서 어떻게 일하고 검증할까? |
-
-예를 들어 Agent가 같은 실수를 반복한다고 해보자.
-
-Prompt Engineering식 접근은:
-
-```text
-프롬프트를 더 자세하게 작성한다.
-```
-
-가 될 가능성이 높다.
-
-하지만 Harness Engineering은 이렇게 접근한다.
-
-```text
-왜 실패했지?
-    ↓
-프로젝트 규칙을 몰랐나?
-    ↓
-관련 로그를 못 봤나?
-    ↓
-테스트가 부족했나?
-    ↓
-실패를 감지할 방법이 없었나?
-    ↓
-필요한 시스템을 추가한다.
-```
-
-중요한 차이다.
-
-**AI에게 "더 잘해"라고 요청하는 것이 아니라, AI가 잘할 수밖에 없는 환경을 만든다.**
 
 ---
 
@@ -655,7 +599,6 @@ GPT-6 Astra 같은 모델을 보면서 느끼는 것은 모델 경쟁의 다음 
 
 | 과거 | 앞으로 |
 |---|---|
-| 좋은 Prompt | 좋은 Environment |
 | 코드 생성 | 작업 완료 |
 | 답변 정확도 | End-to-End 성공률 |
 | 사람 중심 Tool | Agent가 사용할 수 있는 Tool |
@@ -695,6 +638,8 @@ GPT-6 Astra 같은 모델을 보면서 느끼는 것은 모델 경쟁의 다음 
 **DevOps, Platform Engineering, Automation, Observability, IAM**
 
 과 굉장히 가까운 곳에 있다.
+
+프롬프트를 어떻게 만들고, AI의 행동 규칙을 어떻게 설계할지는 별도의 문제다. 이 부분은 [프롬프트 엔지니어링에서 메타프롬프트까지](/posts/prompt-engineering-and-meta-prompt/)에서 따로 정리했다.
 
 어쩌면 AI Agent 시대에 DevOps 엔지니어가 맡게 될 가장 재미있는 역할 중 하나가 바로 이 영역일지도 모르겠다.
 
