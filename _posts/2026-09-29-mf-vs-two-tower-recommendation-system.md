@@ -79,7 +79,7 @@ User Tower       Item Tower
 
 사용자 정보       상품 정보
     ↓                ↓
-신경망             신경망
+Neural Network     Neural Network
     ↓                ↓
 User Vector        Item Vector
       \             /
