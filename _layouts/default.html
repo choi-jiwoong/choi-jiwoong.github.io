@@ -1,16 +1,92 @@
 <!doctype html>
 <html lang="{{ site.lang | default: 'ko-KR' }}" data-theme="dark">
   <head>
+    {% assign seo_description = page.description | default: site.description | strip_html | strip_newlines | strip %}
+    {% assign canonical_url = page.url | absolute_url %}
+    {% if page.url == '/' %}
+      {% assign full_title = site.seo_title | default: site.title %}
+      {% assign social_title = site.seo_title | default: site.title %}
+    {% elsif page.title %}
+      {% capture full_title %}{{ page.title }} | {{ site.title }}{% endcapture %}
+      {% assign social_title = page.title %}
+    {% else %}
+      {% assign full_title = site.seo_title | default: site.title %}
+      {% assign social_title = site.title %}
+    {% endif %}
+    {% assign og_image = page.image | default: site.og_image %}
+    {% if og_image %}
+      {% if og_image contains '://' %}
+        {% assign og_image_url = og_image %}
+      {% else %}
+        {% assign og_image_url = og_image | absolute_url %}
+      {% endif %}
+    {% endif %}
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark light">
-    <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
-    <meta name="description" content="{{ page.description | default: site.description | strip_html | escape }}">
-    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-    <meta property="og:description" content="{{ page.description | default: site.description | strip_html | escape }}">
+    <title>{{ full_title | strip | escape }}</title>
+    <meta name="description" content="{{ seo_description | escape }}">
+    {% if page.tags and page.tags.size > 0 %}
+    <meta name="keywords" content="{{ page.tags | join: ', ' | escape }}">
+    {% elsif site.keywords %}
+    <meta name="keywords" content="{{ site.keywords | join: ', ' | escape }}">
+    {% endif %}
+    <meta name="author" content="{{ site.author.name | default: 'Choi Jiwoong' | escape }}">
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ site.title }} RSS" href="{{ '/feed.xml' | absolute_url }}">
+
+    <meta property="og:site_name" content="{{ site.title | escape }}">
+    <meta property="og:locale" content="{{ site.lang | default: 'ko-KR' | replace: '-', '_' }}">
+    <meta property="og:title" content="{{ social_title | strip | escape }}">
+    <meta property="og:description" content="{{ seo_description | escape }}">
     <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
-    <meta property="og:url" content="{{ page.url | absolute_url }}">
-    <link rel="canonical" href="{{ page.url | absolute_url }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    {% if og_image_url %}
+    <meta property="og:image" content="{{ og_image_url }}">
+    <meta property="og:image:alt" content="{{ social_title | strip | escape }}">
+    {% endif %}
+
+    <meta name="twitter:card" content="{% if og_image_url %}summary_large_image{% else %}summary{% endif %}">
+    <meta name="twitter:title" content="{{ social_title | strip | escape }}">
+    <meta name="twitter:description" content="{{ seo_description | escape }}">
+    {% if og_image_url %}<meta name="twitter:image" content="{{ og_image_url }}">{% endif %}
+
+    {% if page.layout == 'post' %}
+    <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+    {% if page.last_modified_at %}<meta property="article:modified_time" content="{{ page.last_modified_at | date_to_xmlschema }}">{% endif %}
+    {% if page.categories and page.categories.size > 0 %}<meta property="article:section" content="{{ page.categories | first | escape }}">{% endif %}
+    {% for tag in page.tags %}<meta property="article:tag" content="{{ tag | escape }}">{% endfor %}
+    {% endif %}
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "{% if page.layout == 'post' %}BlogPosting{% else %}WebSite{% endif %}",
+      "name": {{ social_title | strip | jsonify }},
+      "headline": {{ social_title | strip | jsonify }},
+      "description": {{ seo_description | jsonify }},
+      "url": {{ canonical_url | jsonify }},
+      {% if og_image_url %}"image": {{ og_image_url | jsonify }},{% endif %}
+      {% if page.layout == 'post' %}
+      "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+      {% if page.last_modified_at %}"dateModified": {{ page.last_modified_at | date_to_xmlschema | jsonify }},{% endif %}
+      "author": {
+        "@type": "Person",
+        "name": {{ site.author.name | default: 'Choi Jiwoong' | jsonify }},
+        "url": {{ site.author.url | default: 'https://github.com/choi-jiwoong' | jsonify }}
+      },
+      {% endif %}
+      "publisher": {
+        "@type": "Person",
+        "name": {{ site.author.name | default: 'Choi Jiwoong' | jsonify }},
+        "url": {{ site.author.url | default: 'https://github.com/choi-jiwoong' | jsonify }}
+      }
+    }
+    </script>
+
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/search.css' | relative_url }}">
     <script>
@@ -48,7 +124,7 @@
       <footer class="site-footer">
         <div>
           <strong>{{ site.title }}</strong>
-          <span>Built with Jekyll · Hosted on GitHub Pages</span>
+          <span>Built with Jekyll · Hosted on GitHub Pages · <a href="{{ '/feed.xml' | relative_url }}">RSS</a></span>
         </div>
         <span>© {{ 'now' | date: '%Y' }} Choi Jiwoong</span>
       </footer>
