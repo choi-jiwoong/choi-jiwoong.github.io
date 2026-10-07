@@ -5,7 +5,7 @@ url: "https://www.sea4.net"
 baseurl: ""
 lang: ko-KR
 timezone: Asia/Seoul
-og_image: "https://github.com/choi-jiwoong.png"
+og_image: "/assets/images/og-default.jpg"
 keywords:
   - DevOps
   - AWS
