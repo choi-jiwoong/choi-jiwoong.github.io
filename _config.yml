@@ -1,9 +1,24 @@
 title: "JIWOONG.dev"
-description: "DevOps, Infrastructure, Backend 그리고 개발하면서 배운 것들을 기록합니다."
+seo_title: "JIWOONG.dev | DevOps · Backend · Cloud · AI Engineering"
+description: "DevOps, AWS, Terraform, Backend(Java·Node.js), Cloud Infrastructure, AI Engineering을 직접 적용하며 배운 내용을 기록하는 개발 블로그입니다."
 url: "https://www.sea4.net"
 baseurl: ""
 lang: ko-KR
 timezone: Asia/Seoul
+og_image: "https://github.com/choi-jiwoong.png"
+keywords:
+  - DevOps
+  - AWS
+  - Terraform
+  - Backend
+  - Java
+  - Node.js
+  - Cloud
+  - Infrastructure
+  - AI Engineering
+author:
+  name: "Choi Jiwoong"
+  url: "https://github.com/choi-jiwoong"
 
 markdown: kramdown
 highlighter: rouge
