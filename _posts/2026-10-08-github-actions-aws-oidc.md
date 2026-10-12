@@ -2,6 +2,7 @@
 title: "GitHub Actions에서 AWS Access Key 없이 배포하기: OIDC 구조 이해하기"
 description: "GitHub Actions에 장기 AWS Access Key를 저장하지 않고 OIDC와 IAM Role을 이용해 short-lived credential로 AWS에 접근하는 구조를 정리했다."
 date: 2026-10-08 09:10:00 +0900
+last_modified_at: 2026-10-12
 categories: [DevOps]
 tags: [GitHubActions, AWS, OIDC, IAM, CI/CD, Security, DevOps]
 ---
@@ -197,7 +198,7 @@ Branch / Environment
 Role Assume 허용
 ~~~
 
-예를 들어 특정 Repository의 main branch만 허용할 수 있다.
+예를 들어 특정 Repository의 main branch만 허용할 수 있다. 다음 JSON은 전체 Trust Policy가 아니라 `Statement` 배열 안에 넣는 한 항목이다.
 
 ~~~json
 {
@@ -358,6 +359,69 @@ production
 처럼 역할을 분리할 수 있다.
 
 ---
+
+## production Environment를 사용하는 완성 예제
+
+브랜치 기반 Trust Policy에 `environment: production`만 추가하면 기존 `sub` 조건과 맞지 않을 수 있다. 다음 정책은 이름 기반 subject를 사용하는 저장소의 예시다. immutable subject를 사용하는 저장소는 owner/repository ID가 포함된 실제 형식에 맞춰야 한다.
+
+~~~json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+          "token.actions.githubusercontent.com:sub": "repo:ORG/REPO:environment:production"
+        }
+      }
+    }
+  ]
+}
+~~~
+
+이에 대응하는 workflow는 다음과 같다. 앞의 브랜치 기반 예제와는 대안 관계다.
+
+~~~yaml
+name: production-identity-check
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  deploy:
+    environment: production
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::<ACCOUNT_ID>:role/github-actions-production
+          aws-region: ap-northeast-2
+      - name: Check identity
+        run: aws sts get-caller-identity
+~~~
+
+이 예제는 Role 인수 확인까지 수행한다. 실제 배포 명령과 리소스별 Permission Policy는 별도로 추가한다. GitHub의 production Environment에는 허용 배포 브랜치와 필요한 승인 규칙을 설정한다. Environment 기반 `sub`만으로 main 브랜치까지 제한된다고 생각하면 안 된다.
+
+## AccessDenied가 나면 확인할 순서
+
+1. job에 `id-token: write`가 있는지 확인한다.
+2. OIDC Provider URL과 audience가 정책에 맞는지 확인한다.
+3. 브랜치/Environment/immutable subject 중 실제 `sub` 형식과 Trust Policy를 비교한다.
+4. 대상 계정과 Role ARN을 확인한다.
+5. Role 인수는 성공하고 AWS API만 실패한다면 리소스 권한·SCP·리소스 정책을 별도로 점검한다.
+
+OIDC 토큰 원문이나 임시 credential을 CI 로그에 출력하지 않는다. `get-caller-identity`로 실행 주체를 확인하고, 실패한 단계가 인증인지 리소스 접근인지 먼저 구분한다.
 
 # 하나의 Role에 모든 권한을 넣지 않는다
 

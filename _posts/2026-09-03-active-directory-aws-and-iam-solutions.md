@@ -2,6 +2,7 @@
 title: "Active Directory를 AWS에 연동해보니 IAM이 재미있어졌다"
 description: "AD와 AWS 연동 경험을 계기로 Okta, Entra ID, IAM Identity Center, JumpCloud, Keycloak 등 대표 IAM 솔루션의 역할과 장단점을 정리해봤다."
 date: 2026-09-03 20:15:00 +0900
+last_modified_at: 2026-10-12
 categories: [IAM]
 tags: [ActiveDirectory, AWS, Okta, EntraID, IAM, SSO, SCIM, Keycloak]
 ---
@@ -43,6 +44,23 @@ AWS IAM Identity Center는 AWS Managed Microsoft AD 또는 자체 Active Directo
 그리고 예전부터 관심이 있었던 **Okta**를 시작으로 IAM 제품들을 조금 찾아보기 시작했다.
 
 ---
+
+## 실습 경험과 제품 비교의 범위
+
+앞부분의 AD 연동 경험과 아래 제품 비교는 구분해서 읽어야 한다. 이 글에는 당시 사용한 Directory 유형, 네트워크 구성, 실제 Permission Set과 오류 로그를 재현할 만큼의 기록이 포함되어 있지 않다. 뒤의 제품 소개는 도입 후보를 이해하기 위한 정리이며, 모든 제품을 직접 구축해 성능을 비교한 결과는 아니다.
+
+AD 연동을 다시 실습한다면 다음을 기록하겠다.
+
+| 확인 항목 | 남길 증거 |
+|---|---|
+| Identity Source | AWS Managed Microsoft AD인지, 자체 AD와 AD Connector를 사용하는지 |
+| 연결 | DNS·네트워크 연결·디렉터리 상태 |
+| 사용자/그룹 | 동기화된 테스트 사용자와 그룹 |
+| 권한 할당 | AWS 계정·Permission Set·할당 대상 |
+| 성공/실패 기준 | 테스트 계정 로그인과 허용 API, 금지 API 접근 결과 |
+| 계정 회수 | 사용자 비활성화 후 새 로그인과 기존 세션의 처리 결과 |
+
+특히 사용자 프로비저닝, 로그인 인증, AWS 권한 할당은 서로 다른 단계다. SCIM으로 사용자가 동기화됐다는 것만으로 AWS 계정 접근이 완료됐다고 판단하지 않는다.
 
 ## 먼저 IAM이 뭘까?
 

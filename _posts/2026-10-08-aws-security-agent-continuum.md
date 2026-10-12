@@ -2,9 +2,12 @@
 title: "AWS Security Agent는 기존 보안 스캐너와 뭐가 다를까"
 description: "AWS Security Agent와 AWS Continuum이 Design Review, Code Review, Threat Modeling, Penetration Testing을 어떻게 연결하는지 AppSec 관점에서 정리했다."
 date: 2026-10-08 13:25:00 +0900
+last_modified_at: 2026-10-12
 categories: [AWS]
 tags: [AWS, Security, AWSContinuum, SecurityAgent, AppSec, DevSecOps, AI]
 ---
+
+> 이 글은 제품 문서 기반의 기능 소개와 도입 관점을 정리한 글이다. 실제 서비스에서 오탐 감소율·탐지율·비용을 비교한 실험 보고서는 아니다. 기능·리전·과금·제공 단계는 도입 시점의 공식 문서에서 확인해야 한다.
 
 Application Security를 구성하다 보면 도구가 계속 늘어난다.
 
@@ -525,6 +528,20 @@ Penetration Testing은 일반적인 Scan 횟수 기반이 아니라 **task-hour*
 Pentest를 실제 운영에 넣는다면 Scope와 Test 대상을 얼마나 잘 제한하느냐가 비용 관리에서도 중요하다.
 
 ---
+
+## 도입 전에 기능별로 확인할 것
+
+제품 전체의 소개 문구만으로 모든 기능을 같은 조건에서 사용할 수 있다고 가정하지 않는다.
+
+| 기능 | 확인할 지원 조건 | 별도로 검증할 효과 |
+|---|---|---|
+| Design / Threat Modeling | 입력 문서 형식, 분석 범위, 제공 단계 | 설계의 실제 trust boundary를 반영하는가 |
+| Code Review | 언어·저장소 연결·전체/변경분 분석 조건 | 기존 도구 대비 유효한 발견이 늘어나는가 |
+| Penetration Testing | 대상 소유권·허용 범위·네트워크 접근·중단 방법 | 재현 가능한 공격 경로를 제시하는가 |
+| IDE 연계 | 지원 IDE·연결 방식·권한 | 개발 흐름에 필요한 피드백을 제공하는가 |
+| 과금 | 과금 단위·병렬 작업·한도·리전 | 같은 범위의 검증 비용이 얼마인가 |
+
+‘Context를 활용한다’는 기능 설명에서 곧바로 오탐 감소나 기존 도구보다 우수하다는 결론을 내릴 수는 없다. 동일 대상과 검증 기준으로 결과를 비교해야 한다. 침투 테스트는 승인된 테스트 대상과 계정, 데이터로 범위를 정하고 운영 영향과 중단 절차를 먼저 합의한다.
 
 # 이걸 기존 AppSec Tool의 대체제로 봐야 할까?
 

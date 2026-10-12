@@ -2,6 +2,7 @@
 title: "추천 시스템에서 MF 다음은 왜 Two-Tower인가"
 description: "CF와 MF에서 시작해 Two-Tower, Vector Search, Ranking으로 이어지는 현대 추천 시스템 구조를 쉽게 정리했다."
 date: 2026-09-29 11:40:00 +0900
+last_modified_at: 2026-10-12
 categories: [Data]
 tags: [Recommendation, CF, MF, TwoTower, Embedding, VectorSearch, Ranking]
 ---
@@ -10,7 +11,7 @@ tags: [Recommendation, CF, MF, TwoTower, Embedding, VectorSearch, Ranking]
 
 그런데 최근 대규모 추천 시스템은 여기서 한 단계 더 나아가 **Two-Tower + Retrieval + Ranking** 구조를 많이 사용한다.
 
-전체 흐름을 먼저 보면 이렇다.
+아래는 학습 순서의 예이며, 모든 시스템이 거치는 필수 진화 단계는 아니다. MF도 embedding을 만들고 후보 검색에 활용할 수 있다.
 
 ```text
 CF
@@ -89,7 +90,7 @@ User Vector        Item Vector
         추천 점수
 ```
 
-MF와 가장 큰 차이는 **ID 외에 다양한 feature를 사용할 수 있다는 점**이다.
+여기서 비교하는 기본 ID 기반 MF와 달리, Two-Tower는 **각 tower에서 여러 feature를 조합해 embedding을 생성하도록 설계할 수 있다.** 다만 Two-Tower도 ID만 입력받을 수 있고, MF 계열에도 부가 정보를 사용하는 확장 모델이 있다.
 
 User Tower에는 예를 들어:
 
@@ -162,7 +163,7 @@ Embedding
 추천 후보에 포함
 ```
 
-그래서 신규 상품이 계속 들어오는 서비스에서는 Two-Tower가 유리한 경우가 많다.
+그래서 신규 상품이 계속 들어오는 서비스에서는 콘텐츠 feature를 학습한 Two-Tower가 유리할 수 있다. 단, 학습 때 사용한 feature가 서빙에서도 있어야 하고, 처음 보는 ID·범주를 처리할 수 있어야 한다. 새 상품의 벡터를 계산하고 검색 인덱스에 반영하는 과정도 필요하다. 구조만 Two-Tower로 바꾼다고 cold start가 자동 해결되지는 않는다.
 
 ---
 
@@ -306,3 +307,14 @@ Retrieval + Ranking
 MF는 추천 시스템의 기본 원리를 이해하기 좋은 모델이고, Two-Tower는 그 개념을 실제 대규모 서비스에 맞게 확장한 형태로 볼 수 있다.
 
 특히 상품 수가 많고, 사용자와 상품에 사용할 수 있는 feature가 다양하다면 **Two-Tower + Vector Search + Ranking** 구조가 중요한 패턴이 된다.
+
+## 구현 전에 확인할 조건
+
+학습 목표, positive/negative 구성, 평가 시점의 feature를 먼저 정한다. 사용자·상품 tower의 출력 차원과 점수 함수가 맞아야 하고, 모델을 바꾸면 미리 계산한 상품 벡터와 검색 인덱스도 같은 버전으로 맞춰야 한다. 서빙 중 두 버전이 섞이면 점수의 의미가 달라질 수 있다.
+
+평가는 [Recall@K·Precision@K·NDCG 글]({% post_url 2026-10-11-recommender-evaluation-recall-precision-ndcg %})에서 이어서 다룬다.
+
+## 참고 자료
+
+- [TensorFlow Recommenders — Basic retrieval](https://www.tensorflow.org/recommenders/examples/basic_retrieval)
+- [TensorFlow Recommenders — Context features](https://www.tensorflow.org/recommenders/examples/context_features)

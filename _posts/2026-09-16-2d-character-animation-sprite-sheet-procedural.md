@@ -2,14 +2,15 @@
 title: "2D 캐릭터 움직임은 어떻게 만들까: Sprite Sheet와 Procedural Animation"
 description: "2D 게임에서 캐릭터의 걷기, 점프, 공격 동작을 만드는 대표적인 두 방식인 Sprite Sheet 애니메이션과 Procedural Animation을 비교해봤다."
 date: 2026-09-16 20:30:00 +0900
+last_modified_at: 2026-10-12
 categories: [GameDev]
 tags: [2DGame, Phaser, SpriteSheet, Animation, ProceduralAnimation, GameDev]
 ---
 
-2D 게임에서 캐릭터가 움직일 때 자연스럽게 보이게 만드는 방법은 크게 두 가지로 나눠볼 수 있다.
+이 글에서는 2D 캐릭터 애니메이션을 시작할 때 비교하기 쉬운 두 방식, 프레임 교체와 간단한 코드 변형을 살펴본다. 모든 애니메이션 기법을 두 가지로 분류한다는 뜻은 아니다.
 
 하나는 **여러 장의 그림을 빠르게 교체하는 Sprite Sheet 방식**이고,
-다른 하나는 **한 장의 캐릭터를 코드로 변형하는 Procedural Animation 방식**이다.
+다른 하나는 **코드로 움직임과 변형을 계산하는 Procedural Animation 방식**이다. 여기서는 한 장의 이미지에 적용하는 간단한 변형을 예로 든다.
 
 둘 다 많이 쓰이고, 목적도 조금 다르다.
 
@@ -231,6 +232,22 @@ this.tweens.add({
 
 ---
 
+## 뼈대 애니메이션이라는 선택지도 있다
+
+Spine 같은 도구는 몸통·팔·다리 이미지를 뼈대에 연결하고 관절을 움직인다. 프레임별 완성 그림을 모두 그리지 않아도 자세를 바꿀 수 있으며 Phaser용 runtime도 제공된다.
+
+| 방식 | 준비할 자산 | 선택 기준 |
+|---|---|---|
+| 프레임 애니메이션 | 자세별 그림, sprite sheet 또는 atlas | 프레임마다 독특한 실루엣·표현이 중요할 때 |
+| 뼈대 애니메이션 | 분리된 파츠, 리깅·애니메이션 데이터 | 관절 움직임과 파츠 교체를 재사용할 때 |
+| 절차적 애니메이션 | 이미지/파츠/뼈대와 계산 로직 | 속도·지형·입력에 반응하는 움직임이 필요할 때 |
+
+절차적 애니메이션은 scale tween에 한정되지 않는다. 뼈대나 IK와 조합할 수도 있다. Spine을 선택한다면 도구 라이선스와 runtime 버전 호환성을 먼저 확인한다.
+
+## 예제를 연결할 때 주의할 점
+
+위 코드는 독립 실행 게임이 아닌 핵심 API 예시다. 실제 프로젝트에는 sprite sheet 로딩 시 frame 크기, idle/jump 애니메이션 정의, 상태 전환 처리가 필요하다. update에서 매 프레임 scale을 쓰면서 같은 속성에 tween을 걸면 서로 덮어쓸 수 있으므로 상태별로 변형을 한 곳에서 관리한다. 원래 scale이 1이 아니라면 복귀 기준도 원래 값으로 둔다.
+
 # 정리
 
 2D 캐릭터 애니메이션을 시작할 때는 이렇게 생각하면 쉽다.
@@ -251,7 +268,7 @@ Sprite Sheet + Procedural Animation
 
 처음에는 한 장짜리 캐릭터에 `Flip`, `Scale`, `Tween`만 적용해도 충분히 움직이는 느낌을 만들 수 있다.
 
-하지만 걷기, 달리기, 공격처럼 **팔과 다리의 실제 자세가 바뀌어야 하는 순간부터는 Sprite Sheet가 필요해진다.**
+걷기, 달리기, 공격처럼 팔다리의 자세가 바뀌는 동작은 프레임 애니메이션이나 뼈대 애니메이션으로 표현할 수 있다. Sprite Sheet가 반드시 필요한 것은 아니다.
 
 결국 가장 실용적인 구조는:
 
@@ -268,6 +285,8 @@ Procedural Animation
 ---
 
 ## 참고
+
+- [Phaser — Spine animations](https://docs.phaser.io/phaser-editor/scene-editor/spine-animations)
 
 - [Phaser — Animations](https://docs.phaser.io/phaser/concepts/animations)
 - [Phaser — Sprite](https://docs.phaser.io/phaser/concepts/gameobjects/sprite)

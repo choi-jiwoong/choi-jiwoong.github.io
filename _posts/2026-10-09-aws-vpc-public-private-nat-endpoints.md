@@ -2,6 +2,7 @@
 layout: post
 title: "AWS VPC를 처음부터 설계한다면 — Public/Private Subnet, NAT, VPC Endpoint"
 date: 2026-10-09 13:10:00 +0900
+last_modified_at: 2026-10-12
 categories: [AWS, Networking]
 tags: [AWS, VPC, Subnet, NAT Gateway, VPC Endpoint, ALB]
 description: "2-AZ VPC의 public/private subnet, route table, NAT Gateway와 VPC Endpoint를 비용·운영 관점에서 설계한 실무 노트."
@@ -21,14 +22,14 @@ VPC CIDR을 고르기 전에 **무엇이 인터넷에서 들어오고, 무엇이
                Internet-facing ALB
                   /              \
             Public A           Public B
-            10.20.0/24         10.20.1/24
+            10.20.0.0/24         10.20.1.0/24
                │                  │
             App A              App B
             Private A          Private B
-            10.20.10/24        10.20.11/24
+            10.20.10.0/24        10.20.11.0/24
                │                  │
             DB A / DB B (isolated data subnets)
-            10.20.20/24        10.20.21/24
+            10.20.20.0/24        10.20.21.0/24
 
     App outbound → NAT or VPC Endpoint → dependencies
 ```
@@ -71,6 +72,17 @@ Private App ──► S3 Gateway Endpoint ──► S3
 ```
 
 **Endpoint를 추가한다고 모든 인터넷 트래픽이 자동으로 사라지지는 않는다.** 실제 DNS resolution, route, workload의 API 호출 경로를 관찰하고 NAT 처리량과 비용이 줄었는지 측정해야 한다. Interface Endpoint를 여러 AZ에 만들면 가용성에는 유리하지만 endpoint별 비용도 늘어난다.
+
+## 비용은 경로별로 계산한다
+
+특정 리전의 현재 가격을 고정해 적기보다 먼저 비교식을 만든다. 예를 들어 **가상의 월 730시간 운영·Zonal NAT 2개 구성**이라면 다음 항목을 합산한다.
+
+- NAT 기본 비용: `2 × 730 × NAT 시간당 단가`
+- NAT 처리 비용: `NAT를 통과한 GB × 처리 단가`
+- Interface Endpoint: `서비스별 AZ 수 × 730 × endpoint 시간당 단가 + 처리량별 비용`
+- 별도 항목: public IPv4, AZ 간 전송, 대상 서비스 사용료
+
+S3 트래픽을 Gateway Endpoint로 옮겨도 외부 API 때문에 NAT를 유지한다면 NAT 시간당 비용까지 없어지는 것은 아니다. 비교할 때는 전체 네트워크 트래픽이 아닌 **실제로 NAT에서 빠지는 트래픽**을 사용한다. Regional NAT는 선택한 모델의 과금 기준에 맞춰 별도로 계산한다.
 
 ## 내가 선택할 기본값
 

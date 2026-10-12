@@ -1,138 +1,104 @@
 ---
-title: "CDC는 왜 어려울까 — GCP Datastream vs Debezium"
-description: "운영 DB의 변경 데이터를 BigQuery까지 옮길 때 마주치는 Snapshot, 중복, 순서, Schema Evolution, 장애 복구 문제와 Datastream·Debezium 선택 기준을 정리한다."
+title: "CDC 아키텍처 비교 — GCP Datastream vs Debezium"
+description: "운영 DB를 BigQuery로 복제하는 Datastream과 Debezium·Kafka 기반 이벤트 파이프라인의 데이터 흐름, 운영 책임과 선택 기준을 비교한다."
 date: 2026-10-12 20:59:00 +0900
+last_modified_at: 2026-10-12
 categories: [Data]
 tags: [CDC, Datastream, Debezium, Kafka, BigQuery, DataEngineering]
 ---
 
-운영 DB 데이터를 분석계로 옮긴다고 하면 처음에는 간단해 보인다. 주기적으로 SQL을 실행해서 BigQuery에 넣으면 되는 것 아닐까? 하지만 데이터량이 커지고 변경이 잦아지면 **무엇이 언제 바뀌었는지**를 안전하게 전달하는 일이 더 중요해진다.
+운영 DB의 변경을 분석계에 전달할 때 도구 이름부터 고르면 비교가 흐려진다. **최신 테이블을 복제하려는지, 변경 이벤트를 여러 시스템이 소비하려는지**부터 정해야 한다.
 
-관련 배경으로는 [추천 시스템의 MF와 Two-Tower 구조]({% post_url 2026-09-29-mf-vs-two-tower-recommendation-system %})에서 데이터 활용 관점을 다룬 적이 있다. 이번에는 그 앞단의 데이터 수집에 집중한다.
+이번 글은 CDC 시리즈의 1편으로, Datastream과 Debezium의 아키텍처와 운영 책임을 비교하는 설계 노트다. 직접 구축해 성능이나 비용을 측정한 후기는 아니다.
 
-이번 글은 실제 구축 후기라기보다 **CDC 파이프라인을 설계할 때 확인할 기준**을 정리한 엔지니어링 노트다.
-
-## CDC는 단순한 복사가 아니다
-
-CDC(Change Data Capture)는 DB의 INSERT·UPDATE·DELETE 변경을 캡처해 다른 시스템에 전달하는 패턴이다. MySQL의 binlog, PostgreSQL의 WAL처럼 DB의 변경 로그를 읽는 log-based CDC가 대표적이다.
-
-```text
-[Operational DB]
-  ├─ initial snapshot / backfill ──────────┐
-  └─ transaction log → change events ──────┤
-                                          ↓
-                                 [Ingestion / Apply]
-                                          ↓
-                                 [BigQuery / Serving]
-```
-
-문제는 snapshot 중에도 운영 DB의 데이터가 바뀐다는 점이다. 초기 적재가 끝났다는 사실만으로 **어느 로그 위치부터 변경분을 이어받을지**, 중복 이벤트를 어떻게 처리할지 해결되지는 않는다.
-
-## Datastream과 Debezium: 어디까지 직접 운영할까?
-
-| 관점 | GCP Datastream → BigQuery | Debezium → Kafka → Sink |
-|---|---|---|
-| 성격 | Google Cloud 관리형 CDC 서비스 | 오픈소스 CDC 커넥터와 별도 스트리밍 인프라 조합 |
-| 변경 데이터 전달 | Datastream이 지원하는 대상에 스트리밍 | Debezium 커넥터가 Kafka topic에 이벤트 발행 |
-| 초기 적재 | Backfill 설정 및 대상 동기화 | Snapshot mode와 offset 관리 |
-| 운영 부담 | 스트림·연결·대상 설정 중심 | Kafka Connect, broker, topic, sink, offset, schema history 등 |
-| 확장성 | BigQuery로 빠르게 복제할 때 유리 | 여러 consumer가 동일 이벤트를 활용할 때 유연 |
-| 주의점 | 대상 write mode와 테이블 제약 확인 | end-to-end 정합성·sink 적용 로직 직접 설계 |
-
-Datastream의 BigQuery destination은 **Merge**와 **Append-only** write mode를 제공한다. Merge는 기본적으로 source primary key를 이용해 현재 상태를 반영하며, primary key가 없는 테이블은 append-only로 처리된다. Append-only는 변경 이벤트 이력을 보존할 때 적합하다. 반면 Debezium은 DB 변경을 Kafka event로 발행하므로, BigQuery 적재는 **별도의 sink 구성**이 필요하다.
-
-## 1. Snapshot과 Streaming의 경계
-
-MySQL용 Debezium connector는 초기 consistent snapshot을 수행한 뒤 기록한 binlog 위치부터 변경을 읽을 수 있다. 기본 `snapshot.mode`는 `initial`이다. 그러나 connector의 snapshot 성공과 downstream 테이블 정합성은 별개의 문제다.
-
-설계할 때는 다음을 확인한다.
-
-- 초기 적재 범위와 snapshot 기준 시점이 무엇인가?
-- snapshot과 streaming 사이에서 누락되는 이벤트가 없는가?
-- 재시작 후 이전 offset에서 이어받을 수 있는가?
-- source log retention이 장애 복구에 충분한가?
-
-특히 DB의 binlog/WAL이 먼저 정리되면 마지막 offset부터 재개할 수 없을 수 있다. 이 경우 재스냅샷이나 재동기화 계획이 필요하다.
-
-## 2. 중복과 순서: Exactly-once를 쉽게 말하지 말자
-
-네트워크 장애나 재시도 과정에서 동일한 변경이 다시 전달될 수 있다. 따라서 consumer가 단순히 `INSERT`만 수행하면 중복 행이 만들어질 수 있다.
-
-```text
-UPDATE order_id=42 status=PAID
-  → event A → sink apply
-  → acknowledgement lost
-  → event A replay → sink apply again
-```
-
-내가 먼저 확인할 것은 **전송 계층의 보장**이 아니라 최종 테이블의 상태다. 변경 이벤트에는 가능한 한 primary key, operation, source position/sequence, event timestamp를 함께 보관한다. Sink에서는 event identity로 중복을 식별하고, key별 변경 순서를 고려한 idempotent upsert/delete를 설계한다. Timestamp 하나만으로 전체 순서를 판단하는 것은 위험하다.
-
-Datastream의 BigQuery Merge mode는 이벤트 메타데이터와 내부 change sequence number를 활용해 변경을 적용한다. 그렇다고 모든 downstream 변환과 사용자 정의 집계까지 자동으로 exactly-once가 보장되는 것은 아니다.
-
-## 3. BigQuery에서 현재 상태와 변경 이력은 다르다
-
-예를 들어 주문의 상태가 `CREATED → PAID → CANCELLED`로 바뀌었다고 하자.
-
-- **Current-state table:** 주문 1건의 최신 상태만 필요하다면 Merge 방식이 직관적이다.
-- **Change history:** 상태 변경 이력과 전이 시간을 분석하려면 Append-only event를 보존해야 한다.
-
-Datastream의 Append-only 모드에서는 INSERT, UPDATE-INSERT, UPDATE-DELETE, DELETE와 같은 이벤트를 기록한다. PK 변경도 삭제/삽입 형태로 표현될 수 있다. 반대로 Merge 모드는 이전 변경 이력을 남기는 용도가 아니다.
-
-운영 테이블과 분석 목적을 분리하는 편이 안전하다. 필요하다면 **Raw CDC event → 정합성 검증 → Current-state mart / History mart**로 계층을 나눈다.
-
-## 4. Schema Evolution은 컬럼 추가만의 문제가 아니다
-
-운영 DB에 컬럼이 추가되거나 타입이 바뀌면 source capture, event serialization, sink mapping, downstream SQL 모두 영향을 받을 수 있다.
-
-Debezium MySQL connector는 binlog의 DDL을 해석하고 schema history topic을 활용해 변경 시점의 스키마를 재구성한다. 이 history topic은 connector 내부용이므로 일반 consumer topic처럼 취급해서는 안 된다.
-
-실무 체크리스트는 다음과 같다.
-
-1. 컬럼 추가·삭제·rename·type 변경을 각각 테스트한다.
-2. nullability와 default 값의 의미가 sink에서도 유지되는지 확인한다.
-3. downstream SQL이 `SELECT *`에 의존하는지 점검한다.
-4. 배포 순서를 `consumer 호환성 → source DDL` 관점에서 검토한다.
-5. 변경 실패 시 재처리 범위와 되돌리기 절차를 문서화한다.
-
-## 5. 장애 복구와 Backfill은 평상시에 연습해야 한다
-
-```text
-Alert: replication lag ↑
-  ↓
-Source DB / network / connector / sink 구간 분리
-  ↓
-Offset 및 log retention 확인
-  ↓
-일시 장애면 재개, 누락이면 범위 지정 backfill
-  ↓
-PK 기준 건수·checksum·표본 비교
-  ↓
-Lag 회복 및 downstream mart 재검증
-```
-
-무작정 connector offset을 지우는 것은 위험하다. Debezium의 schema history와 offset은 복구에 중요한 상태 정보이고, 초기화 방식에 따라 누락이나 대량 재처리가 발생할 수 있다. Backfill은 단순히 전체를 다시 복사하는 작업이 아니라 **어떤 범위를 어떤 시점 기준으로 재구축할지**를 결정하는 작업이다.
-
-운영 지표도 단순한 connector up/down을 넘어야 한다.
-
-| 지표 | 왜 필요한가 |
+| 편 | 범위 |
 |---|---|
-| Source-to-sink lag | 분석 데이터 신선도 확인 |
-| Snapshot/backfill progress | 초기 적재와 복구 진행률 확인 |
-| Failed/retried events | 장애와 중복 위험 감지 |
-| Schema change failures | DDL 호환성 문제 조기 발견 |
-| Source/sink reconciliation | 조용한 누락·불일치 탐지 |
+| 1편 | Datastream과 Debezium의 아키텍처 비교 |
+| 2편 | 데이터 정합성과 장애 복구 |
+| 3편 | Kafka Connect 운영과 Schema Evolution |
 
-## 그래서 무엇을 선택할까?
+이 글에서는 2·3편의 상세 절차 대신 아키텍처 선택에 필요한 경계만 짚는다.
 
-**운영 DB → BigQuery 복제가 주목적**이고 GCP 관리형 서비스의 제약이 요구사항과 맞는다면 Datastream을 먼저 검토하겠다. 반대로 변경 이벤트를 검색 인덱스, 캐시, 여러 서비스가 함께 소비하거나 세밀한 이벤트 처리가 필요하면 Debezium + Kafka 구성이 매력적이다. 다만 이 선택은 Kafka 운영과 Sink 책임까지 함께 가져온다는 의미다.
+## 비교할 구성을 먼저 고정한다
 
-선택의 기준은 기술 이름이 아니라 **대상 시스템 수, 복구 목표, 데이터 정합성 요구, 운영 인력, 비용**이다. PoC에서는 정상 흐름보다 `snapshot 중 update`, `PK 변경`, `schema 변경`, `connector 재시작`, `sink 장애`, `로그 보존기간 초과`를 먼저 재현해 보는 것이 좋겠다.
+비교 대상은 **Datastream의 BigQuery destination**과 **Kafka Connect에서 실행하는 Debezium + Kafka + BigQuery sink**다. 소스는 MySQL 계열의 변경 로그를 예로 든다. PostgreSQL 등 다른 DB에서는 권한·로그 보존·snapshot 조건이 달라지며, 실제 PoC에는 정확한 DB·커넥터 버전을 기록해야 한다.
 
-다음 글에서는 **CDC 데이터 정합성을 어떻게 검증하고, 재처리·Backfill을 안전하게 수행할지** 더 깊게 살펴보려 한다.
+Debezium이 반드시 Kafka를 요구하는 것은 아니다. Debezium Server나 애플리케이션에 내장하는 Engine 방식도 있다. 여기서는 여러 consumer가 변경 이벤트를 공유하는 대표적인 Kafka Connect 구성을 비교한다.
+
+## Datastream: 관리형 복제 경로
+
+| 단계 | 역할 | 사용자가 결정할 것 |
+|---|---|---|
+| 운영 DB | 초기 데이터와 변경 로그 제공 | 대상 테이블, PK, 권한, 로그 보존 |
+| 연결·Datastream | 소스 연결과 변경 수집 | 네트워크, 연결 프로필, stream 설정 |
+| BigQuery destination | 변경 데이터를 대상 테이블에 전달 | dataset, write mode, 데이터 신선도 요구 |
+| 분석 테이블 | 조회와 후속 모델링 | 접근 제어, 검증, 분석 SQL |
+
+이 경로에서는 사용자가 별도 Kafka broker나 BigQuery sink connector를 배치하지 않는다. 다만 소스 DB 준비, 네트워크, 대상 제약, 데이터 검증과 비용 관리는 남는다. 관리형이라는 말이 운영 책임이 없다는 뜻은 아니다.
+
+BigQuery write mode는 분석 목적에 따라 선택한다.
+
+- **Merge:** PK가 있는 테이블의 현재 상태 복제에 사용한다. 과거 변경 이력을 보존하는 용도가 아니다.
+- **Append-only:** 변경 이벤트를 쌓아 이력 분석에 활용한다. 이력에서 최신 상태를 만드는 요구는 별도로 설계한다.
+
+PK가 없는 테이블은 Merge 설정에서도 append-only로 취급된다. 따라서 테이블 목록뿐 아니라 PK 유무와 변경 이력 필요 여부까지 먼저 정리해야 한다.
+
+## Debezium + Kafka: 수집과 소비를 분리한다
+
+| 단계 | 역할 | 운영 책임 |
+|---|---|---|
+| 운영 DB | snapshot과 변경 로그의 원천 | 소스 권한·로그 보존·부하 |
+| Kafka Connect의 Debezium source | 변경을 캡처해 Kafka로 발행 | connector 설정·상태·버전 |
+| Kafka topic | 이벤트 보관과 consumer별 소비 | partition·retention·접근 제어 |
+| BigQuery sink / consumer | 이벤트를 대상 저장 방식으로 변환 | 이벤트 형식·삭제·upsert 처리 |
+| 추가 consumer | 검색 인덱스·캐시 등 갱신 | 각 목적지의 지연·실패 처리 |
+
+Kafka Connect는 Kafka broker와 별도 역할을 수행한다. Debezium source가 Kafka에 이벤트를 보냈다는 것만으로 BigQuery 반영이 끝난 것은 아니다. 선택한 sink가 이벤트 형식과 삭제 처리를 어떻게 지원하는지 확인해야 한다.
+
+이 구조는 같은 변경을 여러 목적지에서 소비할 때 유연하다. 그 대신 source·broker·sink를 나눠 관찰하고 호환성을 관리해야 한다. Kafka의 보관 설정만으로 소스 로그와 최종 테이블 복구까지 모두 해결되지는 않는다.
+
+## 같은 주문 변경을 어떻게 읽을까?
+
+다음은 실제 측정 데이터가 아닌 요구사항 예시다. 주문 42의 상태가 CREATED → PAID → CANCELLED로 바뀌었다고 하자.
+
+| 요구 | Datastream → BigQuery | Debezium → Kafka → consumer |
+|---|---|---|
+| 현재 주문 상태 조회 | PK와 Merge 동작을 확인 | sink의 key별 최신 상태 적용을 설계 |
+| 상태 변경 이력 분석 | Append-only와 대상 제약 검토 | 이벤트 보존·변환 정책 검토 |
+| 검색·캐시에도 변경 전달 | 별도 전달 경로와 요구사항 검토 | 목적별 consumer를 추가 |
+| 잘못된 최신 상태 조사 | 소스·stream·대상 상태 대조 | 소스 위치·topic·consumer·대상 상태 대조 |
+
+최신 상태를 보는 대시보드와 주문 전환 시간을 분석하는 이력 테이블은 서로 다른 산출물이다. 이 구분 없이 ‘CDC를 넣었다’는 이유만으로 두 요구가 모두 충족된다고 보면 안 된다.
+
+## 선택 기준은 운영 책임과 목적지다
+
+| 질문 | Datastream을 먼저 검토할 조건 | Debezium + Kafka를 검토할 조건 |
+|---|---|---|
+| 핵심 목적은? | 지원되는 DB를 BigQuery로 복제 | 변경 이벤트를 여러 목적에 활용 |
+| 운영 역량은? | 관리형 복제 경로를 선호 | Connect·Kafka·sink를 운영 가능 |
+| 변환 요구는? | destination 동작이 요구에 맞음 | consumer별 변환·처리가 필요 |
+| 제약을 감당할 수 있나? | 지원 DB·타입·write mode 수용 | 커넥터·sink 조합의 책임 수용 |
+| 복구 책임은? | 관리형 기능과 사용자 검증의 경계 정의 | 각 단계의 상태와 재처리 경계 정의 |
+
+비용도 서비스 단가 하나로 비교하지 않는다. Datastream 쪽은 수집과 BigQuery 처리·저장을, Kafka 쪽은 broker·Connect·sink·저장·네트워크와 운영 시간을 함께 견적 내야 한다. 이미 Kafka가 있다는 이유만으로 추가 파이프라인 비용이 0이 되는 것은 아니다.
+
+## PoC에서 남길 결정 기록
+
+1. 대상 DB·테이블·PK·타입과 예상 변경량을 기록한다.
+2. 목적지가 최신 상태를 원하는지 변경 이력을 원하는지 구분한다.
+3. 허용 지연과 데이터 불일치를 판정할 기준을 정한다.
+4. 정상 복제뿐 아니라 재시작·삭제·변경 순서 역전·DDL 변경을 검증 항목으로 잡는다.
+5. 소스에서 최종 테이블까지 담당자와 관측 지점을 정한다.
+
+4번의 정합성과 장애 복구 절차는 2편의 범위이고, Connect 설정과 Schema Evolution의 상세 운영은 3편의 범위다. 1편에서 내릴 결정은 **어느 구성을 선택하고 그 구성에서 어떤 책임을 맡을 것인가**다.
+
+내가 운영 DB → BigQuery 복제를 주목적으로 시작한다면 Datastream의 지원 조건부터 검토하겠다. 변경 이벤트를 검색·캐시·다른 서비스가 함께 사용해야 한다면 Debezium + Kafka를 후보에 올리되, sink 운영과 복구 책임까지 포함해 판단하겠다.
 
 ## 참고 자료
 
 - [Google Cloud — Configure a BigQuery destination](https://cloud.google.com/datastream/docs/configure-bigquery-destination)
 - [Google Cloud — BigQuery destination](https://cloud.google.com/datastream/docs/destination-bigquery)
-- [Google Cloud — Datastream FAQ](https://cloud.google.com/datastream/docs/faq)
+- [Debezium — Architecture](https://debezium.io/documentation/reference/stable/architecture.html)
 - [Debezium — MySQL connector](https://debezium.io/documentation/reference/stable/connectors/mysql.html)
+
+> 문서 확인: 2026-10-12. 버전별 지원 조건은 도입 시 다시 확인한다.

@@ -2,6 +2,7 @@
 layout: post
 title: "Docker Image는 다시 Build하지 않는다 — Build Once, Promote by Tag"
 date: 2026-10-09 13:00:00 +0900
+last_modified_at: 2026-10-12
 categories: [DevOps, Docker]
 tags: [Docker, CI/CD, OCI, crane, GitHub Actions]
 description: "한 번 만든 Docker Image를 commit SHA와 digest로 추적하고 stage에서 검증한 동일 artifact를 prod로 승격하는 방법."
@@ -37,32 +38,47 @@ Build + Test + Scan ──► registry/app:sha-abc1234
 
 ## 같은 repository에서 promote: crane tag
 
-아래 예시는 registry 인증이 완료됐고, build job이 image를 이미 push했다고 가정한다.
+아래는 registry 인증이 완료됐다는 전제의 두 단계 예시다. Build 단계에서 만든 `image-digest.txt`는 해당 CI 실행의 artifact로 보관하고, 승격 단계는 **stage에서 검증한 실행의 파일**을 가져온다.
+
+Build 단계:
 
 ```bash
 set -euo pipefail
-
 IMAGE="registry.example.com/team/api"
 COMMIT_SHA="$(git rev-parse HEAD)"
 SOURCE="${IMAGE}:sha-${COMMIT_SHA}"
 
-# build job에서 한 번만 수행
 docker build -t "$SOURCE" .
 docker push "$SOURCE"
-
-# build 완료 시점의 manifest digest를 release metadata로 보관
-EXPECTED="$(crane digest "$SOURCE")"
-
-# stage는 동일 image를 가리키는 tag만 추가
-crane tag "$SOURCE" stage
-test "$(crane digest "${IMAGE}:stage")" = "$EXPECTED"
-
-# stage smoke/integration test 및 승인 후
-crane tag "$SOURCE" prod
-test "$(crane digest "${IMAGE}:prod")" = "$EXPECTED"
+crane digest "$SOURCE" > image-digest.txt
 ```
 
-`crane tag IMAGE TAG`는 image를 다운로드하지 않고 같은 repository에 tag를 붙인다. `stage`와 `prod`는 이동 가능한 환경 alias이므로 **배포 명세에는 가능하면 `IMAGE@sha256:...`를 기록**한다. 검증과 tag 이동 사이의 race를 줄이려면 source tag 대신 기록해 둔 digest reference를 사용한다.
+검증·승격 단계:
+
+```bash
+set -euo pipefail
+IMAGE="registry.example.com/team/api"
+EXPECTED="$(cat image-digest.txt)"
+[[ "$EXPECTED" =~ ^sha256:[0-9a-f]{64}$ ]]
+VERIFIED_SOURCE="${IMAGE}@${EXPECTED}"
+
+# stage 배포 명세에도 VERIFIED_SOURCE를 사용한다.
+crane tag "$VERIFIED_SOURCE" stage
+test "$(crane digest "${IMAGE}:stage")" = "$EXPECTED"
+
+# 이 위치에서 stage 배포·smoke/integration test·승인 gate를
+# CI job으로 연결한다. 이 주석 자체는 배포나 승인을 실행하지 않는다.
+
+crane tag "$VERIFIED_SOURCE" prod
+test "$(crane digest "${IMAGE}:prod")" = "$EXPECTED"
+# prod 배포 명세 역시 VERIFIED_SOURCE를 사용한다.
+```
+
+`crane tag IMAGE TAG`는 같은 repository에 태그를 추가한다. 이후 원본 commit 태그가 바뀌어도 승격이 영향을 받지 않도록 기록된 digest reference를 사용한다. 다만 digest 파일을 다른 실행의 파일로 바꿔치기할 수 있다면 검증 연결이 깨지므로 commit·CI run·검증 결과를 함께 기록한다.
+
+ECR에서 commit 태그는 덮어쓰기를 막고 `stage`·`prod`는 이동 가능한 별칭으로 운영하려면 태그 정책을 구분해야 한다. 전체 태그가 immutable인 repository에서는 기존 환경 별칭의 재지정도 실패할 수 있다. 환경 태그를 사용하지 않고 배포 명세의 digest만 갱신하는 방법도 있다.
+
+동시 승격은 환경별 CI concurrency로 직렬화하고 실제 배포 digest를 확인한다. 태그 비교만 통과했다고 애플리케이션 배포까지 완료된 것은 아니다.
 
 ## Repository나 registry가 다르면 crane copy
 

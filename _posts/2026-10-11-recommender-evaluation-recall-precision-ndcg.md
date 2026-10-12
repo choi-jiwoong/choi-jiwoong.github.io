@@ -2,6 +2,7 @@
 title: "추천 시스템은 어떻게 평가할까 — Recall@K, Precision@K, NDCG"
 description: "추천 결과의 적중률과 순서 품질을 Recall@K, Precision@K, NDCG로 계산하고 Offline·Online 평가를 구분한다."
 date: 2026-10-11 12:05:00 +0900
+last_modified_at: 2026-10-12
 categories: [Data]
 tags: [Recommendation, Evaluation, Recall, Precision, NDCG, Ranking, ABTesting]
 ---
@@ -70,6 +71,11 @@ relevant = {"B", "D", "F"}
 ranked = ["B", "C", "D", "E", "F"]
 k = 5
 
+if k <= 0:
+    raise ValueError("k must be positive")
+if len(ranked) != len(set(ranked)):
+    raise ValueError("ranked must contain unique items")
+
 topk = ranked[:k]
 hits = sum(item in relevant for item in topk)
 precision = hits / k
@@ -89,6 +95,14 @@ ndcg = dcg(topk) / idcg if idcg else 0.0
 print(f"P@{k}={precision:.3f}, R@{k}={recall:.3f}, NDCG@{k}={ndcg:.3f}")
 ```
 
+위 입력의 예상 출력은 다음과 같다.
+
+```text
+P@5=0.600, R@5=1.000, NDCG@5=0.885
+```
+
+이 예제는 중복 추천을 오류로 처리하며 K개보다 적게 반환해도 Precision의 분모를 K로 유지한다. 관련 아이템이 없는 경우는 코드에서 0으로 처리한다. 실제 집계에서도 이 정책을 일관되게 적용해야 한다.
+
 이 코드는 **한 사용자에 대한 binary relevance 예시**다. 운영 지표는 사용자별 값을 계산한 뒤 macro average를 내거나, 비즈니스 목적에 맞는 weighting을 정한다. 관련 아이템이 없는 사용자는 Recall과 NDCG가 정의되지 않을 수 있으므로 제외할지 0으로 처리할지 명시해야 한다.
 
 ## 어떤 지표를 선택할까?
@@ -101,6 +115,12 @@ print(f"P@{k}={precision:.3f}, R@{k}={recall:.3f}, NDCG@{k}={ndcg:.3f}")
 | 여러 사용자군의 품질 점검 | 사용자군별 지표 | cold-start, 인기 편향 |
 
 **Metric 하나만 최대화하지 않는다.** 인기 상품만 추천하면 일부 Offline 지표는 좋아져도 다양성과 발견 가능성이 떨어질 수 있다. 또한 후보 생성기의 Recall@K가 낮으면 Ranking 모델을 개선해도 누락된 상품은 복구할 수 없다.
+
+## 후보 집합도 평가 조건이다
+
+전체 상품 중 상위 K개를 고르는 평가와 일부 negative를 샘플링한 평가의 점수를 같은 기준으로 비교하지 않는다. 후보 수·샘플링 방식·평가 시점의 판매 가능 상품을 기록한다. 과거 평가에 미래 상품 정보나 이후 행동으로 만든 feature가 들어가지 않도록 feature 시점도 맞춘다.
+
+평가 보고서에는 K, 관련도 정의, 사용자 수, 후보 집합, 사용자별 평균 방식, 빈 정답 처리와 사용자군별 결과를 함께 남긴다.
 
 ## Offline 평가와 Online 평가는 다르다
 

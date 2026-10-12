@@ -2,6 +2,7 @@
 title: "Detection as Code — SIEM Rule도 Git으로 관리해야 하는 이유"
 description: "SIEM 탐지 규칙을 Git에서 버전 관리하고 Sigma, 테스트, CI/CD, 배포 및 Rollback까지 연결하는 실무 설계."
 date: 2026-10-11 12:10:00 +0900
+last_modified_at: 2026-10-12
 categories: [Security]
 tags: [Security, SIEM, DetectionAsCode, Sigma, GitOps, CICD, SOC]
 ---
@@ -101,13 +102,55 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install sigma-cli
-      - run: sigma check rules/
-      # 실제 backend plugin과 pipeline은 별도 설치·고정해야 한다.
-      # conversion 및 fixture replay는 조직 환경에 맞게 추가한다.
+      - name: Test rule intent
+        run: python tests/test_rule_intent.py
+      # 아래 Python 예제를 tests/test_rule_intent.py로 저장한다.
+      # 필수 gate에는 별도 Sigma validation/conversion과
+      # 실제 backend fixture replay를 추가해야 한다.
 ```
 
-위 예시는 CI 시작점일 뿐, 배포까지 자동으로 수행하는 완제품이 아니다. 실행 전 사용 중인 sigma-cli 버전에서 명령과 plugin 호환성을 검증하고 dependency를 pinning해야 한다. 운영 배포 credential은 Git에 넣지 않고 최소 권한의 secret 관리 방식을 사용한다.
+위 예시는 아래 Python을 `tests/test_rule_intent.py`에 저장했을 때 논리 의도 테스트를 실행하는 최소 workflow다. 이 테스트만으로 Sigma Rule 검증이 완료되는 것은 아니므로, 선택한 backend 변환·실행 검사를 연결하기 전에는 운영 배포 gate로 충분하지 않다. 실행 전 사용 중인 sigma-cli 버전에서 명령과 plugin 호환성을 검증하고 dependency를 pinning해야 한다. 운영 배포 credential은 Git에 넣지 않고 최소 권한의 secret 관리 방식을 사용한다.
+
+## Fixture와 기대 결과를 먼저 구체화한다
+
+아래 데이터는 실제 보안 로그가 아닌 교육용 fixture다. 세 번째 사례처럼 정상 행위라도 현재 규칙이 탐지하는 경우를 숨기지 않는 것이 중요하다.
+
+| 사례 | Image | CommandLine | 현재 규칙의 기대 |
+|---|---|---|---|
+| encoded 인자 | powershell.exe | powershell.exe -enc AAAA | 탐지 |
+| 일반 명령 | powershell.exe | powershell.exe -Command Get-Date | 미탐지 |
+| 정상 관리 자동화의 encoded 인자 | powershell.exe | powershell.exe -enc BBBB | 탐지 후 조사 |
+| 다른 실행 파일 | cmd.exe | cmd.exe /c echo -enc AAAA | 미탐지 |
+
+‘정상 자동화’라는 파일명만으로 negative fixture가 되지는 않는다. 예외 조건을 규칙에 실제 반영한 뒤에만 미탐지를 기대해야 한다.
+
+다음 Python은 **예제의 논리 의도만 확인하는 테스트**다. Sigma 파서나 변환된 SIEM query를 실행하지 않으므로 backend 호환성 검사를 대체하지 않는다.
+
+```python
+def matches_intent(event):
+    image = event["Image"].lower()
+    command = event["CommandLine"].lower()
+    return (
+        image.endswith(("\\powershell.exe", "\\pwsh.exe"))
+        and any(arg in command for arg in (" -encodedcommand ", " -enc "))
+    )
+
+fixtures = [
+    ({"Image": r"C:\Windows\powershell.exe",
+      "CommandLine": "powershell.exe -enc AAAA"}, True),
+    ({"Image": r"C:\Windows\powershell.exe",
+      "CommandLine": "powershell.exe -Command Get-Date"}, False),
+    ({"Image": r"C:\Windows\powershell.exe",
+      "CommandLine": "powershell.exe -enc BBBB"}, True),
+    ({"Image": r"C:\Windows\cmd.exe",
+      "CommandLine": "cmd.exe /c echo -enc AAAA"}, False),
+]
+for event, expected in fixtures:
+    assert matches_intent(event) == expected
+print("4 intent fixtures passed")
+```
+
+실제 gate에서는 고정된 sigma-cli·backend plugin·processing pipeline으로 query를 생성하고, staging index에 같은 fixture를 넣어 각 사례의 결과를 비교한다. 생성 query와 Rule ID, 도구 버전을 artifact로 남긴다. 이 글에서는 대상 SIEM과 필드 mapping을 특정하지 않았으므로 변환 결과를 실제 실행 결과처럼 제시하지 않는다.
 
 ## False Positive 튜닝은 PR로 남긴다
 

@@ -2,6 +2,7 @@
 title: "AWS 인프라로 SIEM 만들기: Security Lake와 OpenSearch"
 description: "Amazon Security Lake를 보안 분석용 Source of Truth로 두고 OpenSearch, Athena, Log Archive, Detection GitOps를 연결해 운영 가능한 AWS SIEM 구조를 정리했다."
 date: 2026-09-29 13:20:00 +0900
+last_modified_at: 2026-10-12
 categories: [AWS]
 tags: [AWS, SIEM, SecurityLake, OpenSearch, OCSF, SecurityHub, CloudTrail, GitOps]
 ---
@@ -64,15 +65,16 @@ Production 환경을 기준으로 보면 다음처럼 구성할 수 있다.
                          │
                          ▼
                 Collection Layer
-                         │
-                         ▼
-                 OCSF Normalize
+             (원본 보존 경로에서 분기)
                          │
               ┌──────────┴──────────┐
               │                     │
               ▼                     ▼
-       Log Archive Account     Security Lake
-       Immutable Raw Logs      OCSF / Parquet
+       Log Archive Account     OCSF Normalize
+       Immutable Raw Logs           │
+                                    ▼
+                               Security Lake
+                               OCSF / Parquet
                                     │
                      ┌──────────────┴──────────────┐
                      │                             │
@@ -141,6 +143,12 @@ Log Archive
 Log Archive에는 S3 Versioning, Object Lock, KMS, Lifecycle, SCP 같은 보호 정책을 적용해 로그 삭제나 임의 변경을 어렵게 만드는 것이 좋다.
 
 ---
+
+## 원본 보관과 분석용 변환의 경계를 명확히 한다
+
+위 구조는 논리적 책임을 나타낸 설계도다. 원본 감사 로그가 필요하면 정규화 이전 데이터가 별도 경로로 보존되어야 한다. OCSF 변환 결과를 저장하면서 원본과 동일하다고 부르지는 않는다. AWS native source의 관리형 수집과 별도 감사 로그 전달은 서비스별 설정을 확인한다.
+
+이 글은 실제 부하·비용·탐지 지연을 측정한 구축 보고서가 아니다. 운영 설계에서는 source 발생 → 수집 → 변환 → 색인 → 규칙 실행 → 알림까지 구간별 지연을 측정한다. ‘실시간’이라는 표현만으로 초 단위 탐지를 보장하지 않는다.
 
 # OCSF는 가능한 초기에 맞춘다
 
@@ -524,3 +532,9 @@ Slack / Jira / SOAR
 SIEM 자체의 개념부터 보고 싶다면 이전 글에서 정리했다.
 
 ← [SIEM이란 무엇인가: 로그 수집부터 탐지와 대응까지](/posts/what-is-siem/)
+
+## 참고 자료
+
+- [Amazon Security Lake — User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html)
+- [AWS — Security Lake에서 OpenSearch로 수집하기](https://aws.amazon.com/blogs/big-data/ingest-transform-and-deliver-events-published-by-amazon-security-lake-to-amazon-opensearch-service/)
+- [OCSF schema](https://schema.ocsf.io/)

@@ -2,6 +2,7 @@
 title: "Terraform State는 왜 S3에 저장할까: Remote Backend와 Locking 이해하기"
 description: "Terraform state를 local 파일로 두면 어떤 문제가 생기는지, S3 Remote Backend와 native state locking을 왜 사용하는지 운영 관점에서 정리했다."
 date: 2026-10-08 09:05:00 +0900
+last_modified_at: 2026-10-12
 categories: [DevOps]
 tags: [Terraform, AWS, S3, IaC, DevOps, State, RemoteBackend]
 ---
@@ -276,7 +277,7 @@ production/
 
 # IAM 권한도 최소화한다
 
-대표적으로 state 객체에는:
+버킷 목록 조회에는 버킷 ARN을, state 읽기·쓰기에는 객체 ARN을 사용한다. 필요한 Action은 다음과 같다:
 
 ~~~text
 s3:ListBucket
@@ -309,6 +310,53 @@ Lockfile
 처럼 최소 권한을 설계할 수 있다.
 
 ---
+
+## 버킷·State·Lockfile의 Resource를 분리한다
+
+아래는 default workspace의 한 state 경로만 사용하는 예시다. 버킷 이름과 경로를 실제 값으로 바꾼다.
+
+~~~json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::company-terraform-state",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": ["production/network/*"]
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject"],
+      "Resource": "arn:aws:s3:::company-terraform-state/production/network/terraform.tfstate"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Resource": "arn:aws:s3:::company-terraform-state/production/network/terraform.tfstate.tflock"
+    }
+  ]
+}
+~~~
+
+SSE-KMS를 사용한다면 해당 KMS 키에 필요한 권한과 키 정책도 별도로 확인한다. 추가 workspace를 사용하면 실제 저장 경로와 workspace 관리에 필요한 권한이 달라지므로 이 정책을 그대로 복사하지 않는다.
+
+## 잠금 충돌과 복구
+
+앞의 WAIT는 개념도다. 다른 실행이 잠금을 잡았을 때 일정 시간 재시도하려면 대기 시간을 명시한다.
+
+~~~bash
+terraform plan -lock-timeout=5m
+terraform apply -lock-timeout=5m
+~~~
+
+잠금 오류가 나면 먼저 같은 state를 사용하는 CI와 로컬 실행이 살아 있는지 확인한다. 실행이 끝나기를 기다리고, 종료된 실행의 잠금이 남았다는 근거가 있을 때만 해당 lock ID의 수동 해제를 검토한다. `-lock=false`를 일상적인 해결책으로 사용하지 않는다.
+
+S3 이전 버전으로 state를 되돌리는 것은 실제 인프라를 되돌리는 작업이 아니다. 복구 전 현재 state를 보관하고 실제 리소스와 대조한 뒤 plan을 검토한다. 로컬과 CI의 Terraform 버전을 맞추고, `use_lockfile` 지원 여부를 확인한 버전을 프로젝트에서 고정한다. 이 글은 실제 AWS 계정에서 실행한 검증 기록을 포함하지 않는다.
 
 # State를 Git에 올리면 안 되는 이유
 
