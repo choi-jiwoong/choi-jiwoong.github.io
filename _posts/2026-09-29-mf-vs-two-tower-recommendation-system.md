@@ -2,7 +2,7 @@
 title: "추천 시스템에서 MF 다음은 왜 Two-Tower인가"
 description: "CF와 MF에서 시작해 Two-Tower, Vector Search, Ranking으로 이어지는 현대 추천 시스템 구조를 쉽게 정리했다."
 date: 2026-09-29 11:40:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [Data]
 tags: [Recommendation, CF, MF, TwoTower, Embedding, VectorSearch, Ranking]
 ---
@@ -13,18 +13,13 @@ tags: [Recommendation, CF, MF, TwoTower, Embedding, VectorSearch, Ranking]
 
 아래는 학습 순서의 예이며, 모든 시스템이 거치는 필수 진화 단계는 아니다. MF도 embedding을 만들고 후보 검색에 활용할 수 있다.
 
-```text
-CF
-↓
-MF
-↓
-Embedding
-↓
-Two-Tower
-↓
-Vector Search
-↓
-Ranking
+```mermaid
+flowchart TD
+    C["Collaborative Filtering"] --> M["Matrix Factorization"]
+    M --> E["User / Item Embedding"]
+    T["Two-Tower: 다양한 Feature"] --> E
+    E --> V["Vector Search / Retrieval"]
+    V --> R["Ranking"]
 ```
 
 이번 글에서는 MF와 Two-Tower가 어떻게 다른지 중심으로 정리해봤다.
@@ -51,16 +46,13 @@ User A = [0.8, 0.2]
 
 구조는 단순하다.
 
-```text
-User ID
-   ↓
-User Embedding
-   ↓
-        dot product → 추천 점수
-   ↑
-Item Embedding
-   ↑
-Item ID
+```mermaid
+flowchart TD
+    U["User ID"] --> UE["User Embedding"]
+    I["Item ID"] --> IE["Item Embedding"]
+    UE --> D["Dot Product"]
+    IE --> D
+    D --> S["추천 점수"]
 ```
 
 MF는 빠르고 구현이 단순해서 여전히 좋은 baseline이다.
@@ -75,47 +67,39 @@ MF는 빠르고 구현이 단순해서 여전히 좋은 baseline이다.
 
 Two-Tower는 이름 그대로 사용자와 상품을 각각 별도의 모델로 처리한다.
 
-```text
-User Tower       Item Tower
-
-사용자 정보       상품 정보
-    ↓                ↓
-Neural Network     Neural Network
-    ↓                ↓
-User Vector        Item Vector
-      \             /
-       \           /
-        dot product
-            ↓
-        추천 점수
+```mermaid
+flowchart TD
+    U["사용자 정보"] --> UT["User Tower: Neural Network"]
+    I["상품 정보"] --> IT["Item Tower: Neural Network"]
+    UT --> UV["User Vector"]
+    IT --> IV["Item Vector"]
+    UV --> D["Dot Product"]
+    IV --> D
+    D --> S["추천 점수"]
 ```
 
 여기서 비교하는 기본 ID 기반 MF와 달리, Two-Tower는 **각 tower에서 여러 feature를 조합해 embedding을 생성하도록 설계할 수 있다.** 다만 Two-Tower도 ID만 입력받을 수 있고, MF 계열에도 부가 정보를 사용하는 확장 모델이 있다.
 
 User Tower에는 예를 들어:
 
-```text
-User ID
-최근 본 상품
-최근 검색어
-클릭 카테고리
-시간대
-지역
-```
+- User ID
+- 최근 본 상품
+- 최근 검색어
+- 클릭 카테고리
+- 시간대
+- 지역
 
 같은 정보를 넣을 수 있다.
 
 Item Tower에는:
 
-```text
-Item ID
-카테고리
-브랜드
-가격
-상품명
-설명
-이미지 Embedding
-```
+- Item ID
+- 카테고리
+- 브랜드
+- 가격
+- 상품명
+- 설명
+- 이미지 Embedding
 
 같은 정보를 넣을 수 있다.
 
@@ -129,14 +113,15 @@ Item ID
 
 MF에서는:
 
-```text
-새 상품 ID
-↓
-사용자 행동 없음
-↓
-학습 정보 부족
-↓
-추천 어려움
+```mermaid
+flowchart TD
+    N0["새 상품 ID"]
+    N1["사용자 행동 없음"]
+    N2["학습 정보 부족"]
+    N3["추천 어려움"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 이 될 수 있다.
@@ -153,14 +138,15 @@ MF에서는:
 
 같은 feature만 있어도 Item Tower가 embedding을 만들 수 있다.
 
-```text
-상품 정보
-↓
-Item Tower
-↓
-Embedding
-↓
-추천 후보에 포함
+```mermaid
+flowchart TD
+    N0["상품 정보"]
+    N1["Item Tower"]
+    N2["Embedding"]
+    N3["추천 후보에 포함"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 그래서 신규 상품이 계속 들어오는 서비스에서는 콘텐츠 feature를 학습한 Two-Tower가 유리할 수 있다. 단, 학습 때 사용한 feature가 서빙에서도 있어야 하고, 처음 보는 ID·범주를 처리할 수 있어야 한다. 새 상품의 벡터를 계산하고 검색 인덱스에 반영하는 과정도 필요하다. 구조만 Two-Tower로 바꾼다고 cold start가 자동 해결되지는 않는다.
@@ -177,45 +163,38 @@ Two-Tower가 최종 추천 순위를 모두 결정하는 경우보다는, **후�
 
 그래서 먼저:
 
-```text
-10,000,000개 상품
-        ↓
-     Two-Tower
-        ↓
-   1,000개 후보
-        ↓
-    Ranking Model
-        ↓
-      100개
-        ↓
-    Re-ranking
-        ↓
-      최종 20개
+```mermaid
+flowchart TD
+    N0["전체 1,000만 상품"]
+    N1["Two-Tower 기반 Retrieval"]
+    N2["후보 1,000개"]
+    N3["Ranking Model: 100개"]
+    N4["Re-ranking: 최종 20개"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
 ```
 
 처럼 후보를 줄인다.
 
 Item embedding은 미리 계산해둘 수 있다.
 
-```text
-상품 A → vector
-상품 B → vector
-상품 C → vector
-...
-```
+상품 A·B·C 등 각 상품을 벡터로 변환해 검색 인덱스에 저장한다.
 
 그리고 사용자가 들어오면 User Tower에서 사용자 embedding을 하나 만든 뒤, 가장 가까운 상품 벡터를 찾는다.
 
-```text
-사용자
-↓
-User Tower
-↓
-User Embedding
-↓
-Vector Search
-↓
-가까운 상품 후보
+```mermaid
+flowchart TD
+    N0["사용자"]
+    N1["User Tower"]
+    N2["User Embedding"]
+    N3["Vector Search"]
+    N4["가까운 상품 후보"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
 ```
 
 이 단계에서 FAISS, ScaNN, Milvus, OpenSearch k-NN 같은 ANN(Vector Search) 기술을 함께 사용할 수 있다.
@@ -224,7 +203,7 @@ Vector Search
 
 # MF와 Two-Tower 비교
 
-| | MF | Two-Tower |
+| 비교 항목 | MF | Two-Tower |
 |---|---|---|
 | 입력 | 주로 User ID / Item ID | 다양한 Feature |
 | 표현 | User/Item Embedding | Tower가 Embedding 생성 |
@@ -235,13 +214,8 @@ Vector Search
 
 한 줄로 줄이면:
 
-```text
-MF
-User ID × Item ID
-
-Two-Tower
-User의 여러 정보 × Item의 여러 정보
-```
+- **MF:** 주로 User ID × Item ID
+- **Two-Tower:** User의 여러 정보 × Item의 여러 정보
 
 이라고 볼 수 있다.
 
@@ -253,33 +227,21 @@ User의 여러 정보 × Item의 여러 정보
 
 보통은 여러 단계를 거친다.
 
-```text
-User
- │
- ▼
-Candidate Retrieval
-(Two-Tower / MF)
- │
- ▼
-1,000개 후보
- │
- ▼
-Ranking
-(DCN / DLRM / Transformer 등)
- │
- ▼
-100개
- │
- ▼
-Re-ranking
- │
- ├─ 중복 제거
- ├─ 다양성
- ├─ 품절 제거
- └─ 비즈니스 Rule
- │
- ▼
-최종 추천
+```mermaid
+flowchart TD
+    N0["User"]
+    N1["Candidate Retrieval: Two-Tower / MF"]
+    N2["후보 1,000개"]
+    N3["Ranking: DCN / DLRM / Transformer 등"]
+    N4["상위 100개"]
+    N5["Re-ranking: 중복·품절 제거, 다양성·비즈니스 규칙"]
+    N6["최종 추천"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+    N5 --> N6
 ```
 
 Two-Tower는 빠르게 좋은 후보를 찾는 역할이고, Ranking 모델은 후보들의 순서를 더 정교하게 결정한다.
@@ -290,18 +252,13 @@ Two-Tower는 빠르게 좋은 후보를 찾는 역할이고, Ranking 모델은 �
 
 추천 시스템을 공부한다면 다음 순서로 보면 이해하기 쉽다.
 
-```text
-Collaborative Filtering
-        ↓
-Matrix Factorization
-        ↓
-Embedding
-        ↓
-Two-Tower
-        ↓
-Vector Search
-        ↓
-Retrieval + Ranking
+```mermaid
+flowchart TD
+    C["Collaborative Filtering"] --> M["Matrix Factorization"]
+    M --> E["User / Item Embedding"]
+    T["Two-Tower: 다양한 Feature"] --> E
+    E --> V["Vector Search / Retrieval"]
+    V --> R["Ranking"]
 ```
 
 MF는 추천 시스템의 기본 원리를 이해하기 좋은 모델이고, Two-Tower는 그 개념을 실제 대규모 서비스에 맞게 확장한 형태로 볼 수 있다.
@@ -318,3 +275,4 @@ MF는 추천 시스템의 기본 원리를 이해하기 좋은 모델이고, Two
 
 - [TensorFlow Recommenders — Basic retrieval](https://www.tensorflow.org/recommenders/examples/basic_retrieval)
 - [TensorFlow Recommenders — Context features](https://www.tensorflow.org/recommenders/examples/context_features)
+

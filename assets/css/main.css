@@ -223,3 +223,58 @@ button { font: inherit; }
   .site-footer { padding: 32px 0; align-items: flex-start; flex-direction: column; justify-content: center; gap: 12px; }
   .site-footer div { align-items: flex-start; flex-direction: column; gap: 3px; }
 }
+
+/* Mermaid diagrams share the post theme; preserve readable type on small screens. */
+.post-diagram {
+  margin: 2rem 0;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.post-diagram > figcaption {
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.diagram-canvas {
+  width: 100%;
+  overflow-x: auto;
+  padding: .5rem 0 1rem;
+  overscroll-behavior-x: contain;
+}
+.diagram-canvas:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.diagram-canvas svg { display: block; margin: 0 auto; }
+.post-content .diagram-canvas text { font-family: Inter, Pretendard, sans-serif; }
+.diagram-source { border-top: 1px solid var(--line); padding-top: .75rem; }
+.diagram-source summary { cursor: pointer; color: var(--muted); font-size: .8rem; }
+.post-content .diagram-source pre { margin: .75rem 0 0; white-space: pre; }
+.post-content .diagram-status { color: var(--muted); font-size: .85rem; }
+@media (max-width: 600px) {
+  .post-diagram { padding: .8rem; margin: 1.5rem 0; border-radius: 12px; }
+}
+
+/* Keep comparisons as tables, but let explanatory cells wrap naturally. */
+.post-content { overflow-wrap: anywhere; }
+.post-content th, .post-content td {
+  text-align: left;
+  white-space: normal;
+  vertical-align: top;
+}
+.post-content th[style*="text-align: right"],
+.post-content td[style*="text-align: right"] { white-space: nowrap; }
+.post-table-scroll {
+  margin: 28px 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.post-content .post-table-scroll table { margin: 0; min-width: 0; }
+.post-content .table-wide table { min-width: 640px; }
+.post-table-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

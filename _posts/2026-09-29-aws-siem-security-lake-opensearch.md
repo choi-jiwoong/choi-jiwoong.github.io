@@ -2,21 +2,19 @@
 title: "AWS 인프라로 SIEM 만들기: Security Lake와 OpenSearch"
 description: "Amazon Security Lake를 보안 분석용 Source of Truth로 두고 OpenSearch, Athena, Log Archive, Detection GitOps를 연결해 운영 가능한 AWS SIEM 구조를 정리했다."
 date: 2026-09-29 13:20:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [AWS]
 tags: [AWS, SIEM, SecurityLake, OpenSearch, OCSF, SecurityHub, CloudTrail, GitOps]
 ---
 
 SIEM을 직접 구성한다고 하면 처음에는 이런 구조를 생각하기 쉽다.
 
-```text
-CloudTrail
-VPC Flow Logs
-Application Logs
-        ↓
-    OpenSearch
-        ↓
-    Dashboard
+```mermaid
+flowchart TD
+    C["CloudTrail"] --> O["OpenSearch"]
+    V["VPC Flow Logs"] --> O
+    A["Application Logs"] --> O
+    O --> D["Dashboard"]
 ```
 
 물론 이것도 가능하다.
@@ -27,26 +25,16 @@ Application Logs
 
 그래서 AWS에서 SIEM을 구성할 때는 **저장, 분석, 탐지, 대응의 역할을 분리하는 구조**가 더 적합하다.
 
-```text
-보안 로그
-   ↓
-Collection / OCSF
-   ↓
-Security Lake
-   │
-   ├─ Athena / Direct Query → 조사·감사
-   │
-   └─ 필요한 로그만
-          ↓
-      OpenSearch
-          ↓
- Detection / Correlation
-          ↓
-       Finding
-          ↓
-       Incident
-          ↓
-   Slack / Jira / SOAR
+```mermaid
+flowchart TD
+    L["보안 로그"] --> C["Collection / OCSF"]
+    C --> S["Security Lake"]
+    S --> Q["Athena / Direct Query: 조사·감사"]
+    S -->|"필요한 로그만"| O["OpenSearch"]
+    O --> D["Detection / Correlation"]
+    D --> F["Finding"]
+    F --> I["Incident"]
+    I --> R["Slack / Jira / SOAR"]
 ```
 
 한 줄로 정리하면:
@@ -59,48 +47,29 @@ Security Lake
 
 Production 환경을 기준으로 보면 다음처럼 구성할 수 있다.
 
-```text
-                  Security Sources
-        AWS / SaaS / On-Prem / Endpoint
-                         │
-                         ▼
-                Collection Layer
-             (원본 보존 경로에서 분기)
-                         │
-              ┌──────────┴──────────┐
-              │                     │
-              ▼                     ▼
-       Log Archive Account     OCSF Normalize
-       Immutable Raw Logs           │
-                                    ▼
-                               Security Lake
-                               OCSF / Parquet
-                                    │
-                     ┌──────────────┴──────────────┐
-                     │                             │
-                     ▼                             ▼
-             Historical / Audit             Hot Security Data
-                     │                             │
-              Athena / Query                OpenSearch Ingestion
-                                                   │
-                                                   ▼
-                                              OpenSearch
-                                                   │
-                                  ┌────────────────┼───────────────┐
-                                  ▼                ▼               ▼
-                              Threshold        Correlation         IOC
-                                  └────────────────┼───────────────┘
-                                                   ▼
-                                                Finding
-                                                   │
-                                           Enrichment / Risk
-                                                   │
-                                                   ▼
-                                                Incident
-                                                   │
-                              ┌────────────────────┼──────────────┐
-                              ▼                    ▼              ▼
-                            Slack                 Jira           SOAR
+```mermaid
+flowchart TD
+    S["Security Sources: AWS / SaaS / On-Prem / Endpoint"] --> C["Collection Layer"]
+    C --> A["Log Archive Account: Immutable Raw Logs"]
+    C --> N["OCSF Normalize"]
+    N --> L["Security Lake: OCSF / Parquet"]
+    L --> Q["Historical / Audit: Athena / Query"]
+    L --> H["Hot Security Data"]
+    H --> O["OpenSearch Ingestion"]
+    O --> I["OpenSearch Index"]
+```
+
+검색 인덱스 이후에는 탐지 결과를 대응 단위로 묶는다.
+
+```mermaid
+flowchart TD
+    O["OpenSearch"] --> D["Threshold / Correlation / IOC"]
+    D --> F["Finding"]
+    F --> E["Enrichment / Risk"]
+    E --> I["Incident"]
+    I --> S["Slack"]
+    I --> J["Jira"]
+    I --> A["SOAR"]
 ```
 
 여기서 중요한 건 모든 데이터를 하나의 시스템에 넣지 않는 것이다.
@@ -123,21 +92,14 @@ Log Archive
 
 즉 분석용 데이터와 변경이 어려운 감사용 원본 로그를 분리한다.
 
-```text
-                AWS Organization
-                       │
-          ┌────────────┴────────────┐
-          │                         │
-          ▼                         ▼
-    Raw / Audit Logs          Security Events
-          │                         │
-          ▼                         ▼
-   Log Archive Account        Security Lake
-   S3 + Object Lock          OCSF / Parquet
-          │                         │
-          └──────────┬──────────────┘
-                     ▼
-               Investigation
+```mermaid
+flowchart TD
+    O["AWS Organizations"] --> R["Raw / Audit Logs"]
+    O --> E["Security Events"]
+    R --> A["Log Archive: S3 + Object Lock"]
+    E --> L["Security Lake: OCSF / Parquet"]
+    A --> I["Investigation"]
+    L --> I
 ```
 
 Log Archive에는 S3 Versioning, Object Lock, KMS, Lifecycle, SCP 같은 보호 정책을 적용해 로그 삭제나 임의 변경을 어렵게 만드는 것이 좋다.
@@ -156,25 +118,19 @@ SIEM에서는 로그를 많이 모으는 것보다 **공통 Schema로 분석할 
 
 AWS native source는 Security Lake가 OCSF(Open Cybersecurity Schema Framework)와 Apache Parquet 형태로 변환한다.
 
-```text
-CloudTrail ──────┐
-VPC Flow Logs ───┤
-Route53 ─────────┤
-EKS ─────────────┼──→ Security Lake → OCSF
-WAF ─────────────┤
-Security Hub ────┘
-```
+CloudTrail, VPC Flow Logs, Route 53, EKS, WAF, Security Hub 등의 지원 소스를 Security Lake에 연결해 OCSF 형식으로 다룬다. 실제 지원 범위는 소스별로 확인한다.
 
 반면 SaaS, On-Premise, Endpoint 같은 Custom Source는 수집 단계에서 OCSF에 맞추는 편이 좋다.
 
-```text
-SaaS / On-Prem / Custom
-          ↓
- Parser / Transformer
-          ↓
-         OCSF
-          ↓
-   Security Lake
+```mermaid
+flowchart TD
+    N0["SaaS / On-Prem / Custom"]
+    N1["Parser / Transformer"]
+    N2["OCSF"]
+    N3["Security Lake"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 이렇게 하면 Detection Rule이 특정 Vendor Schema에 과도하게 종속되는 문제를 줄일 수 있다.
@@ -189,20 +145,14 @@ OpenSearch는 검색과 실시간 분석에는 강하지만 모든 보안 로그
 
 그래서 로그 중요도와 사용 목적에 따라 Tier를 나눈다.
 
-```text
-Security Lake
-   │
-   ├── Cold / Historical
-   │       ↓
-   │    Athena
-   │
-   ├── Investigation
-   │       ↓
-   │   Direct Query
-   │
-   └── Hot / Detection
-           ↓
-     OpenSearch Index
+```mermaid
+flowchart TD
+    S["Security Lake"] --> C["Cold / Historical"]
+    S --> I["Investigation"]
+    S --> H["Hot / Detection"]
+    C --> A["Athena"]
+    I --> D["Direct Query"]
+    H --> O["OpenSearch Index"]
 ```
 
 예를 들어:
@@ -221,24 +171,19 @@ Security Lake
 
 Security Lake는 S3 기반이기 때문에 Athena를 이용해 과거 로그를 조회할 수 있다.
 
-```text
-Security Lake
-      ↓
-Athena
-      ↓
-Historical Investigation
-```
+**Security Lake** → **Athena** → **Historical Investigation**
 
 OpenSearch의 Security Lake Direct Query를 사용할 수 있는 Region이라면 데이터를 별도 Index로 복제하지 않고 SQL/PPL로 조회하는 방식도 사용할 수 있다.
 
-```text
-Security Lake
-      │
-      │ Zero-ETL
-      ▼
-OpenSearch Direct Query
-      ↓
-SQL / PPL
+```mermaid
+flowchart TD
+    N0["Security Lake"]
+    N1["OpenSearch Direct Query"]
+    N2["SQL / PPL 쿼리"]
+    N3["조사 결과"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 이 방식은 평소에는 데이터를 S3에 두고, Investigation이 필요할 때 조회하는 구조에 잘 맞는다.
@@ -251,28 +196,30 @@ SQL / PPL
 
 예전에는 다음 같은 구조를 직접 구성하는 경우가 많았다.
 
-```text
-S3
- ↓
-SQS
- ↓
-Lambda
- ↓
-Parsing / Transform
- ↓
-OpenSearch
+```mermaid
+flowchart TD
+    N0["S3"]
+    N1["SQS"]
+    N2["Lambda"]
+    N3["Parsing / Transform"]
+    N4["OpenSearch"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
 ```
 
 표준적인 수집과 변환은 가능하면 **OpenSearch Ingestion** 같은 관리형 Pipeline을 우선 사용하는 편이 운영 부담을 줄일 수 있다.
 
-```text
-S3 / SQS
-    ↓
-OpenSearch Ingestion
-    ↓
-Processor
-    ↓
-OpenSearch
+```mermaid
+flowchart TD
+    N0["S3 / SQS"]
+    N1["OpenSearch Ingestion"]
+    N2["Processor"]
+    N3["OpenSearch"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 Lambda를 없애야 한다는 뜻은 아니다.
@@ -287,31 +234,23 @@ Security Log Pipeline에서는 데이터 유실을 단순 Application Log보다 
 
 Schema 오류나 OpenSearch Mapping 오류가 발생했을 때 Event를 그냥 버리면 Incident Investigation에서 중요한 증거가 사라질 수 있다.
 
-```text
-Source
-  ↓
-Transform
-  ↓
-OpenSearch
-  │
-  └── Failed
-        ↓
-       DLQ
-        ↓
-   분석 / 수정
-        ↓
-      Replay
+```mermaid
+flowchart TD
+    S["Source"] --> T["Transform"]
+    T --> O["OpenSearch 적재"]
+    O -->|"실패"| D["DLQ"]
+    D --> A["분석 / 수정"]
+    A --> R["Replay"]
+    R --> T
 ```
 
 그래서 Pipeline에는 최소한:
 
-```text
-DLQ
-Replay
-Retry
-Pipeline Lag Monitoring
-Failure Metrics
-```
+- DLQ
+- Replay
+- Retry
+- Pipeline Lag Monitoring
+- Failure Metrics
 
 를 같이 설계하는 것이 좋다.
 
@@ -321,19 +260,12 @@ Failure Metrics
 
 Sigma Rule은 좋은 Detection Rule 포맷이지만 실제 SIEM Detection은 여러 방식이 필요하다.
 
-```text
-                   Detection
-                       │
-       ┌───────────────┼───────────────┐
-       ▼               ▼               ▼
-   Threshold       Correlation         IOC
-       │               │               │
-       └───────────────┼───────────────┘
-                       │
-                       ├─ Behavior
-                       │
-                       ▼
-                    Finding
+```mermaid
+flowchart TD
+    D["Detection"] --> T["Threshold / Correlation"]
+    D --> I["IOC / Behavior"]
+    T --> F["Finding"]
+    I --> F
 ```
 
 각 방식은 역할이 다르다.
@@ -355,16 +287,9 @@ Sigma Rule은 좋은 Detection Rule 포맷이지만 실제 SIEM Detection은 여
 
 예를 들어:
 
-```text
-Finding A
-Suspicious Login
-
-Finding B
-IAM Policy Change
-
-Finding C
-S3 Mass Download
-```
+- **Finding A:** Suspicious Login
+- **Finding B:** IAM Policy Change
+- **Finding C:** S3 Mass Download
 
 가 각각 발생했더라도:
 
@@ -376,20 +301,15 @@ Time = 10분 이내
 
 라면 하나의 Incident로 묶을 수 있다.
 
-```text
-Raw Event
-   ↓
-Detection
-   ↓
-Finding
-   ↓
-Enrichment / Correlation
-   ↓
-Incident
-   ↓
-┌────────┬────────┬────────┐
-▼        ▼        ▼
-Slack    Jira     SOAR
+```mermaid
+flowchart TD
+    R["Raw Event"] --> D["Detection"]
+    D --> F["Finding"]
+    F --> E["Enrichment / Correlation"]
+    E --> I["Incident"]
+    I --> S["Slack"]
+    I --> J["Jira"]
+    I --> A["SOAR"]
 ```
 
 이렇게 하면 Detection과 Incident Response의 책임도 명확하게 나눌 수 있다.
@@ -402,32 +322,29 @@ Detection Rule을 OpenSearch Console에서 직접 수정하기 시작하면 변�
 
 운영 규모가 커질수록 Rule도 코드처럼 관리하는 것이 좋다.
 
-```text
-detections/
-├── aws/
-│   ├── suspicious-login.yml
-│   ├── iam-policy-change.yml
-│   └── cloudtrail-disabled.yml
-├── network/
-└── saas/
-```
+- `detections/aws/suspicious-login.yml`
+- `detections/aws/iam-policy-change.yml`
+- `detections/aws/cloudtrail-disabled.yml`
+- `detections/network/`
+- `detections/saas/`
 
 변경 과정도 일반 Application Code와 비슷하게 가져갈 수 있다.
 
-```text
-Rule 변경
-   ↓
-Git PR
-   ↓
-Review
-   ↓
-Test
-   ↓
-Merge
-   ↓
-CI/CD
-   ↓
-Detection Engine
+```mermaid
+flowchart TD
+    N0["Rule 변경"]
+    N1["Git PR"]
+    N2["Review"]
+    N3["Test"]
+    N4["Merge"]
+    N5["CI/CD"]
+    N6["Detection Engine"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+    N5 --> N6
 ```
 
 이렇게 하면 누가, 언제, 왜 Detection Rule을 변경했는지 추적할 수 있고 Rollback도 쉬워진다.
@@ -438,18 +355,17 @@ Detection Engine
 
 AWS Organizations 환경이라면 Production Account 안에 SIEM 전체를 같이 두기보다 Security 관련 Account를 분리하는 것이 좋다.
 
-```text
-AWS Organizations
-      │
- ┌────┼─────────────┐
- │    │             │
-Dev  Prod       Security Account
- │    │             │
- │    │        Security Lake
- │    │        Detection
- │    │
- └────┴──────→ Log Archive Account
-               Immutable Logs
+```mermaid
+flowchart TD
+    O["AWS Organizations"] --> D["Dev Account"]
+    O --> P["Prod Account"]
+    O --> S["Security Account"]
+    D -->|"원본 로그"| A["Log Archive Account: Immutable Logs"]
+    P -->|"원본 로그"| A
+    D -->|"보안 이벤트"| L["Security Lake"]
+    P -->|"보안 이벤트"| L
+    S --- L
+    L --> T["Detection"]
 ```
 
 여기에 Delegated Administrator, IAM, KMS, Lake Formation, SCP를 같이 설계해야 한다.
@@ -462,19 +378,10 @@ SIEM은 공격자가 가장 먼저 흔적을 지우려고 할 수 있는 시스�
 
 Architecture Diagram에는 잘 보이지 않지만 운영에서는 다음 항목도 중요하다.
 
-```text
-GitOps
-Detection Rules / Config / IaC
-
-Observability
-Pipeline Health / Lag / DLQ
-
-Resilience
-DLQ / Replay / Retry
-
-Governance
-IAM / KMS / SCP / Retention
-```
+- **GitOps:** Detection Rules / Config / IaC
+- **Observability:** Pipeline Health / Lag / DLQ
+- **Resilience:** DLQ / Replay / Retry
+- **Governance:** IAM / KMS / SCP / Retention
 
 SIEM의 품질은 Detection Rule뿐 아니라 **수집 Pipeline이 정상적으로 동작하고 있는지**를 얼마나 잘 관찰하는지에도 크게 좌우된다.
 
@@ -484,20 +391,21 @@ SIEM의 품질은 Detection Rule뿐 아니라 **수집 Pipeline이 정상적으�
 
 AWS에서 SIEM을 구성할 때 핵심은 OpenSearch Cluster 하나를 만드는 것이 아니다.
 
-```text
-Collection
-    ↓
-Normalization
-    ↓
-Security Data Lake
-    ↓
-Detection / Correlation
-    ↓
-Finding
-    ↓
-Incident
-    ↓
-Response
+```mermaid
+flowchart TD
+    N0["Collection"]
+    N1["Normalization"]
+    N2["Security Data Lake"]
+    N3["Detection / Correlation"]
+    N4["Finding"]
+    N5["Incident"]
+    N6["Response"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+    N5 --> N6
 ```
 
 역할을 AWS 서비스와 운영 구조에 대응시키면:
@@ -538,3 +446,4 @@ SIEM 자체의 개념부터 보고 싶다면 이전 글에서 정리했다.
 - [Amazon Security Lake — User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html)
 - [AWS — Security Lake에서 OpenSearch로 수집하기](https://aws.amazon.com/blogs/big-data/ingest-transform-and-deliver-events-published-by-amazon-security-lake-to-amazon-opensearch-service/)
 - [OCSF schema](https://schema.ocsf.io/)
+

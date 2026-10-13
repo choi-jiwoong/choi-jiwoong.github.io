@@ -2,7 +2,7 @@
 title: "추천 시스템은 어떻게 평가할까 — Recall@K, Precision@K, NDCG"
 description: "추천 결과의 적중률과 순서 품질을 Recall@K, Precision@K, NDCG로 계산하고 Offline·Online 평가를 구분한다."
 date: 2026-10-11 12:05:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [Data]
 tags: [Recommendation, Evaluation, Recall, Precision, NDCG, Ranking, ABTesting]
 ---
@@ -124,13 +124,19 @@ P@5=0.600, R@5=1.000, NDCG@5=0.885
 
 ## Offline 평가와 Online 평가는 다르다
 
-```text
-Historical interactions
-  → Time-based split
-  → Offline metrics (Recall / Precision / NDCG)
-  → Shadow or limited rollout
-  → Online A/B test (CTR / CVR / retention)
-  → Guardrails (latency / complaints / diversity)
+```mermaid
+flowchart TD
+    N0["Historical Interactions"]
+    N1["Time-based Split"]
+    N2["Offline: Recall / Precision / NDCG"]
+    N3["Shadow / Limited Rollout"]
+    N4["Online A/B: CTR / CVR / Retention"]
+    N5["Guardrails: Latency / Complaints / Diversity"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
 ```
 
 Offline은 빠르고 재현 가능하지만 과거 노출 정책의 영향을 받는다. Online A/B test는 실제 사용자 행동을 측정하지만 비용·실험 기간·안전장치가 필요하다. CTR이 올라가도 구매 전환이나 장기 만족도가 악화될 수 있으므로 primary metric과 guardrail을 분리해야 한다.
@@ -143,3 +149,4 @@ Offline은 빠르고 재현 가능하지만 과거 노출 정책의 영향을 �
 - [scikit-learn — ndcg_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.ndcg_score.html)
 - [TensorFlow Recommenders — Basic retrieval](https://www.tensorflow.org/recommenders/examples/basic_retrieval)
 - [TensorFlow Recommenders — Basic ranking](https://www.tensorflow.org/recommenders/examples/basic_ranking)
+

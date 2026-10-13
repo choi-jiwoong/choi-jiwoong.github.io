@@ -2,7 +2,7 @@
 layout: post
 title: "Docker Image는 다시 Build하지 않는다 — Build Once, Promote by Tag"
 date: 2026-10-09 13:00:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [DevOps, Docker]
 tags: [Docker, CI/CD, OCI, crane, GitHub Actions]
 description: "한 번 만든 Docker Image를 commit SHA와 digest로 추적하고 stage에서 검증한 동일 artifact를 prod로 승격하는 방법."
@@ -14,20 +14,21 @@ description: "한 번 만든 Docker Image를 commit SHA와 digest로 추적하�
 
 내가 지키려는 원칙은 간단하다. **Build는 한 번, 검증은 여러 번, 배포는 검증된 digest로.**
 
-```text
-commit abc1234
-    │
-    ▼
-Build + Test + Scan ──► registry/app:sha-abc1234
-                              │
-                         digest sha256:...
-                              │
-                     stage deploy + verify
-                              │
-                        approval gate
-                              │
-                     prod tag / deploy
-                     (same digest)
+```mermaid
+flowchart TD
+    N0["Commit abc1234"]
+    N1["Build + Test + Scan"]
+    N2["registry/app:sha-abc1234"]
+    N3["검증한 digest sha256 고정"]
+    N4["Stage 배포·검증"]
+    N5["Approval Gate"]
+    N6["동일 digest로 Prod 태그·배포"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+    N5 --> N6
 ```
 
 ## Tag는 이름, digest는 내용 식별자
@@ -114,3 +115,4 @@ test "$(crane digest "$TARGET")" = "sha256:<verified-digest>"
 - [go-containerregistry: crane digest](https://github.com/google/go-containerregistry/blob/main/cmd/crane/doc/crane_digest.md)
 - [Amazon ECR: Image tag mutability](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html)
 - [OCI Image Specification](https://github.com/opencontainers/image-spec)
+

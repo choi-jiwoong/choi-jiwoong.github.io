@@ -2,7 +2,7 @@
 title: "SIEM이란 무엇인가: 로그 수집부터 탐지와 대응까지"
 description: "SIEM이 단순한 로그 저장소와 무엇이 다른지, Collection·Normalization·Correlation·Detection·Investigation 흐름을 기준으로 정리했다."
 date: 2026-09-29 13:15:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [Security]
 tags: [Security, SIEM, SOC, Detection, Log, IncidentResponse]
 ---
@@ -13,20 +13,21 @@ SIEM은 **Security Information and Event Management**의 약자다.
 
 처음에는 단순히 보안 로그를 한곳에 모아보는 시스템 정도로 생각하기 쉽지만, 실제 역할은 조금 더 넓다.
 
-```text
-Log Collection
-      ↓
-Normalization
-      ↓
-Correlation
-      ↓
-Detection
-      ↓
-Alert
-      ↓
-Investigation
-      ↓
-Response
+```mermaid
+flowchart TD
+    N0["Log Collection"]
+    N1["Normalization"]
+    N2["Correlation"]
+    N3["Detection"]
+    N4["Alert"]
+    N5["Investigation"]
+    N6["Response"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+    N5 --> N6
 ```
 
 즉 SIEM의 핵심은 로그를 저장하는 것이 아니라, **여러 시스템에서 발생한 Event를 연결해서 보안 위협을 탐지하고 조사할 수 있게 만드는 것**이다.
@@ -37,18 +38,16 @@ Response
 
 회사에는 생각보다 많은 시스템이 있다.
 
-```text
-AWS
-Firewall
-VPN
-EDR
-Database
-GitHub
-Okta
-Google Workspace
-Kubernetes
-Application
-```
+- AWS
+- Firewall
+- VPN
+- EDR
+- Database
+- GitHub
+- Okta
+- Google Workspace
+- Kubernetes
+- Application
 
 각 시스템은 모두 로그를 남긴다.
 
@@ -56,24 +55,16 @@ Application
 
 예를 들어:
 
-```text
-03:01  VPN 해외 IP 로그인
-03:03  AWS Console 로그인
-03:05  IAM Policy 변경
-03:07  S3 데이터 접근
-```
+- 03:01  VPN 해외 IP 로그인
+- 03:03  AWS Console 로그인
+- 03:05  IAM Policy 변경
+- 03:07  S3 데이터 접근
 
 VPN 로그만 보면 단순 로그인일 수 있고, CloudTrail만 보면 IAM 변경일 수 있다.
 
 하지만 여러 Event를 시간 순서로 연결하면:
 
-```text
-이상 로그인
-    ↓
-권한 변경
-    ↓
-민감 데이터 접근
-```
+**이상 로그인** → **권한 변경** → **민감 데이터 접근**
 
 이라는 하나의 Incident로 볼 수 있다.
 
@@ -83,32 +74,15 @@ VPN 로그만 보면 단순 로그인일 수 있고, CloudTrail만 보면 IAM �
 
 # SIEM의 기본 구조
 
-```text
-Log Sources
-    │
-    ├─ Cloud
-    ├─ Network
-    ├─ Endpoint
-    ├─ SaaS
-    └─ Application
-         │
-         ▼
-     Collection
-         │
-         ▼
-   Normalization
-         │
-         ▼
-   Central Storage
-         │
-         ▼
- Detection / Correlation
-         │
-         ▼
-       Alert
-         │
-         ▼
-   Investigation
+```mermaid
+flowchart TD
+    C["Cloud / Network"] --> L["Collection"]
+    E["Endpoint / SaaS / Application"] --> L
+    L --> N["Normalization"]
+    N --> S["Central Storage"]
+    S --> D["Detection / Correlation"]
+    D --> A["Alert"]
+    A --> I["Investigation"]
 ```
 
 각 단계의 역할을 나눠보면 SIEM이 단순한 로그 플랫폼과 무엇이 다른지 이해하기 쉽다.
@@ -131,19 +105,11 @@ Log Sources
 
 예를 들어 로그인 Event만 보더라도:
 
-```text
-AWS
-userIdentity
-sourceIPAddress
-
-Okta
-actor
-client.ipAddress
-
-Application
-user_id
-remote_addr
-```
+| 소스 | 사용자 필드 | IP 필드 |
+|---|---|---|
+| AWS | `userIdentity` | `sourceIPAddress` |
+| Okta | `actor` | `client.ipAddress` |
+| Application | `user_id` | `remote_addr` |
 
 처럼 필드가 다를 수 있다.
 
@@ -153,16 +119,12 @@ remote_addr
 
 개념적으로는:
 
-```text
-AWS Login ───┐
-Okta Login ──┼──→ Authentication Event
-VPN Login ───┘
-
-user
-source_ip
-device
-timestamp
-status
+```mermaid
+flowchart TD
+    A["AWS Login"] --> N["Authentication Event"]
+    O["Okta Login"] --> N
+    V["VPN Login"] --> N
+    N --> F["user / source_ip / device / timestamp / status"]
 ```
 
 처럼 만드는 것이다.
@@ -183,27 +145,13 @@ Login Failed > 10
 
 하지만 실제 Detection은 보통 더 많은 조건을 사용한다.
 
-```text
-같은 User
-+
-짧은 시간
-+
-여러 IP
-+
-서로 다른 Country
-```
+**동일 사용자·짧은 시간 범위** 안에서 여러 IP와 서로 다른 국가의 이벤트가 함께 나타나는지 확인한다.
 
 같은 조건을 조합할 수 있다.
 
 또는:
 
-```text
-Console Login
-    ↓
-IAM Policy 변경
-    ↓
-CloudTrail 비활성화
-```
+**Console Login** → **IAM Policy 변경** → **CloudTrail 비활성화**
 
 처럼 여러 Event를 연결하는 Correlation Rule을 만들 수도 있다.
 
@@ -215,14 +163,15 @@ Detection Rule에 걸렸다고 해서 모두 공격은 아니다.
 
 그래서 실제 SIEM 운영에서 중요한 작업 중 하나가:
 
-```text
-Detection Rule
-     ↓
-Alert
-     ↓
-False Positive
-     ↓
-Rule Tuning
+```mermaid
+flowchart TD
+    N0["Detection Rule"]
+    N1["Alert"]
+    N2["False Positive"]
+    N3["Rule Tuning"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 이다.
@@ -235,13 +184,11 @@ Alert가 발생하면 Security Analyst가 Event를 조사한다.
 
 이때는 단순히 Alert 하나만 보는 것이 아니라:
 
-```text
-Who      사용자는 누구인가?
-Where    어떤 IP / Region인가?
-When     언제 발생했는가?
-What     어떤 Resource에 접근했는가?
-Context  전후에 어떤 Event가 있었는가?
-```
+- Who      사용자는 누구인가?
+- Where    어떤 IP / Region인가?
+- When     언제 발생했는가?
+- What     어떤 Resource에 접근했는가?
+- Context  전후에 어떤 Event가 있었는가?
 
 를 함께 볼 수 있어야 한다.
 
@@ -268,17 +215,7 @@ SIEM
 
 즉:
 
-```text
-Log Management
-       +
-Detection
-       +
-Correlation
-       +
-Investigation
-       +
-Incident Response
-```
+SIEM은 **Log Management, Detection, Correlation, Investigation, Incident Response**를 함께 다룬다.
 
 가 합쳐져야 SIEM다운 시스템이 된다.
 
@@ -288,14 +225,12 @@ Incident Response
 
 다음은 교육용 로그인 실패 탐지 예시다. 운영 임계값을 검증한 결과는 아니다.
 
-| 항목 | 정의 |
-|---|---|
-| 입력 | 사용자 식별자·결과·이벤트 시각을 포함한 인증 로그 |
-| 집계 | 동일 사용자별 5분 동안 실패 10회 이상 |
-| 정규화 | 서비스마다 다른 실패 코드와 사용자 ID를 공통 값으로 변환 |
-| 조사 | 이후 로그인 성공, 출발지 IP, MFA 결과, 정상 자동화 여부 |
-| 중복 경보 | 같은 사용자·동일 창의 반복 경보를 식별해 묶기 |
-| 테스트 | 실패 9회는 미탐지, 10회는 탐지, 다른 사용자 이벤트는 분리 |
+- **입력:** 사용자 식별자·결과·이벤트 시각을 포함한 인증 로그
+- **집계:** 동일 사용자별 5분 동안 실패 10회 이상
+- **정규화:** 서비스마다 다른 실패 코드와 사용자 ID를 공통 값으로 변환
+- **조사:** 이후 로그인 성공, 출발지 IP, MFA 결과, 정상 자동화 여부
+- **중복 경보:** 같은 사용자·동일 창의 반복 경보를 식별해 묶기
+- **테스트:** 실패 9회는 미탐지, 10회는 탐지, 다른 사용자 이벤트는 분리
 
 실행 주기, 지연 도착 로그를 포함할 lookback, 이벤트 시각과 수집 시각 중 어떤 것을 쓰는지도 정해야 한다. 경보가 없다는 이유만으로 공격이 없다고 판단하지 않고, 로그 수집이 중단됐는지 별도로 감시한다.
 
@@ -325,18 +260,19 @@ SIEM에서 Alert가 발생하면 SOC에서 Triage, Investigation, Incident 판�
 
 SIEM의 핵심은 로그를 많이 저장하는 것이 아니다.
 
-```text
-Collect
-   ↓
-Normalize
-   ↓
-Correlate
-   ↓
-Detect
-   ↓
-Investigate
-   ↓
-Respond
+```mermaid
+flowchart TD
+    N0["Collect"]
+    N1["Normalize"]
+    N2["Correlate"]
+    N3["Detect"]
+    N4["Investigate"]
+    N5["Respond"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
 ```
 
 결국 좋은 SIEM은 **모든 로그를 모으는 시스템이 아니라, 보안 사고를 빠르게 발견하고 이해할 수 있게 만드는 시스템**이라고 생각한다.

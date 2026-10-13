@@ -2,7 +2,7 @@
 title: "AI 사용량을 측정하기 시작하니 오히려 AI를 더 쓰게 됐다"
 description: "ClaudeTuner를 사용하면서 느낀 점과 함께, 단순 사용량을 넘어 개발자의 AI 활용도를 어떻게 측정하면 좋을지 정리해봤다."
 date: 2026-09-03 20:30:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [AI]
 tags: [AI, Claude, ClaudeTuner, Productivity, DeveloperTools, Automation]
 ---
@@ -39,25 +39,21 @@ Claude 사용량을 한눈에 볼 수 있게 해주는 도구인데, 생각보�
 
 하지만 많이 사용했다는 것과 잘 활용했다는 것은 조금 다르다.
 
-```text
-AI Usage
-
-Claude      █████████░  90%
-ChatGPT     ██████░░░░  60%
-Gemini      ███░░░░░░░  30%
-```
+| 도구 | 사용률 예시 |
+|---|---:|
+| Claude | 90% |
+| ChatGPT | 60% |
+| Gemini | 30% |
 
 이 수치만 보면 얼마나 AI를 사용했는지는 알 수 있다.
 
 하지만 이런 질문에는 답하기 어렵다.
 
-```text
-어떤 작업에 사용했는가?
-실제 결과물을 만들었는가?
-시간을 얼마나 줄였는가?
-AI가 만든 결과를 실제로 사용했는가?
-반복 작업을 AI에게 넘겼는가?
-```
+- 어떤 작업에 사용했는가?
+- 실제 결과물을 만들었는가?
+- 시간을 얼마나 줄였는가?
+- AI가 만든 결과를 실제로 사용했는가?
+- 반복 작업을 AI에게 넘겼는가?
 
 그래서 **AI Usage와 AI Utilization을 구분해서 보는 것이 필요하다**고 생각한다.
 
@@ -95,31 +91,27 @@ AI가 만든 결과를 실제로 사용했는가?
 
 개발자가 하는 업무를 몇 가지로 나눠보면 다음과 같다.
 
-```text
-Coding
-Debugging
-Code Review
-Documentation
-Research
-Architecture
-Infrastructure
-Automation
-```
+- Coding
+- Debugging
+- Code Review
+- Documentation
+- Research
+- Architecture
+- Infrastructure
+- Automation
 
 이번 주에 AI를 어떤 영역에서 사용했는지 보면 이런 식으로 표현할 수 있다.
 
-```text
-AI Coverage
-
-Coding        ██████████
-Debugging     ████████░░
-Terraform     ███████░░░
-Code Review   ████░░░░░░
-Documentation ████████░░
-Research      █████████░
-Architecture  ███░░░░░░░
-Automation    ██░░░░░░░░
-```
+| 업무 | 활용 정도 예시 (10칸 기준) |
+|---|---:|
+| Coding | 10 / 10 |
+| Debugging | 8 / 10 |
+| Terraform | 7 / 10 |
+| Code Review | 4 / 10 |
+| Documentation | 8 / 10 |
+| Research | 9 / 10 |
+| Architecture | 3 / 10 |
+| Automation | 2 / 10 |
 
 이렇게 보면 단순 사용량보다 훨씬 많은 정보를 얻을 수 있다.
 
@@ -137,39 +129,25 @@ Automation    ██░░░░░░░░
 
 예전에는 에러가 발생하면 보통 이런 흐름이었다.
 
-```text
-Error
-  │
-  ▼
-Google
-  │
-  ├── Stack Overflow
-  ├── GitHub Issue
-  ├── Blog
-  └── Documentation
-  │
-  ▼
-코드 수정
-  │
-  ▼
-테스트
+```mermaid
+flowchart TD
+    E["Error"] --> G["Google 검색"]
+    G --> S["Stack Overflow / GitHub Issue"]
+    G --> D["Blog / Documentation"]
+    S --> C["코드 수정"]
+    D --> C
+    C --> T["테스트"]
 ```
 
 AI를 적극적으로 사용하면 흐름이 조금 달라진다.
 
-```text
-Error + Code + Context
-          │
-          ▼
-         AI
-          │
-          ├── 원인 후보
-          ├── 확인 방법
-          ├── 수정 방법
-          └── 관련 문서
-          │
-          ▼
-       내가 검증
+```mermaid
+flowchart TD
+    I["Error + Code + Context"] --> A["AI 분석"]
+    A --> H["원인 후보 / 확인 방법"]
+    A --> S["수정 방법 / 관련 문서"]
+    H --> V["개발자가 검증"]
+    S --> V
 ```
 
 AI가 문제를 대신 해결한다기보다 **문제를 탐색하는 시간을 크게 줄여주는 도구**가 된다.
@@ -188,15 +166,7 @@ ClaudeTuner 자체는 사용량을 보여주는 도구다.
 
 사용량을 볼 수 있으니 AI를 사용할 수 있는 일을 더 찾게 됐다.
 
-```text
-작업 발생
-   │
-   ▼
-"내가 할까?"
-   │
-   ▼
-"AI에게 먼저 시켜볼까?"
-```
+작업이 생기면 바로 직접 시작하기 전에 **AI에게 먼저 맡겨볼 수 있는지** 판단한다.
 
 이 작은 변화가 생각보다 크다.
 
@@ -230,57 +200,41 @@ AI를 잘 사용하는 사람과 그렇지 않은 사람의 차이는 모델이�
 
 만약 내가 개인용 AI Usage Dashboard를 만든다면 이런 화면을 만들어보고 싶다.
 
-```text
-              My AI Dashboard
+**대시보드 구성 예시 — 실제 측정값이 아니다.**
 
-┌─────────────────────────────────────┐
-│ AI Usage This Week                  │
-│                                     │
-│ Claude       ████████░░  78%        │
-│ ChatGPT      ██████░░░░  62%        │
-│ Gemini       ███░░░░░░░  31%        │
-└─────────────────────────────────────┘
+| 도구 | 이번 주 사용률 예시 |
+|---|---:|
+| Claude | 78% |
+| ChatGPT | 62% |
+| Gemini | 31% |
 
-AI Assisted Tasks
-──────────────────
-Coding        31
-Debugging     14
-Research      18
-Docs           9
-Review         7
-Infra          6
+| AI 지원 업무 | 건수 예시 |
+|---|---:|
+| Coding | 31 |
+| Debugging | 14 |
+| Research | 18 |
+| Docs | 9 |
+| Review | 7 |
+| Infra | 6 |
 
-Time Saved
-──────────────────
-~ 11.5 hours
+| 결과물 | 건수 예시 |
+|---|---:|
+| PR | 8 |
+| Commit | 27 |
+| Docs | 6 |
+| Scripts | 4 |
 
-Output
-──────────────────
-PR             8
-Commit        27
-Docs           6
-Scripts        4
-
-AI Coverage
-──────────────────
-████████░░  81%
-```
+예시 요약 지표는 **절감 시간 약 11.5시간**, **AI Coverage 81%**다. 각 지표의 분모와 측정 기간은 별도로 정의해야 한다.
 
 여기에 GitHub의 Commit이나 PR 데이터까지 연결하면 꽤 재미있는 데이터가 나올 것 같다.
 
 예를 들어
 
-```text
-AI Session
-   │
-   ▼
-Code Change
-   │
-   ▼
-Commit
-   │
-   ▼
-Pull Request
+```mermaid
+flowchart TD
+    A["AI Session"] --> C["Code Change"]
+    C --> G["Commit"]
+    G --> P["Pull Request"]
 ```
 
 같은 흐름을 볼 수 있다면 단순히 "AI를 많이 사용했다"가 아니라
@@ -301,21 +255,7 @@ Token이나 Session만으로 AI 활용도를 판단할 수는 없다.
 
 하지만 개인이 자신의 작업 방식을 돌아보기 위한 용도로는 꽤 의미 있는 데이터가 될 수 있다고 생각한다.
 
-```text
-AI Usage
-   +
-AI Coverage
-   +
-Acceptance
-   +
-Time Saved
-   +
-Real Output
-
-      ↓
-
-AI Utilization
-```
+AI 활용도는 **Usage·Coverage·Acceptance·Time Saved·Real Output**을 함께 보고 판단한다.
 
 결국 중요한 것은 AI를 얼마나 많이 사용했느냐가 아니라
 
@@ -334,3 +274,4 @@ ClaudeTuner를 사용하면서 단순히 Claude 사용량을 확인하려고 했
 ## 참고
 
 - [ClaudeTuner](https://claudetuner.com/)
+

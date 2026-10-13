@@ -2,7 +2,7 @@
 layout: post
 title: "AWS VPC를 처음부터 설계한다면 — Public/Private Subnet, NAT, VPC Endpoint"
 date: 2026-10-09 13:10:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [AWS, Networking]
 tags: [AWS, VPC, Subnet, NAT Gateway, VPC Endpoint, ALB]
 description: "2-AZ VPC의 public/private subnet, route table, NAT Gateway와 VPC Endpoint를 비용·운영 관점에서 설계한 실무 노트."
@@ -14,24 +14,16 @@ VPC CIDR을 고르기 전에 **무엇이 인터넷에서 들어오고, 무엇이
 
 예시로 `10.20.0.0/16`을 쓰는 2-AZ 구성을 생각해 보자. 실제 CIDR은 기존 VPC, VPN, 온프레미스, 향후 peering/TGW와 겹치지 않도록 정해야 한다.
 
-```text
-                       Internet
-                          │
-                         IGW
-                          │
-               Internet-facing ALB
-                  /              \
-            Public A           Public B
-            10.20.0.0/24         10.20.1.0/24
-               │                  │
-            App A              App B
-            Private A          Private B
-            10.20.10.0/24        10.20.11.0/24
-               │                  │
-            DB A / DB B (isolated data subnets)
-            10.20.20.0/24        10.20.21.0/24
-
-    App outbound → NAT or VPC Endpoint → dependencies
+```mermaid
+flowchart TD
+    I["Internet"] --> G["Internet Gateway"]
+    G --> L["Internet-facing ALB: Public A / B"]
+    L --> A["App A: Private A"]
+    L --> B["App B: Private B"]
+    A --> D["DB A / DB B: Isolated Data Subnets"]
+    B --> D
+    A --> O["Outbound: NAT 또는 VPC Endpoint"]
+    B --> O
 ```
 
 ## Public/Private는 subnet 이름이 아니라 route가 결정한다
@@ -52,9 +44,12 @@ Private subnet의 workload가 외부 package registry, public API 등에 **IPv4 
 
 AWS는 전통적인 **Zonal NAT Gateway**뿐 아니라 **Regional NAT Gateway**도 문서화하고 있다. 따라서 예전처럼 'NAT는 반드시 AZ마다 하나'라고 단정하면 안 된다. Zonal 모델을 선택한다면 AZ별 NAT와 AZ별 route table을 매칭해 cross-AZ 의존과 데이터 전송 비용을 줄이는 편이 일반적이다. 하나의 Zonal NAT만 공유하면 비용은 낮출 수 있지만 해당 AZ 장애와 cross-AZ traffic에 취약해진다. Regional 모델은 지원 조건, 동작 방식, 가용성과 가격을 현재 AWS 문서에서 따로 검토해야 한다.
 
-```text
-Private App A ──► NAT A ──► IGW
-Private App B ──► NAT B ──► IGW
+```mermaid
+flowchart LR
+    A["Private App A"] --> NA["NAT A"]
+    B["Private App B"] --> NB["NAT B"]
+    NA --> I["IGW"]
+    NB --> I
 ```
 
 **NAT 비용은 시간당 요금과 처리 데이터 요금**을 함께 봐야 한다. AZ 간 데이터 전송이나 public IPv4 비용도 별도로 발생할 수 있다. 트래픽이 작아도 항상 켜진 NAT가 비용을 지배할 수 있고, 트래픽이 커지면 per-GB 비용이 더 중요해진다.
@@ -65,10 +60,14 @@ S3나 DynamoDB로 가는 트래픽은 **Gateway Endpoint**를 검토한다. 해�
 
 ECR API, ECR Docker, CloudWatch Logs, Secrets Manager, SSM 등은 **Interface Endpoint (AWS PrivateLink)**를 검토한다. Interface Endpoint는 ENI와 private IP를 사용하며 시간당·데이터 처리 요금이 발생한다. Private DNS, endpoint Security Group, endpoint policy, 서비스별 요구 endpoint 조합을 확인해야 한다. 특히 ECR image pull은 S3 layer 다운로드 경로까지 고려해야 한다.
 
-```text
-Private App ──► S3 Gateway Endpoint ──► S3
-            ├─► Interface Endpoint ───► AWS APIs
-            └─► NAT Gateway ──────────► Public Internet
+```mermaid
+flowchart TD
+    A["Private App"] --> S["S3 Gateway Endpoint"]
+    A --> E["Interface Endpoint"]
+    A --> N["NAT Gateway"]
+    S --> S3["S3"]
+    E --> API["AWS APIs"]
+    N --> I["Public Internet"]
 ```
 
 **Endpoint를 추가한다고 모든 인터넷 트래픽이 자동으로 사라지지는 않는다.** 실제 DNS resolution, route, workload의 API 호출 경로를 관찰하고 NAT 처리량과 비용이 줄었는지 측정해야 한다. Interface Endpoint를 여러 AZ에 만들면 가용성에는 유리하지만 endpoint별 비용도 늘어난다.
@@ -100,3 +99,4 @@ VPC 설계의 핵심은 subnet 개수가 아니다. **트래픽 경로를 설명
 - [Amazon VPC: Gateway endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html)
 - [Amazon VPC: Interface endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html)
 - [Elastic Load Balancing: Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html)
+

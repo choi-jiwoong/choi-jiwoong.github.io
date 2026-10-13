@@ -2,7 +2,7 @@
 title: "프롬프트 엔지니어링 다음은 왜 Harness Engineering인가"
 description: "에이전트의 반복 실패를 줄이기 위한 저장소 안내, 권한, 테스트와 관측·복구 설계를 DevOps 관점에서 정리한다."
 date: 2026-09-08 14:20:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [AI]
 tags: [AI, Agent, HarnessEngineering, Codex, DevOps, PlatformEngineering]
 ---
@@ -40,13 +40,11 @@ tags: [AI, Agent, HarnessEngineering, Codex, DevOps, PlatformEngineering]
 
 ## 지침은 권한 제한을 대신하지 않는다
 
-| 작업 | 실행 환경에서 설계할 것 |
-|---|---|
-| 코드 변경 | 작업 브랜치, 변경 diff 검토 |
-| 테스트 | 재생성 가능한 격리 환경과 테스트 데이터 |
-| 로그 분석 | 필요한 범위의 조회 권한과 민감정보 처리 |
-| 배포 | 대상 환경 분리, 필수 검사, 승인 정책 |
-| 복구 | 실패 로그 보존, 재시도 한도, 사람에게 넘길 조건 |
+- **코드 변경:** 작업 브랜치, 변경 diff 검토
+- **테스트:** 재생성 가능한 격리 환경과 테스트 데이터
+- **로그 분석:** 필요한 범위의 조회 권한과 민감정보 처리
+- **배포:** 대상 환경 분리, 필수 검사, 승인 정책
+- **복구:** 실패 로그 보존, 재시도 한도, 사람에게 넘길 조건
 
 ‘운영 환경에 배포하지 말라’는 문장만으로 배포 통제가 완성되지는 않는다. credential과 배포 gate에서도 허용 범위를 제한해야 한다.
 
@@ -63,6 +61,18 @@ tags: [AI, Agent, HarnessEngineering, Codex, DevOps, PlatformEngineering]
 테스트를 추가했다고 정확성이 보장되는 것은 아니다. 테스트의 의도까지 에이전트가 바꿔 통과시키지 않았는지, 실제 요구사항을 검증하는지도 리뷰해야 한다.
 
 ## 관측과 종료 조건
+
+```mermaid
+flowchart TD
+    T["목표·Context·도구 권한"] --> A["Agent 변경 작업"]
+    A --> V["테스트·리뷰"]
+    V --> C{"완료 기준 충족?"}
+    C -->|"예"| R["결과·검증 근거 보고"]
+    C -->|"아니오"| L{"재시도 한도 이내?"}
+    L -->|"예"| F["실패 로그와 가설 보완"]
+    F --> A
+    L -->|"아니오"| H["변경·로그 보존 후 사람에게 전달"]
+```
 
 에이전트가 읽을 수 있는 로그·테스트 결과·배포 상태를 제공하면 실패 원인을 좁히기 쉽다. 동시에 실행 시간, 재시도 횟수, 외부 호출 비용의 한도를 정한다.
 
@@ -90,3 +100,4 @@ tags: [AI, Agent, HarnessEngineering, Codex, DevOps, PlatformEngineering]
 
 - [OpenAI — Harness engineering](https://openai.com/index/harness-engineering/)
 - [OpenAI — Codex](https://openai.com/codex/)
+

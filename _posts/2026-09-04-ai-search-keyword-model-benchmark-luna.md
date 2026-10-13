@@ -2,7 +2,7 @@
 title: "검색 키워드 생성 모델 6종을 비교해보니, GPT-5.6 Luna가 의외로 강했다"
 description: "2,000건 평가에서 Luna와 Opus 5의 오탐률 차이는 측정 한계 안에 있었지만, 커버리지 차이와 비용 추정 결과를 비교하고, 평가 재현에 필요한 조건을 정리했다."
 date: 2026-09-04 17:45:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [AI]
 tags: [GPT5.6, Luna, Claude, Opus5, Gemini, Benchmark, LLM, Cost]
 ---
@@ -33,13 +33,11 @@ tags: [GPT5.6, Luna, Claude, Opus5, Gemini, Benchmark, LLM, Cost]
 
 후속 검증에서는 다음 항목을 같은 실행 기록에 남겨야 한다.
 
-| 항목 | 기록할 내용 |
-|---|---|
-| 실행 조건 | 평가일, 제공 플랫폼·리전, 정확한 모델 ID/버전, 프롬프트, temperature·출력 제한 |
-| 데이터 | 표본 추출 기준, 중복 제거 방식, 상품군별 건수, 익명화 방식 |
-| 정답지 | 작성 주체와 독립성, expected/forbidden/미판정 기준, 충돌 검토 절차 |
-| 집계 | 상품·키워드별 분모, 빈 결과 처리, micro/macro 집계 방식 |
-| 비용 | 입력·출력·캐시 토큰, 캐시 쓰기 비용, 단가 적용일, 실패·재시도 포함 여부 |
+- **실행 조건:** 평가일, 제공 플랫폼·리전, 정확한 모델 ID/버전, 프롬프트, temperature·출력 제한
+- **데이터:** 표본 추출 기준, 중복 제거 방식, 상품군별 건수, 익명화 방식
+- **정답지:** 작성 주체와 독립성, expected/forbidden/미판정 기준, 충돌 검토 절차
+- **집계:** 상품·키워드별 분모, 빈 결과 처리, micro/macro 집계 방식
+- **비용:** 입력·출력·캐시 토큰, 캐시 쓰기 비용, 단가 적용일, 실패·재시도 포함 여부
 
 특히 **키워드 오탐 비율을 통계학의 FPR과 동일시하지 않는다.** 생성 결과 중 오답 비율과 `FP / (FP + TN)`은 분모가 다르다. 이 글의 ‘하한’ 수치는 미판정 결과의 처리와 원래 평가 코드를 함께 확인해야 정확히 해석할 수 있다. 아래 설명만으로 원래 산식을 확정하지 않는다.
 
@@ -107,10 +105,8 @@ tags: [GPT5.6, Luna, Claude, Opus5, Gemini, Benchmark, LLM, Cost]
 
 정답지에 따라 Luna와 Opus 5의 순서는 이렇게 바뀌었다.
 
-| 정답지 | 더 낮은 상품 오탐률 |
-|---|---|
-| 정답지 A | **Opus 5** |
-| 정답지 B | **GPT-5.6 Luna** |
+- **정답지 A:** **Opus 5**
+- **정답지 B:** **GPT-5.6 Luna**
 
 당시 기록된 McNemar 검정 결과는 `p ≈ 0.093`이었다. 다만 적용 정답지, 두 모델의 판정이 엇갈린 건수를 담은 2×2 대응표, exact/근사 검정 및 연속성 보정 여부를 함께 공개하지 않아 이 글만으로 재계산할 수 없다.
 
@@ -147,10 +143,8 @@ Opus 5와 Luna의 차이는 약 **9.7%p**였다.
 
 정답지를 바꿔도 이 차이는 유지됐다.
 
-| 비교 지표 | 결과 |
-|---|---|
-| **오탐률** | Luna와 Opus 5가 거의 비슷 |
-| **커버리지** | **Opus 5 우위** |
+- **오탐률:** Luna와 Opus 5가 거의 비슷
+- **커버리지:** **Opus 5 우위**
 
 이 차이는 실제 운영에서는 꽤 중요할 수 있다.
 
@@ -176,12 +170,7 @@ Opus 5와 Luna의 차이는 약 **9.7%p**였다.
 
 그래서 이런 태스크에서는 오탐률만 단독으로 보면 안 된다.
 
-```text
-Precision만 보면 좋아 보임
-        │
-        ▼
-하지만 Recall / Coverage가 너무 낮음
-```
+Precision이 높아 보여도 **Recall과 Coverage가 너무 낮으면** 충분한 키워드를 제공하지 못한다.
 
 오탐률과 커버리지를 항상 같이 봐야 하는 이유다.
 
@@ -289,10 +278,8 @@ LLM 평가에서 한 번 잘 나온 결과만 보고 결론을 내리는 것도 
 
 Jaccard 유사도는 약 75% 수준이었다.
 
-| 관점 | 결과 |
-|---|---|
-| **집계 지표** | 상당히 안정적 |
-| **개별 출력** | 같은 입력에서도 꽤 흔들림 |
+- **집계 지표:** 상당히 안정적
+- **개별 출력:** 같은 입력에서도 꽤 흔들림
 
 이건 생성형 모델을 실제 시스템에 넣을 때 꽤 중요한 포인트다.
 
@@ -398,11 +385,9 @@ forbidden: ["티백"]
 
 이번 검색 키워드 생성 태스크를 요약하면:
 
-| 지표 | 비교 결과 |
-|---|---|
-| **오탐률** | **Luna ≈ Opus 5** |
-| **커버리지** | **Opus 5 > Luna** |
-| **비용 효율** | **Luna >>> Opus 5** |
+- **오탐률:** **Luna ≈ Opus 5**
+- **커버리지:** **Opus 5 > Luna**
+- **비용 효율:** **Luna >>> Opus 5**
 
 그래서 오탐을 낮게 유지하면서 대량 처리가 필요한 상황이라면 Luna가 굉장히 매력적인 선택지로 보였다.
 
@@ -410,18 +395,12 @@ forbidden: ["티백"]
 
 오히려 다음 단계로 재미있어 보이는 것은 **한 모델만 사용하는 구조가 아니다.**
 
-```text
-일반 케이스
-   │
-   ▼
- Luna
-   │
-   ├── confidence 충분 → 결과 사용
-   │
-   └── 애매한 케이스
-             │
-             ▼
-           Opus 5
+```mermaid
+flowchart TD
+    I["입력 케이스"] --> L["Luna"]
+    L --> C{"검증 기준을 충족하는가?"}
+    C -->|"충분"| R["결과 사용"]
+    C -->|"애매함"| O["Opus 5로 추가 검토"]
 ```
 
 대부분의 입력은 저렴한 모델로 처리하고,
@@ -442,12 +421,10 @@ LLM 비용 최적화도 결국 전통적인 시스템 설계와 비슷해지는 
 
 ## 참고 자료
 
-| 자료 | 확인한 내용 |
-|---|---|
-| [Amazon Bedrock — GPT-5.6 Luna](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-56-luna.html) | Luna 모델 정보와 Bedrock 제공 정보 |
-| [Anthropic — Claude Opus](https://www.anthropic.com/claude/opus) | Claude Opus 모델 정보 |
-| [Anthropic — Claude pricing](https://platform.claude.com/docs/en/about-claude/pricing) | Claude 모델 가격 |
-| [Anthropic — Claude Sonnet 5](https://www.anthropic.com/research/claude-sonnet-5) | Sonnet 5 모델 정보 |
-| [Google — Gemini API pricing](https://ai.google.dev/gemini-api/docs/pricing) | Gemini API 가격 |
+- **[Amazon Bedrock — GPT-5.6 Luna](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-56-luna.html):** Luna 모델 정보와 Bedrock 제공 정보
+- **[Anthropic — Claude Opus](https://www.anthropic.com/claude/opus):** Claude Opus 모델 정보
+- **[Anthropic — Claude pricing](https://platform.claude.com/docs/en/about-claude/pricing):** Claude 모델 가격
+- **[Anthropic — Claude Sonnet 5](https://www.anthropic.com/research/claude-sonnet-5):** Sonnet 5 모델 정보
+- **[Google — Gemini API pricing](https://ai.google.dev/gemini-api/docs/pricing):** Gemini API 가격
 
 > 이 글의 평가는 특정 검색 키워드 생성 태스크에서 얻은 결과이며 범용 모델 성능을 의미하지 않는다. 원본 입력 데이터와 업무 관련 정보는 포함하지 않았으며, 비용은 공개 단가와 동일한 워크로드 형태를 이용한 비교용 추정치다.

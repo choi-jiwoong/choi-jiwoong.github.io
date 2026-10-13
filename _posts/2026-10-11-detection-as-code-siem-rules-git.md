@@ -2,7 +2,7 @@
 title: "Detection as Code — SIEM Rule도 Git으로 관리해야 하는 이유"
 description: "SIEM 탐지 규칙을 Git에서 버전 관리하고 Sigma, 테스트, CI/CD, 배포 및 Rollback까지 연결하는 실무 설계."
 date: 2026-10-11 12:10:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [Security]
 tags: [Security, SIEM, DetectionAsCode, Sigma, GitOps, CICD, SOC]
 ---
@@ -17,16 +17,15 @@ SIEM 운영에서 탐지 Rule을 UI에서만 수정하면 처음에는 편하다
 
 ## UI 설정이 아니라 변경 가능한 코드로 본다
 
-```text
-Detection Engineer
-    ↓ Git branch / Pull Request
-Rule YAML + fixtures + tests
-    ↓ CI: validate / convert / replay
-Review + approval
-    ↓ CD: stage → production
-SIEM Detection Engine
-    ↓ alert → triage → tuning feedback
-Git PR (change history)
+```mermaid
+flowchart TD
+    E["Detection Engineer"] --> P["Git PR: Rule YAML / fixtures / tests"]
+    P --> C["CI: validate / convert / replay"]
+    C --> R["Review + Approval"]
+    R --> S["CD: Stage 검증"]
+    S --> D["Production SIEM Detection Engine"]
+    D --> A["Alert / Triage"]
+    A -->|"Tuning Feedback"| P
 ```
 
 핵심은 Git에 파일만 보관하는 것이 아니다. **Rule의 의도, 변경 이유, 테스트 결과, 배포 버전**을 함께 추적하는 것이다. Git은 source of truth로 삼되, 실제 SIEM에 적용된 상태와 drift가 없는지도 확인해야 한다.
@@ -66,17 +65,14 @@ Sigma Rule을 SIEM에 그대로 업로드하면 항상 실행되는 것은 아�
 
 ## Repository 구조를 어떻게 잡을까?
 
-```text
-detection-rules/
-├── rules/windows/encoded-powershell.yml
-├── pipelines/production.yml
-├── tests/
-│   ├── positive/encoded-powershell.json
-│   └── negative/admin-automation.json
-├── deploy/
-│   └── deploy_rules.py
-└── .github/workflows/detection-ci.yml
-```
+`detection-rules/` 저장소의 구성 예시:
+
+- **규칙:** `rules/windows/encoded-powershell.yml`
+- **변환 설정:** `pipelines/production.yml`
+- **탐지 fixture:** `tests/positive/encoded-powershell.json`
+- **정상 fixture:** `tests/negative/admin-automation.json`
+- **배포:** `deploy/deploy_rules.py`
+- **CI:** `.github/workflows/detection-ci.yml`
 
 Rule 옆에 positive/negative fixture를 두는 이유는 명확하다. 탐지를 넓히면 False Positive가 늘 수 있고, 탐지를 좁히면 True Positive를 잃을 수 있다. 둘 다 regression test가 필요하다.
 
@@ -173,14 +169,16 @@ Git revert만으로 운영 SIEM이 자동 복구되는 것은 아니다. **CD가
 
 예를 들어 AWS 환경의 로그를 SIEM으로 분석한다면, 로그 수집·정규화와 탐지 Rule 배포는 별도 파이프라인으로 운영할 수 있다. 관련 구성은 [AWS Security Lake와 OpenSearch 기반 SIEM 글]({% post_url 2026-09-29-aws-siem-security-lake-opensearch %})에서 다뤘다.
 
-```text
-Cloud / Endpoint / Identity logs
-       ↓ collection + normalization
-SIEM indices / data streams
-       ↑
-Sigma YAML → conversion pipeline → backend query
-       ↓
-Rule deployment API → scheduled detection → alert
+```mermaid
+flowchart TD
+    L["Cloud / Endpoint / Identity Logs"] --> N["Collection + Normalization"]
+    N --> I["SIEM Indices / Data Streams"]
+    S["Sigma YAML"] --> C["Conversion Pipeline"]
+    C --> Q["Backend Query"]
+    Q --> D["Rule Deployment API"]
+    D --> R["Scheduled Detection"]
+    I -->|"조회 대상"| R
+    R --> A["Alert"]
 ```
 
 Rule이 정확해도 필드가 비어 있거나 ingest가 지연되면 탐지가 실패한다. 따라서 **Rule test뿐 아니라 telemetry coverage, ingest latency, alert delivery**까지 운영 지표로 확인해야 한다.
@@ -194,3 +192,4 @@ Rule이 정확해도 필드가 비어 있거나 ingest가 지연되면 탐지가
 - [Sigma — Processing Pipelines](https://sigmahq.io/docs/digging-deeper/pipelines.html)
 - [Sigma CLI](https://sigmahq.io/docs/guide/getting-started.html)
 - [GitHub Actions documentation](https://docs.github.com/en/actions)
+

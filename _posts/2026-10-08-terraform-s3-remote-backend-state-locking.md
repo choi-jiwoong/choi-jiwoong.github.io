@@ -2,7 +2,7 @@
 title: "Terraform State는 왜 S3에 저장할까: Remote Backend와 Locking 이해하기"
 description: "Terraform state를 local 파일로 두면 어떤 문제가 생기는지, S3 Remote Backend와 native state locking을 왜 사용하는지 운영 관점에서 정리했다."
 date: 2026-10-08 09:05:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [DevOps]
 tags: [Terraform, AWS, S3, IaC, DevOps, State, RemoteBackend]
 ---
@@ -19,17 +19,13 @@ terraform apply
 
 처음에는 단순한 결과 파일처럼 보이지만, Terraform에서 state는 실제 Resource와 Terraform Code를 연결하는 핵심 데이터다.
 
-~~~text
-Terraform Code
-      +
-Current State
-      +
-Cloud Resource
-      ↓
-Difference 계산
-      ↓
-Plan
-~~~
+```mermaid
+flowchart TD
+    C["Terraform Code"] --> D["Difference 계산"]
+    S["Current State"] --> D
+    R["Cloud Resource"] --> D
+    D --> P["Plan"]
+```
 
 그래서 운영 환경에서는 **state를 어디에 저장하고 어떻게 보호할지**도 IaC 설계의 일부가 된다.
 
@@ -39,25 +35,17 @@ Plan
 
 Terraform은 Resource를 만든 뒤 실제 ID와 속성을 state에 기록한다.
 
-~~~text
-aws_instance.app
-    ↓
-i-0123456789abcdef
-~~~
+State는 구성 주소 `aws_instance.app`과 실제 리소스 ID `i-0123456789abcdef`의 대응 관계를 기록한다.
 
 다음 terraform plan에서는 Configuration, State, 실제 AWS Resource를 비교해 변경 사항을 계산한다.
 
-~~~text
-Configuration
-     │
-     ├── State
-     │
-     └── AWS Resource
-            ↓
-        Drift / Change
-            ↓
-           Plan
-~~~
+```mermaid
+flowchart TD
+    C["Configuration"] --> D["Drift / Change 비교"]
+    S["State"] --> D
+    A["AWS Resource"] --> D
+    D --> P["Plan"]
+```
 
 state를 잃어버리거나 여러 사람이 서로 다른 state를 사용하면 Terraform이 Infrastructure를 보는 기준도 달라진다.
 
@@ -67,23 +55,19 @@ state를 잃어버리거나 여러 사람이 서로 다른 state를 사용하면
 
 혼자 테스트할 때는 local state도 충분하다. 하지만 Team 환경에서는 금방 문제가 생긴다.
 
-~~~text
-Developer A
-terraform.tfstate
-
-Developer B
-terraform.tfstate
-~~~
+Developer A와 Developer B가 각자 로컬의 `terraform.tfstate`를 관리한다.
 
 각자 다른 state를 가지고 있다면 실제 Infrastructure는 하나인데 Terraform이 바라보는 상태는 두 개가 된다.
 
 더 위험한 경우는 동시에 Apply하는 상황이다.
 
-~~~text
-Developer A ── terraform apply ──┐
-                                 ├─ 같은 Infrastructure 수정
-Developer B ── terraform apply ──┘
-~~~
+```mermaid
+flowchart TD
+    A["Developer A"] --> AA["terraform apply"]
+    B["Developer B"] --> BA["terraform apply"]
+    AA --> I["같은 Infrastructure 수정"]
+    BA --> I
+```
 
 잘못하면 state가 서로 덮어써지거나 실제 Resource와 state가 어긋날 수 있다.
 
@@ -97,24 +81,17 @@ Terraform에서 state 저장 위치를 담당하는 것이 **Backend**다.
 
 기본값은 local backend다.
 
-~~~text
-Terraform
-   ↓
-terraform.tfstate
-Local Disk
-~~~
+기본 로컬 구성에서는 Terraform이 `terraform.tfstate`를 **로컬 디스크**에 저장한다.
 
 S3 backend를 사용하면:
 
-~~~text
-Developer ───────┐
-                 │
-GitHub Actions ──┼──→ Terraform
-                 │        ↓
-CI/CD ───────────┘    S3 Backend
-                          ↓
-                  terraform.tfstate
-~~~
+```mermaid
+flowchart TD
+    D["Developer"] --> T["Terraform"]
+    G["GitHub Actions / CI"] --> T
+    T --> S["S3 Backend"]
+    S --> F["terraform.tfstate"]
+```
 
 모든 실행 주체가 같은 state를 바라보게 된다.
 
@@ -126,11 +103,7 @@ AWS 환경에서는 S3가 Remote Backend로 잘 맞는다.
 
 ## 중앙 저장
 
-~~~text
-Developer A ────┐
-Developer B ────┼──→ S3 State
-GitHub Actions ─┘
-~~~
+Developer A·B와 GitHub Actions가 **동일한 S3 State를 공유**한다.
 
 Local File을 주고받을 필요가 없다.
 
@@ -144,16 +117,11 @@ HashiCorp도 S3 backend를 사용할 때 Bucket Versioning을 강하게 권장�
 
 State 접근 권한을 IAM으로 제한할 수 있다.
 
-~~~text
-Developer
-→ Read
+접근 권한 예시:
 
-Terraform CI Role
-→ Read / Write
-
-Other Role
-→ Deny
-~~~
+- **Developer:** Read
+- **Terraform CI Role:** Read / Write
+- **Other Role:** Deny
 
 ## Encryption
 
@@ -167,13 +135,7 @@ Terraform state에는 Resource 정보뿐 아니라 상황에 따라 민감한 �
 
 예전 Terraform 예제를 보면 이런 Architecture가 자주 나온다.
 
-~~~text
-S3
-→ State
-
-DynamoDB
-→ State Lock
-~~~
+기존 구성은 **S3에 State**, **DynamoDB에 State Lock**을 저장했다.
 
 하지만 현재 Terraform S3 backend는 **S3 자체 Lockfile 방식**을 지원한다.
 
@@ -190,10 +152,8 @@ terraform {
 
 use_lockfile = true를 설정하면 Terraform이 state와 함께 Lockfile을 사용한다.
 
-~~~text
-terraform.tfstate
-terraform.tfstate.tflock
-~~~
+- terraform.tfstate
+- terraform.tfstate.tflock
 
 현재 HashiCorp 문서에서는 DynamoDB 기반 locking을 **deprecated**로 표시하고 있다.
 
@@ -205,34 +165,38 @@ terraform.tfstate.tflock
 
 Lock이 없다면 두 Pipeline이 같은 state를 동시에 수정할 수 있다.
 
-~~~text
-Pipeline A                Pipeline B
-State Read                State Read
-    ↓                         ↓
-  Apply                     Apply
-    ↓                         ↓
-State Write               State Write
-~~~
+```mermaid
+sequenceDiagram
+    participant A as Pipeline A
+    participant S as Shared State
+    participant B as Pipeline B
+    A->>S: State Read
+    B->>S: State Read
+    Note over A,B: 잠금 없이 같은 State로 Apply
+    A->>S: State Write
+    B->>S: State Write
+    Note over A,B: 동시 변경으로 충돌 위험
+```
 
 마지막 Write가 앞선 변경을 덮으면 state corruption으로 이어질 수 있다.
 
 Locking을 사용하면:
 
-~~~text
-Pipeline A
-Acquire Lock
-     ↓
-   Apply
-     ↓
-State Update
-     ↓
-Release Lock
-
-Pipeline B
-Acquire Lock
-     ↓
-    WAIT
-~~~
+```mermaid
+sequenceDiagram
+    participant A as Pipeline A
+    participant S as State Lock
+    participant B as Pipeline B
+    A->>S: Acquire Lock
+    S-->>A: 획득
+    B->>S: Acquire Lock
+    S-->>B: 이미 잠김
+    Note over B: lock-timeout 범위에서 재시도
+    A->>A: Apply / State Update
+    A->>S: Release Lock
+    B->>S: Acquire Lock 재시도
+    S-->>B: 획득 가능
+```
 
 처럼 한 번에 하나의 Writer만 state를 수정하게 된다.
 
@@ -256,20 +220,13 @@ terraform {
 
 환경별로 key를 분리할 수도 있다.
 
-~~~text
-company-terraform-state
+`company-terraform-state` 버킷 안에서 환경·컴포넌트별 key를 분리한다.
 
-development/
-  network/terraform.tfstate
-  application/terraform.tfstate
-
-staging/
-  network/terraform.tfstate
-
-production/
-  network/terraform.tfstate
-  application/terraform.tfstate
-~~~
+- `development/network/terraform.tfstate`
+- `development/application/terraform.tfstate`
+- `staging/network/terraform.tfstate`
+- `production/network/terraform.tfstate`
+- `production/application/terraform.tfstate`
 
 중요한 것은 단순히 Bucket 하나에 state를 몰아넣는 것이 아니라 **경로와 IAM 권한을 Environment별로 나누는 것**이다.
 
@@ -279,33 +236,24 @@ production/
 
 버킷 목록 조회에는 버킷 ARN을, state 읽기·쓰기에는 객체 ARN을 사용한다. 필요한 Action은 다음과 같다:
 
-~~~text
-s3:ListBucket
-s3:GetObject
-s3:PutObject
-~~~
+- s3:ListBucket
+- s3:GetObject
+- s3:PutObject
 
 권한이 필요하다.
 
 use_lockfile을 사용한다면 Lockfile에는:
 
-~~~text
-s3:GetObject
-s3:PutObject
-s3:DeleteObject
-~~~
+- s3:GetObject
+- s3:PutObject
+- s3:DeleteObject
 
 권한이 추가로 필요하다.
 
 State 자체에 DeleteObject를 무조건 줄 필요는 없다.
 
-~~~text
-State
-→ Read / Write
-
-Lockfile
-→ Read / Write / Delete
-~~~
+- **State 객체:** Read / Write
+- **Lockfile 객체:** Read / Write / Delete
 
 처럼 최소 권한을 설계할 수 있다.
 
@@ -380,19 +328,20 @@ terraform init -migrate-state
 
 운영 환경에서는:
 
-~~~text
-현재 State Backup
-        ↓
-S3 Bucket / IAM 확인
-        ↓
-Backend 설정
-        ↓
-terraform init -migrate-state
-        ↓
-terraform plan
-        ↓
-변경 없음 확인
-~~~
+```mermaid
+flowchart TD
+    N0["현재 State Backup"]
+    N1["S3 Bucket / IAM 확인"]
+    N2["Backend 설정"]
+    N3["terraform init -migrate-state"]
+    N4["terraform plan"]
+    N5["변경 없음 확인"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+```
 
 순서로 진행하는 편이 안전하다.
 
@@ -400,21 +349,14 @@ terraform plan
 
 # 내가 권장하는 기본 구조
 
-~~~text
-               GitHub / Developer
-                       │
-                       ▼
-                    Terraform
-                       │
-                       ▼
-                S3 Remote Backend
-                       │
-          ┌────────────┼────────────┐
-          ▼            ▼            ▼
-       Versioning   Encryption    Lockfile
-                                   │
-                              use_lockfile
-~~~
+```mermaid
+flowchart TD
+    G["GitHub / Developer"] --> T["Terraform"]
+    T --> S["S3 Remote Backend"]
+    S --> V["Versioning"]
+    S --> E["Encryption"]
+    S --> L["Lockfile: use_lockfile"]
+```
 
 Environment가 커지면 Dev / Stage / Prod state와 IAM Role도 분리한다.
 
@@ -424,21 +366,8 @@ Environment가 커지면 Dev / Stage / Prod state와 IAM Role도 분리한다.
 
 Terraform State를 S3에 저장하는 이유는 단순히 파일을 Cloud에 백업하기 위해서가 아니다.
 
-~~~text
-Local State
-    ↓
-팀 공유 어려움
-동시 실행 위험
-복구 어려움
-
-Remote Backend
-    ↓
-중앙 관리
-Versioning
-IAM
-Encryption
-Locking
-~~~
+- **Local State:** 팀 공유·동시 실행·복구를 직접 해결해야 한다.
+- **Remote Backend:** 중앙 관리에 Versioning·IAM·Encryption·Locking을 조합한다.
 
 2026년 기준으로 새 S3 backend를 설계한다면 **S3 + Bucket Versioning + Encryption + Least Privilege IAM + use_lockfile = true**를 기본으로 보고 시작하는 것이 좋다.
 
@@ -451,3 +380,4 @@ Locking
 - [Terraform S3 Backend](https://developer.hashicorp.com/terraform/language/backend/s3)
 - [Terraform State Locking](https://developer.hashicorp.com/terraform/language/state/locking)
 - [Terraform Backends](https://developer.hashicorp.com/terraform/language/state/backends)
+

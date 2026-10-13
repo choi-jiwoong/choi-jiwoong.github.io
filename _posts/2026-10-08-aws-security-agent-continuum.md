@@ -2,7 +2,7 @@
 title: "AWS Security Agent는 기존 보안 스캐너와 뭐가 다를까"
 description: "AWS Security Agent와 AWS Continuum이 Design Review, Code Review, Threat Modeling, Penetration Testing을 어떻게 연결하는지 AppSec 관점에서 정리했다."
 date: 2026-10-08 13:25:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [AWS]
 tags: [AWS, Security, AWSContinuum, SecurityAgent, AppSec, DevSecOps, AI]
 ---
@@ -11,14 +11,12 @@ tags: [AWS, Security, AWSContinuum, SecurityAgent, AppSec, DevSecOps, AI]
 
 Application Security를 구성하다 보면 도구가 계속 늘어난다.
 
-```text
-SAST
-SCA
-DAST
-Pentest
-Threat Modeling
-Code Review
-```
+- SAST
+- SCA
+- DAST
+- Pentest
+- Threat Modeling
+- Code Review
 
 각 도구가 보는 영역이 다르기 때문이다.
 
@@ -26,14 +24,15 @@ SAST는 Source Code를 잘 보고, DAST는 실행 중인 Application을 보고, 
 
 문제는 이 결과가 서로 잘 연결되지 않는다는 점이다.
 
-```text
-Code Finding
-    ↓
-Runtime에서 실제 Exploit 가능한가?
-    ↓
-Business Impact는 어느 정도인가?
-    ↓
-누가 Fix할 것인가?
+```mermaid
+flowchart TD
+    N0["Code Finding"]
+    N1["Runtime에서 실제 Exploit 가능한가?"]
+    N2["Business Impact는 어느 정도인가?"]
+    N3["누가 Fix할 것인가?"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 이 연결을 결국 사람이 직접 해야 했다.
@@ -50,27 +49,26 @@ AWS 공식 문서를 보면 현재 Security Agent는 **AWS Continuum의 일부**
 
 AWS Continuum은 Security Risk를:
 
-```text
-Discover
-   ↓
-Prioritize
-   ↓
-Validate
-   ↓
-Remediate
+```mermaid
+flowchart TD
+    N0["Discover"]
+    N1["Prioritize"]
+    N2["Validate"]
+    N3["Remediate"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 하는 흐름을 목표로 한다.
 
 Security Agent 쪽에서는 Application Development Lifecycle에 더 가까운 기능을 담당한다.
 
-```text
-Design Review
-Threat Modeling
-Code Review
-Penetration Testing
-Remediation
-```
+- Design Review
+- Threat Modeling
+- Code Review
+- Penetration Testing
+- Remediation
 
 즉 하나의 Scanner라기보다 **Application Security Workflow를 Agent 기반으로 연결하는 Platform**에 가깝다.
 
@@ -82,40 +80,24 @@ Security Agent를 구성할 때 먼저 등장하는 개념이 **Agent Space**다
 
 Agent Space는 특정 Application을 기준으로 Security Context를 모아두는 단위다.
 
-```text
-Agent Space
-    │
-    ├─ Source Code
-    ├─ Design Docs
-    ├─ Security Requirements
-    ├─ Penetration Test Target
-    └─ Findings
-```
+Agent Space에 Source Code, Design Docs, Security Requirements, Penetration Test Target, Findings를 모아 관리한다.
 
 이 구조가 중요한 이유는 단순하다.
 
 기존 Scanner는 보통:
 
-```text
-File
-→ Rule
-→ Finding
-```
+**File** → **Rule** → **Finding**
 
 형태로 동작했다면,
 
 Security Agent는:
 
-```text
-Source Code
-+
-Architecture
-+
-Security Requirement
-+
-Application Context
-        ↓
-     Analysis
+```mermaid
+flowchart TD
+    S["Source Code"] --> A["Analysis"]
+    R["Architecture"] --> A
+    P["Security Requirement"] --> A
+    C["Application Context"] --> A
 ```
 
 처럼 더 넓은 Context를 사용한다.
@@ -126,28 +108,26 @@ Application Context
 
 보안 검토는 보통 Code가 만들어진 뒤 시작하는 경우가 많다.
 
-```text
-Design
-  ↓
-Code
-  ↓
-Deploy
-  ↓
-Security Review
+```mermaid
+flowchart TD
+    N0["Design"]
+    N1["Code"]
+    N2["Deploy"]
+    N3["Security Review"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 하지만 Architecture 단계에서 이미 잘못된 선택이 있었다면 수정 비용이 커진다.
 
 Design Review는 이 문제를 앞으로 당긴다.
 
-```text
-Design Doc
-Architecture
-API Spec
-        ↓
-Security Agent
-        ↓
-Security Requirements와 비교
+```mermaid
+flowchart TD
+    D["Design Doc / Architecture / API Spec"] --> A["Security Agent"]
+    R["Security Requirements"] --> A
+    A --> C["요구사항과 설계 비교"]
 ```
 
 이 구조를 보면 Shift Left라는 말이 조금 더 현실적으로 느껴진다.
@@ -180,30 +160,24 @@ AWS Security Agent는 Source Code나 Design Document를 기반으로 Application
 
 결과에는:
 
-```text
-Architecture
-Trust Boundary
-Data Flow
-Sensitive Asset
-Threat
-Severity
-Recommendation
-```
+- Architecture
+- Trust Boundary
+- Data Flow
+- Sensitive Asset
+- Threat
+- Severity
+- Recommendation
 
 같은 정보가 포함된다.
 
 개념적으로는:
 
-```text
-Design Document
-      +
-Source Code
-      ↓
-Threat Model
-      ↓
-Threats
-      ↓
-Mitigation
+```mermaid
+flowchart TD
+    D["Design Document"] --> M["Threat Model"]
+    C["Source Code"] --> M
+    M --> T["Threats"]
+    T --> R["Mitigation"]
 ```
 
 구조다.
@@ -212,14 +186,15 @@ Mitigation
 
 예를 들어:
 
-```text
-새 결제 API 설계
-      ↓
-Threat Modeling
-      ↓
-Authentication Boundary 문제 발견
-      ↓
-구현 전에 수정
+```mermaid
+flowchart TD
+    N0["새 결제 API 설계"]
+    N1["Threat Modeling"]
+    N2["Authentication Boundary 문제 발견"]
+    N3["구현 전에 수정"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 처럼 Code 작성 전에 Risk를 발견할 수 있다.
@@ -236,38 +211,36 @@ GitHub와 연결하면 Pull Request에 Security Finding을 전달할 수도 있�
 
 흐름은 대략 이렇게 볼 수 있다.
 
-```text
-Pull Request
-    ↓
-Code Review
-    ↓
-Finding
-    ↓
-Risk Reasoning
-    ↓
-Suggested Fix
+```mermaid
+flowchart TD
+    N0["Pull Request"]
+    N1["Code Review"]
+    N2["Finding"]
+    N3["Risk Reasoning"]
+    N4["Suggested Fix"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
 ```
 
 이 부분에서 기존 SAST와 차이가 생긴다.
 
 기존 방식:
 
-```text
-Rule Match
-   ↓
-Possible Vulnerability
-```
+**Rule Match** → **Possible Vulnerability**
 
 Agent 방식:
 
-```text
-Repository Context
-      ↓
-Potential Vulnerability
-      ↓
-Contextual Analysis
-      ↓
-Remediation Guidance
+```mermaid
+flowchart TD
+    N0["Repository Context"]
+    N1["Potential Vulnerability"]
+    N2["Contextual Analysis"]
+    N3["Remediation Guidance"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
 ```
 
 물론 이것이 False Positive를 완전히 없앤다는 뜻은 아니다.
@@ -286,15 +259,10 @@ Security Agent에는 **Security Requirement Pack**이라는 개념이 있다.
 
 예를 들면:
 
-```text
-Production Storage는 Encryption 필수
-
-Public S3 Bucket 금지
-
-Admin API는 MFA 필요
-
-Sensitive Data는 특정 Region 밖으로 나갈 수 없음
-```
+- Production Storage는 Encryption 필수
+- Public S3 Bucket 금지
+- Admin API는 MFA 필요
+- Sensitive Data는 특정 Region 밖으로 나갈 수 없음
 
 같은 기준이다.
 
@@ -306,10 +274,7 @@ Sensitive Data는 특정 Region 밖으로 나갈 수 없음
 
 라고만 하는 것이 아니라:
 
-```text
-우리 조직 기준에서
-위반되는 부분을 찾아줘
-```
+> 우리 조직 기준에서 위반되는 부분을 찾아줘.
 
 라고 할 수 있다.
 
@@ -327,38 +292,32 @@ Agent가 Target Application을 분석하고 여러 단계를 거쳐 실제 Explo
 
 개념적으로는:
 
-```text
-Target
-   ↓
-Recon / Context
-   ↓
-Attack Planning
-   ↓
-Exploit Attempt
-   ↓
-Validation
-   ↓
-Confirmed Finding
+```mermaid
+flowchart TD
+    N0["Target"]
+    N1["Recon / Context"]
+    N2["Attack Planning"]
+    N3["Exploit Attempt"]
+    N4["Validation"]
+    N5["Confirmed Finding"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
 ```
 
 이다.
 
 이 부분이 중요한 이유는 Security Team에서 항상 나오는 질문 때문이다.
 
-```text
-이 취약점,
-실제로 공격 가능한가?
-```
+> 이 취약점, 실제로 공격 가능한가?
 
 Scanner는 Finding을 만들어낼 수 있지만 우선순위를 정하려면 Exploitability가 중요하다.
 
 그래서:
 
-```text
-Finding
-→ Validation
-→ Prioritization
-```
+**Finding** → **Validation** → **Prioritization**
 
 으로 이어지는 구조가 실제 운영에서는 더 의미가 있다.
 
@@ -368,17 +327,11 @@ Finding
 
 Security Review가:
 
-```text
-개발 완료
-→ Security Team 전달
-```
+**개발 완료** → **Security Team 전달**
 
 에서:
 
-```text
-개발 중
-→ IDE에서 Security Feedback
-```
+**개발 중** → **IDE에서 Security Feedback**
 
 으로 이동하는 것도 중요한 변화다.
 
@@ -386,16 +339,17 @@ IDE나 Coding Agent 환경과 연결되면 개발자가 Code를 작성하는 과
 
 개념적으로는:
 
-```text
-IDE
- ↓
-Security Agent
- ↓
-Source Review
- ↓
-Finding
- ↓
-Developer Feedback
+```mermaid
+flowchart TD
+    N0["IDE"]
+    N1["Security Agent"]
+    N2["Source Review"]
+    N3["Finding"]
+    N4["Developer Feedback"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
 ```
 
 구조가 된다.
@@ -418,29 +372,20 @@ Finding이 너무 많아지는 것이다.
 
 예를 들어:
 
-```text
-Finding A
-Severity: Critical
-Internal Only
-Compensating Control 있음
-
-Finding B
-Severity: High
-Public Endpoint
-Customer Data 접근 가능
-```
+| 사례 | 심각도 | 노출·보호 조건 |
+|---|---|---|
+| Finding A | Critical | Internal Only, Compensating Control 있음 |
+| Finding B | High | Public Endpoint, Customer Data 접근 가능 |
 
 이라면 단순 Severity만으로 A를 먼저 고치는 게 항상 정답은 아니다.
 
 그래서 앞으로 Security Tool의 핵심 경쟁력은 단순 Detection Count보다:
 
-```text
-Business Context
-Exploitability
-Asset Importance
-Exposure
-Existing Controls
-```
+- Business Context
+- Exploitability
+- Asset Importance
+- Exposure
+- Existing Controls
 
 같은 Context를 얼마나 잘 결합하느냐가 될 가능성이 높다.
 
@@ -456,27 +401,26 @@ Agent가 Scan, Triage, Fix Suggestion까지 해주면 처음에는 사람이 할
 
 예전:
 
-```text
-Tool 실행
-Finding 확인
-Report 작성
-Developer 전달
-```
+- Tool 실행
+- Finding 확인
+- Report 작성
+- Developer 전달
 
 앞으로:
 
-```text
-Security Requirement 정의
-        ↓
-Agent Scope 설정
-        ↓
-Finding 검증
-        ↓
-Business Risk 판단
-        ↓
-Remediation Review
-        ↓
-Priority 결정
+```mermaid
+flowchart TD
+    N0["Security Requirement 정의"]
+    N1["Agent Scope 설정"]
+    N2["Finding 검증"]
+    N3["Business Risk 판단"]
+    N4["Remediation Review"]
+    N5["Priority 결정"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
 ```
 
 특히 중요한 부분은 **검증**이다.
@@ -491,13 +435,7 @@ Critical Vulnerability
 
 AI가 Fix PR을 만들었다고 해도:
 
-```text
-Security Fix
-    ↓
-Performance 영향?
-Backward Compatibility?
-Business Logic 영향?
-```
+Security Fix를 검토할 때는 **성능, 하위 호환성, 비즈니스 로직에 미치는 영향**을 함께 확인한다.
 
 을 사람이 확인해야 한다.
 
@@ -515,13 +453,7 @@ Penetration Testing은 일반적인 Scan 횟수 기반이 아니라 **task-hour*
 
 그래서:
 
-```text
-실제 테스트 시간
-        ↓
-여러 Agent Task 병렬 실행
-        ↓
-누적 Task Hour
-```
+여러 Agent Task가 병렬로 실행되면 **누적 Task Hour는 실제 경과 시간과 다를 수 있다.**
 
 로 보는 편이 맞다.
 
@@ -549,28 +481,17 @@ Pentest를 실제 운영에 넣는다면 Scope와 Test 대상을 얼마나 잘 �
 
 처음 도입한다면:
 
-```text
-기존 SAST / SCA / DAST
-        +
-AWS Security Agent
-```
+기존 **SAST·SCA·DAST**와 **AWS Security Agent**를 함께 활용하는 구성을 검토한다.
 
 처럼 병행해서 결과를 비교하는 게 현실적이다.
 
 확인하고 싶은 건 다음이다.
 
-```text
-기존 Tool 대비
-False Positive가 얼마나 줄어드는가?
-
-기존 Tool이 못 찾던 Business Logic Risk를 찾는가?
-
-실제 Exploit Validation 품질은 어떤가?
-
-Remediation Code 품질은 어느 정도인가?
-
-Cost 대비 Pentest Coverage가 얼마나 늘어나는가?
-```
+- 기존 Tool 대비 False Positive가 얼마나 줄어드는가?
+- 기존 Tool이 못 찾던 Business Logic Risk를 찾는가?
+- 실제 Exploit Validation 품질은 어떤가?
+- Remediation Code 품질은 어느 정도인가?
+- Cost 대비 Pentest Coverage가 얼마나 늘어나는가?
 
 이 데이터를 보고 점진적으로 역할을 옮기는 편이 안전하다.
 
@@ -582,18 +503,19 @@ AWS Security Agent를 단순한 AI Scanner라고 보면 기능을 절반만 보�
 
 핵심은:
 
-```text
-Design
-   ↓
-Threat Modeling
-   ↓
-Code Review
-   ↓
-Penetration Testing
-   ↓
-Validation
-   ↓
-Remediation
+```mermaid
+flowchart TD
+    N0["Design"]
+    N1["Threat Modeling"]
+    N2["Code Review"]
+    N3["Penetration Testing"]
+    N4["Validation"]
+    N5["Remediation"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
 ```
 
 을 하나의 Context 안에서 연결하려는 데 있다.
@@ -606,11 +528,7 @@ Remediation
 
 에서:
 
-```text
-Security Policy를 정의하고
-Agent가 찾은 Risk를 검증하고
-우선순위를 결정하는 사람
-```
+**Security Policy를 정의하고, Agent가 찾은 Risk를 검증하며, 우선순위를 결정하는 사람**
 
 으로 조금씩 이동할 가능성이 높아 보인다.
 
@@ -633,3 +551,4 @@ AI가 Security Testing을 빠르게 해줄수록 결국 더 중요해지는 것�
 
 - [SIEM이란 무엇인가: 로그 수집부터 탐지와 대응까지](/posts/what-is-siem/)
 - [AWS 인프라로 SIEM 만들기: Security Lake와 OpenSearch](/posts/aws-siem-security-lake-opensearch/)
+

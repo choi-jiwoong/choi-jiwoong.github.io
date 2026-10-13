@@ -2,7 +2,7 @@
 title: "CDC 아키텍처 비교 — GCP Datastream vs Debezium"
 description: "운영 DB를 BigQuery로 복제하는 Datastream과 Debezium·Kafka 기반 이벤트 파이프라인의 데이터 흐름, 운영 책임과 선택 기준을 비교한다."
 date: 2026-10-12 20:59:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [Data]
 tags: [CDC, Datastream, Debezium, Kafka, BigQuery, DataEngineering]
 ---
@@ -11,11 +11,9 @@ tags: [CDC, Datastream, Debezium, Kafka, BigQuery, DataEngineering]
 
 이번 글은 CDC 시리즈의 1편으로, Datastream과 Debezium의 아키텍처와 운영 책임을 비교하는 설계 노트다. 직접 구축해 성능이나 비용을 측정한 후기는 아니다.
 
-| 편 | 범위 |
-|---|---|
-| 1편 | Datastream과 Debezium의 아키텍처 비교 |
-| 2편 | 데이터 정합성과 장애 복구 |
-| 3편 | Kafka Connect 운영과 Schema Evolution |
+- **1편:** Datastream과 Debezium의 아키텍처 비교
+- **2편:** 데이터 정합성과 장애 복구
+- **3편:** Kafka Connect 운영과 Schema Evolution
 
 이 글에서는 2·3편의 상세 절차 대신 아키텍처 선택에 필요한 경계만 짚는다.
 
@@ -27,12 +25,18 @@ Debezium이 반드시 Kafka를 요구하는 것은 아니다. Debezium Server나
 
 ## Datastream: 관리형 복제 경로
 
-| 단계 | 역할 | 사용자가 결정할 것 |
-|---|---|---|
-| 운영 DB | 초기 데이터와 변경 로그 제공 | 대상 테이블, PK, 권한, 로그 보존 |
-| 연결·Datastream | 소스 연결과 변경 수집 | 네트워크, 연결 프로필, stream 설정 |
-| BigQuery destination | 변경 데이터를 대상 테이블에 전달 | dataset, write mode, 데이터 신선도 요구 |
-| 분석 테이블 | 조회와 후속 모델링 | 접근 제어, 검증, 분석 SQL |
+```mermaid
+flowchart TD
+    DB["운영 DB: MySQL 계열"] -->|"초기 데이터·변경 로그"| DS["Datastream"]
+    DS --> BQ["BigQuery Destination"]
+    BQ --> M["Merge: 현재 상태"]
+    BQ --> A["Append-only: 변경 이력"]
+```
+
+- **운영 DB:** 대상 테이블·PK·권한·로그 보존을 준비한다.
+- **Datastream:** 네트워크·연결 프로필·stream 설정을 관리한다.
+- **BigQuery:** dataset·write mode·데이터 신선도 요구를 결정한다.
+- **분석 테이블:** 접근 제어·정합성 검증·분석 SQL을 운영한다.
 
 이 경로에서는 사용자가 별도 Kafka broker나 BigQuery sink connector를 배치하지 않는다. 다만 소스 DB 준비, 네트워크, 대상 제약, 데이터 검증과 비용 관리는 남는다. 관리형이라는 말이 운영 책임이 없다는 뜻은 아니다.
 
@@ -45,13 +49,23 @@ PK가 없는 테이블은 Merge 설정에서도 append-only로 취급된다. 따
 
 ## Debezium + Kafka: 수집과 소비를 분리한다
 
-| 단계 | 역할 | 운영 책임 |
-|---|---|---|
-| 운영 DB | snapshot과 변경 로그의 원천 | 소스 권한·로그 보존·부하 |
-| Kafka Connect의 Debezium source | 변경을 캡처해 Kafka로 발행 | connector 설정·상태·버전 |
-| Kafka topic | 이벤트 보관과 consumer별 소비 | partition·retention·접근 제어 |
-| BigQuery sink / consumer | 이벤트를 대상 저장 방식으로 변환 | 이벤트 형식·삭제·upsert 처리 |
-| 추가 consumer | 검색 인덱스·캐시 등 갱신 | 각 목적지의 지연·실패 처리 |
+```mermaid
+flowchart TD
+    DB["운영 DB: Snapshot / 변경 로그"] --> D["Kafka Connect: Debezium Source"]
+    D --> K["Kafka Topic"]
+    K --> B["BigQuery Sink / Consumer"]
+    K --> S["검색 Consumer"]
+    K --> C["캐시 Consumer"]
+    B --> Q["BigQuery"]
+    S --> I["검색 인덱스"]
+    C --> R["캐시"]
+```
+
+- **운영 DB:** 소스 권한·로그 보존·부하를 관리한다.
+- **Debezium Source:** connector 설정·상태·버전을 관리한다.
+- **Kafka:** partition·retention·접근 제어를 관리한다.
+- **BigQuery Sink / Consumer:** 이벤트 형식·삭제·upsert 처리를 구현하거나 설정한다.
+- **추가 Consumer:** 검색·캐시 등 목적지별 지연·실패를 처리한다.
 
 Kafka Connect는 Kafka broker와 별도 역할을 수행한다. Debezium source가 Kafka에 이벤트를 보냈다는 것만으로 BigQuery 반영이 끝난 것은 아니다. 선택한 sink가 이벤트 형식과 삭제 처리를 어떻게 지원하는지 확인해야 한다.
 
@@ -102,3 +116,4 @@ Kafka Connect는 Kafka broker와 별도 역할을 수행한다. Debezium source�
 - [Debezium — MySQL connector](https://debezium.io/documentation/reference/stable/connectors/mysql.html)
 
 > 문서 확인: 2026-10-12. 버전별 지원 조건은 도입 시 다시 확인한다.
+

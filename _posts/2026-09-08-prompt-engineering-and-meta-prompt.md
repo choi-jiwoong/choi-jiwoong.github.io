@@ -2,7 +2,7 @@
 title: "프롬프트 엔지니어링에서 메타프롬프트까지: AI에게 질문하는 법에서 행동을 설계하는 법으로"
 description: "좋은 질문을 만드는 Prompt Engineering과 AI의 행동 원칙을 정의하는 Meta Prompt의 차이를 개발자 관점에서 예제와 함께 정리했다."
 date: 2026-09-08 14:35:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [AI]
 tags: [AI, PromptEngineering, MetaPrompt, ContextEngineering, LLM, Agent]
 ---
@@ -84,16 +84,17 @@ AI가 성능을 먼저 볼 수도 있고, 가독성을 먼저 볼 수도 있고,
 
 결국 핵심은 AI에게 우리가 원하는 것을 **덜 애매하게 전달하는 것**이다.
 
-```text
-모호한 요청
-    ↓
-조건 추가
-    ↓
-평가 기준 추가
-    ↓
-출력 형태 정의
-    ↓
-더 일관된 답변
+```mermaid
+flowchart TD
+    N0["모호한 요청"]
+    N1["조건 추가"]
+    N2["평가 기준 추가"]
+    N3["출력 형태 정의"]
+    N4["더 일관된 답변"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
 ```
 
 그래서 Prompt Engineering은 여전히 중요하다.
@@ -108,12 +109,10 @@ AI가 성능을 먼저 볼 수도 있고, 가독성을 먼저 볼 수도 있고,
 
 예를 들어 나는 AI에게 코드 리뷰를 받을 때 항상 이런 기준을 원한다고 해보자.
 
-```text
-보안
-장애 가능성
-성능
-유지보수성
-```
+- 보안
+- 장애 가능성
+- 성능
+- 유지보수성
 
 매번 이렇게 쓰는 것은 귀찮다.
 
@@ -167,21 +166,14 @@ Meta Prompt는 개별 작업 자체보다 **모델이 작업을 수행하는 방
 
 구조로 보면 이런 느낌이다.
 
-```text
-Meta Prompt
-│
-├─ 역할
-├─ 판단 기준
-├─ 금지 사항
-├─ 출력 원칙
-└─ 작업 방식
-       │
-       ▼
-User Prompt
-"이 코드 리뷰해줘"
-       │
-       ▼
-Answer
+```mermaid
+flowchart TD
+    M["Meta Prompt"] --> R["역할·판단 기준"]
+    M --> C["금지 사항·출력 원칙·작업 방식"]
+    R --> P["지침과 요청을 반영해 코드 검토"]
+    C --> P
+    U["User Prompt: 이 코드 리뷰해줘"] --> P
+    P --> A["Answer: 리뷰 결과"]
 ```
 
 ---
@@ -200,13 +192,8 @@ Answer
 
 나는 개인적으로 **Task와 Policy의 차이**라고 생각하면 가장 이해하기 쉬웠다.
 
-```text
-Prompt
-= 무엇을 할 것인가
-
-Meta Prompt
-= 어떤 원칙으로 할 것인가
-```
+- **Prompt:** 무엇을 할 것인가
+- **Meta Prompt:** 어떤 원칙으로 할 것인가
 
 ---
 
@@ -260,14 +247,12 @@ Meta Prompt에 인프라 작성 원칙이 이미 있기 때문이다.
 
 개발팀에는 보통 여러 규칙이 있다.
 
-```text
-Coding Convention
-Architecture Rule
-Security Policy
-PR Template
-Code Review Checklist
-Definition of Done
-```
+- Coding Convention
+- Architecture Rule
+- Security Policy
+- PR Template
+- Code Review Checklist
+- Definition of Done
 
 Meta Prompt는 이런 규칙을 **AI가 이해할 수 있는 형태로 표현한 것**과 비슷하다.
 
@@ -401,25 +386,21 @@ AI 시스템에서는 "무엇을 해야 하는가"만큼 **무엇을 하면 안 
 
 그래서 나는 Meta Prompt도 코드처럼 관리하는 게 좋다고 생각한다.
 
-```text
-짧게
-명확하게
-중복 제거
-우선순위 명시
-필요하면 문서로 분리
-```
+- 짧게
+- 명확하게
+- 중복 제거
+- 우선순위 명시
+- 필요하면 문서로 분리
 
 예를 들면 모든 프로젝트 지식을 Meta Prompt에 넣는 것보다는:
 
-```text
-Meta Prompt
-    │
-    ├─ 핵심 행동 규칙
-    ├─ 판단 우선순위
-    └─ 필요한 문서 위치 안내
-             │
-             ▼
-       Project Context
+```mermaid
+flowchart TD
+    M["Meta Prompt"] --> R["핵심 행동 규칙·판단 우선순위"]
+    M --> L["필요한 문서 위치 안내"]
+    L --> C["Project Context"]
+    R --> W["작업 수행"]
+    C --> W
 ```
 
 처럼 분리하는 편이 낫다.
@@ -444,38 +425,24 @@ Meta Prompt:
 
 그래서 다음 정보가 필요하다.
 
-```text
-architecture.md
-repository structure
-API specification
-DB schema
-recent PR
-logs
-issue
-```
+- architecture.md
+- repository structure
+- API specification
+- DB schema
+- recent PR
+- logs
+- issue
 
 이것이 Context다.
 
-| 개념 | 핵심 질문 |
-|---|---|
-| Prompt | 지금 무엇을 시킬까? |
-| Prompt Engineering | 어떻게 요청해야 명확할까? |
-| Meta Prompt | 어떤 원칙으로 행동해야 할까? |
-| Context Engineering | 판단에 필요한 어떤 정보를 줄까? |
+- **Prompt:** 지금 무엇을 시킬까?
+- **Prompt Engineering:** 어떻게 요청해야 명확할까?
+- **Meta Prompt:** 어떤 원칙으로 행동해야 할까?
+- **Context Engineering:** 판단에 필요한 어떤 정보를 줄까?
 
 결국 하나만 잘한다고 AI가 항상 좋은 결과를 내는 것은 아니다.
 
-```text
-좋은 Prompt
-      +
-일관된 Meta Prompt
-      +
-적절한 Context
-
-      ↓
-
-더 안정적인 결과
-```
+**명확한 Prompt, 일관된 Meta Prompt, 적절한 Context**를 함께 갖추면 더 안정적인 결과를 기대할 수 있다.
 
 ---
 
@@ -498,14 +465,12 @@ issue
 
 하지만 Agent가 실제 행동을 하기 시작하면 얘기가 달라진다.
 
-```text
-코드 수정
-Git Push
-Issue 변경
-Cloud Resource 생성
-DB Query 실행
-Browser 작업
-```
+- 코드 수정
+- Git Push
+- Issue 변경
+- Cloud Resource 생성
+- DB Query 실행
+- Browser 작업
 
 이제 AI가 단순히 "답변하는 시스템"이 아니라 **행동하는 시스템**이 된다.
 
@@ -535,24 +500,13 @@ Agent 전체에 적용되는 상위 정책에 가깝다.
 
 여기까지 오면 이전에 정리했던 Harness Engineering과 연결된다.
 
-```text
-Prompt
-무엇을 할지
-
-        ↓
-
-Meta Prompt
-어떤 원칙으로 행동할지
-
-        ↓
-
-Context
-무엇을 알고 판단할지
-
-        ↓
-
-Harness
-어떤 환경과 도구에서 실행할지
+```mermaid
+flowchart TD
+    P["Prompt: 무엇을 할지"] --> A["Agent 작업"]
+    M["Meta Prompt: 행동 원칙"] --> A
+    C["Context: 판단에 필요한 정보"] --> A
+    A --> H["Harness: 환경·도구·검증"]
+    H -->|"실행 결과와 피드백"| A
 ```
 
 예를 들어 "장애 원인을 찾아 수정해줘"라는 Agent를 만든다면:
@@ -583,20 +537,21 @@ Harness에 대한 내용은 [AI Agent 시대, 왜 Harness Engineering이 중요�
 
 AI 개발 방식을 시간 순서로 단순화하면 이런 느낌이다.
 
-```text
-Prompt
-   ↓
-Prompt Engineering
-   ↓
-Meta Prompt
-   ↓
-Context Engineering
-   ↓
-Tools
-   ↓
-Harness Engineering
-   ↓
-Agent
+```mermaid
+flowchart TD
+    N0["Prompt"]
+    N1["Prompt Engineering"]
+    N2["Meta Prompt"]
+    N3["Context Engineering"]
+    N4["Tools"]
+    N5["Harness Engineering"]
+    N6["Agent"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
+    N4 --> N5
+    N5 --> N6
 ```
 
 물론 실제 기술 발전이 정확히 이 순서대로 진행된 것은 아니다.
@@ -637,19 +592,7 @@ Prompt Engineering과 Meta Prompt를 굳이 나눠서 생각해야 하는 이유
 
 결국 좋은 AI 시스템은 엄청난 Prompt 하나로 만들어지는 것이 아니다.
 
-```text
-좋은 Task
-   +
-좋은 Rules
-   +
-좋은 Context
-   +
-좋은 Environment
-
-       ↓
-
-신뢰할 수 있는 AI
-```
+신뢰할 수 있는 AI를 만들려면 **Task·Rules·Context·Environment**를 함께 설계해야 한다.
 
 그래서 앞으로 Prompt Engineering이 사라진다기보다 역할이 조금 더 명확해질 것 같다.
 
@@ -665,3 +608,4 @@ Prompt Engineering과 Meta Prompt를 굳이 나눠서 생각해야 하는 이유
 - [OpenAI — Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/)
 
 > 용어의 사용 범위는 제품과 연구자마다 조금씩 다를 수 있다. 이 글에서는 개발자가 AI 시스템을 설계할 때 실용적으로 구분하기 쉬운 관점으로 정리했다.
+

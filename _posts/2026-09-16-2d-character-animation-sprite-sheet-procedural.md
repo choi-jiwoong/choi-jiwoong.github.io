@@ -2,7 +2,7 @@
 title: "2D 캐릭터 움직임은 어떻게 만들까: Sprite Sheet와 Procedural Animation"
 description: "2D 게임에서 캐릭터의 걷기, 점프, 공격 동작을 만드는 대표적인 두 방식인 Sprite Sheet 애니메이션과 Procedural Animation을 비교해봤다."
 date: 2026-09-16 20:30:00 +0900
-last_modified_at: 2026-10-12
+last_modified_at: 2026-10-13
 categories: [GameDev]
 tags: [2DGame, Phaser, SpriteSheet, Animation, ProceduralAnimation, GameDev]
 ---
@@ -22,25 +22,19 @@ tags: [2DGame, Phaser, SpriteSheet, Animation, ProceduralAnimation, GameDev]
 
 걷기 동작이라면 캐릭터의 자세를 여러 장 준비한다.
 
-```text
-Walk
-
-[1] [2] [3] [4] [5] [6]
-```
+걷기 애니메이션은 **1~6번 프레임을 순서대로 반복 재생**하는 방식이다.
 
 이 프레임들을 일정한 속도로 반복하면 캐릭터가 걷는 것처럼 보인다.
 
 보통 상태별로 이런 프레임을 만든다.
 
-```text
-Idle
-Walk
-Run
-Jump
-Attack
-Hit
-Dead
-```
+- Idle
+- Walk
+- Run
+- Jump
+- Attack
+- Hit
+- Dead
 
 Phaser 같은 2D 게임 엔진은 이런 frame-based animation을 기본으로 지원한다.
 공식 문서에서도 Sprite Sheet나 Texture Atlas의 프레임을 순서대로 재생하는 방식을 기본 애니메이션 방식으로 설명하고 있다.
@@ -75,14 +69,12 @@ player.play('idle', true);
 
 구조는 단순하다.
 
-```text
-Player State
-    │
-    ├─ Idle   → idle frames
-    ├─ Walk   → walk frames
-    ├─ Jump   → jump frames
-    └─ Attack → attack frames
-```
+Player State에 맞는 프레임 묶음을 선택한다.
+
+- **Idle:** idle frames
+- **Walk:** walk frames
+- **Jump:** jump frames
+- **Attack:** attack frames
 
 장점은 캐릭터의 팔, 다리, 표정까지 원하는 대로 표현할 수 있다는 점이다.
 반대로 프레임을 직접 만들어야 하므로 아트 작업량이 늘어난다.
@@ -95,12 +87,10 @@ Player State
 
 예를 들어:
 
-```text
-Scale
-Rotate
-Flip
-Tween
-```
+- Scale
+- Rotate
+- Flip
+- Tween
 
 같은 변형을 코드로 적용하는 방식이다.
 
@@ -160,23 +150,14 @@ this.tweens.add({
 
 실제로는 둘을 같이 쓰는 것이 자연스럽다.
 
-```text
-Sprite Sheet
-    │
-    ├─ Walk
-    ├─ Run
-    ├─ Attack
-    └─ Jump
-
-        +
-
-Procedural Animation
-    │
-    ├─ 착지 Squash
-    ├─ 피격 흔들림
-    ├─ 공격 시 Scale
-    ├─ Camera Shake
-    └─ 먼지 / Slash Effect
+```mermaid
+flowchart TD
+    S["Sprite Sheet"] --> F["Walk / Run / Attack / Jump 프레임"]
+    P["Procedural Animation"] --> E["착지 Squash / 피격 흔들림 / 공격 Scale"]
+    P --> V["Camera Shake / 먼지 / Slash Effect"]
+    F --> R["최종 캐릭터 연출"]
+    E --> R
+    V --> R
 ```
 
 즉 캐릭터의 큰 움직임은 Sprite Sheet로 만들고,
@@ -190,16 +171,17 @@ Phaser에서는 `Sprite`가 frame animation을 지원하고, 동시에 Tween, Sc
 
 그래서 이런 구조를 만들기 좋다.
 
-```text
-Input
-  ↓
-Player State
-  ↓
-Sprite Animation
-  ↓
-Physics
-  ↓
-Tween / Effect
+```mermaid
+flowchart TD
+    N0["Input"]
+    N1["Player State"]
+    N2["Sprite Animation"]
+    N3["Physics"]
+    N4["Tween / Effect"]
+    N0 --> N1
+    N1 --> N2
+    N2 --> N3
+    N3 --> N4
 ```
 
 예를 들어 이동하면:
@@ -252,19 +234,9 @@ Spine 같은 도구는 몸통·팔·다리 이미지를 뼈대에 연결하고 �
 
 2D 캐릭터 애니메이션을 시작할 때는 이렇게 생각하면 쉽다.
 
-```text
-빠르게 프로토타입
-        ↓
-Procedural Animation
-
-캐릭터 동작을 제대로 표현
-        ↓
-Sprite Sheet
-
-타격감과 생동감까지 추가
-        ↓
-Sprite Sheet + Procedural Animation
-```
+- **빠른 프로토타입:** Procedural Animation
+- **프레임별 캐릭터 동작:** Sprite Sheet
+- **동작에 타격감과 생동감 추가:** Sprite Sheet + Procedural Animation
 
 처음에는 한 장짜리 캐릭터에 `Flip`, `Scale`, `Tween`만 적용해도 충분히 움직이는 느낌을 만들 수 있다.
 
@@ -272,13 +244,7 @@ Sprite Sheet + Procedural Animation
 
 결국 가장 실용적인 구조는:
 
-```text
-Sprite Sheet
-      +
-Procedural Animation
-      +
-2D Physics
-```
+프레임 동작은 **Sprite Sheet**, 보조 연출은 **Procedural Animation**, 이동과 충돌은 **2D Physics**가 담당한다.
 
 조합이라고 생각한다.
 
@@ -291,3 +257,4 @@ Procedural Animation
 - [Phaser — Animations](https://docs.phaser.io/phaser/concepts/animations)
 - [Phaser — Sprite](https://docs.phaser.io/phaser/concepts/gameobjects/sprite)
 - [Phaser — Arcade Physics](https://docs.phaser.io/phaser/concepts/physics/arcade)
+
