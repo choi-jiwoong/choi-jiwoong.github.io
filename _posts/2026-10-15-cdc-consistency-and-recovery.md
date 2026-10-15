@@ -367,7 +367,7 @@ HAVING COUNT(*) > 1;
 
 CDC 복구 설계는 정상 동작 중보다, 같은 이벤트를 다시 받았을 때와 과거 위치를 더 이상 읽을 수 없을 때 드러난다. 최신 상태를 지키는 조건부 반영, 삭제 버전 보존, 초기 적재 경계, 재처리 가능한 기록이 함께 있어야 한다.
 
-다음 편 **「Debezium CDC 운영 — Kafka Connect와 Schema Evolution」**에서는 이 설계를 유지하기 위한 Connect 운영과 schema 변경 대응을 다룬다. source offset과 schema history를 어떻게 관리하고, 재시작 가능한 구성과 스키마 호환성을 어떻게 점검할지 이어서 살펴본다.
+다음 편 [**「Debezium CDC 운영 — Kafka Connect와 Schema Evolution」**](/posts/debezium-kafka-connect-schema-evolution/)에서는 이 설계를 유지하기 위한 Connect 운영과 schema 변경 대응을 다룬다. source offset과 schema history를 어떻게 관리하고, 재시작 가능한 구성과 스키마 호환성을 어떻게 점검할지 이어서 살펴본다.
 
 ## 공식 문서
 

@@ -16,7 +16,7 @@ tags: [CDC, Datastream, Debezium, Kafka, BigQuery, DataEngineering]
 
 - **1편:** Datastream과 Debezium의 아키텍처 비교
 - **2편:** [CDC 정합성과 장애 복구](/posts/cdc-consistency-and-recovery/)
-- **3편:** Kafka Connect 운영과 Schema Evolution
+- **3편:** [Kafka Connect 운영과 Schema Evolution](/posts/debezium-kafka-connect-schema-evolution/)
 
 이 글에서는 2·3편의 상세 절차 대신 아키텍처 선택에 필요한 경계만 짚는다.
 
