@@ -5,7 +5,7 @@ series_order: 1
 title: "CDC 아키텍처 비교 — GCP Datastream vs Debezium"
 description: "운영 DB를 BigQuery로 복제하는 Datastream과 Debezium·Kafka 기반 이벤트 파이프라인의 데이터 흐름, 운영 책임과 선택 기준을 비교한다."
 date: 2026-10-12 20:59:00 +0900
-last_modified_at: 2026-10-13
+last_modified_at: 2026-10-15
 categories: [Data]
 tags: [CDC, Datastream, Debezium, Kafka, BigQuery, DataEngineering]
 ---
@@ -15,7 +15,7 @@ tags: [CDC, Datastream, Debezium, Kafka, BigQuery, DataEngineering]
 이번 글은 CDC 시리즈의 1편으로, Datastream과 Debezium의 아키텍처와 운영 책임을 비교하는 설계 노트다. 직접 구축해 성능이나 비용을 측정한 후기는 아니다.
 
 - **1편:** Datastream과 Debezium의 아키텍처 비교
-- **2편:** 데이터 정합성과 장애 복구
+- **2편:** [CDC 정합성과 장애 복구](/posts/cdc-consistency-and-recovery/)
 - **3편:** Kafka Connect 운영과 Schema Evolution
 
 이 글에서는 2·3편의 상세 절차 대신 아키텍처 선택에 필요한 경계만 짚는다.

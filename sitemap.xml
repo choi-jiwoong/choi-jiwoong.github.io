@@ -6,22 +6,25 @@ sitemap: false
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>{{ '/' | absolute_url }}</loc>
+    <loc>{{ '/' | absolute_url | xml_escape }}</loc>
     <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
   </url>
 
   <url>
-    <loc>{{ '/about/' | absolute_url }}</loc>
+    <loc>{{ '/about/' | absolute_url | xml_escape }}</loc>
     <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
   </url>
 
 {% for page in site.pages %}{% if page.layout == 'topic' or page.url == '/archive/' or page.url == '/series/' %}
-  <url><loc>{{ page.url | absolute_url }}</loc></url>
+  <url>
+    <loc>{{ page.url | absolute_url | xml_escape }}</loc>
+    <lastmod>{{ page.last_modified_at | default: site.time | date_to_xmlschema }}</lastmod>
+  </url>
 {% endif %}{% endfor %}
 {% for post in site.posts %}
   <url>
-    <loc>{{ post.url | absolute_url }}</loc>
-    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+    <loc>{{ post.url | absolute_url | xml_escape }}</loc>
+    <lastmod>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</lastmod>
   </url>
 {% endfor %}
 </urlset>
