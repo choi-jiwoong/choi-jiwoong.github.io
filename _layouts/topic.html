@@ -1,0 +1,8 @@
+---
+layout: default
+---
+{% assign topic = site.data.topics | where: 'id', page.topic | first %}
+{% assign entries = site.posts | where: 'topic', page.topic %}
+<header class="collection-header"><a class="back-link" href="{{ '/' | relative_url }}#topics">← 주제 둘러보기</a><p class="eyebrow">{{ topic.label }}</p><h1>{{ topic.title }}</h1><p>{{ topic.description }}</p><span class="post-count">{{ entries.size }}개의 글</span></header>
+<nav class="topic-tabs" aria-label="주제 선택">{% for item in site.data.topics %}<a href="{{ '/topics/' | append: item.id | append: '/' | relative_url }}" {% if item.id == page.topic %}aria-current="page"{% endif %}>{{ item.title }}</a>{% endfor %}</nav>
+<div class="note-list">{% for post in entries %}{% include note-row.html post=post %}{% endfor %}</div>

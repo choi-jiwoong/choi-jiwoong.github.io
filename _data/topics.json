@@ -1,0 +1,37 @@
+[
+  {
+    "id": "ai",
+    "title": "AI · 자동화",
+    "label": "AI ENGINEERING",
+    "description": "모델 활용부터 에이전트와 업무 자동화까지.",
+    "number": "01"
+  },
+  {
+    "id": "cloud",
+    "title": "클라우드 · DevOps",
+    "label": "CLOUD & DEVOPS",
+    "description": "인프라를 설계하고, 안전하게 배포하고 운영하는 방법.",
+    "number": "02"
+  },
+  {
+    "id": "security",
+    "title": "보안 · 인증",
+    "label": "SECURITY & IDENTITY",
+    "description": "접근 제어부터 로그 탐지와 대응까지.",
+    "number": "03"
+  },
+  {
+    "id": "data",
+    "title": "데이터 · 추천",
+    "label": "DATA ENGINEERING",
+    "description": "데이터를 연결하고 추천의 품질을 평가하는 과정.",
+    "number": "04"
+  },
+  {
+    "id": "development",
+    "title": "개발 · 인터랙션",
+    "label": "DEVELOPMENT",
+    "description": "코드로 만드는 움직임과 사용자 경험.",
+    "number": "05"
+  }
+]

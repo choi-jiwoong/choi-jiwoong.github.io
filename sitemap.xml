@@ -15,6 +15,9 @@ sitemap: false
     <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
   </url>
 
+{% for page in site.pages %}{% if page.layout == 'topic' or page.url == '/archive/' or page.url == '/series/' %}
+  <url><loc>{{ page.url | absolute_url }}</loc></url>
+{% endif %}{% endfor %}
 {% for post in site.posts %}
   <url>
     <loc>{{ post.url | absolute_url }}</loc>
@@ -22,3 +25,4 @@ sitemap: false
   </url>
 {% endfor %}
 </urlset>
+

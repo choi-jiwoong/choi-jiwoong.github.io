@@ -1,0 +1,12 @@
+<div class="reading-paths">
+{% for collection in site.data.series %}
+  {% assign entries = site.posts | where: 'series', collection.id | sort: 'series_order' %}
+  {% if entries.size > 0 %}
+  <section class="reading-path" id="series-{{ collection.id }}">
+    <div class="path-heading"><h3>{{ collection.title }}</h3><span>{{ entries.size }}편</span></div>
+    <p>{{ collection.description }}</p>
+    <ol>{% for entry in entries %}<li><a href="{{ entry.url | relative_url }}">{{ entry.title | escape }}</a></li>{% endfor %}</ol>
+  </section>
+  {% endif %}
+{% endfor %}
+</div>

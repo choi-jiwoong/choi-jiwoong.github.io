@@ -1,4 +1,5 @@
 ---
+topic: cloud
 layout: post
 title: "Docker Image는 다시 Build하지 않는다 — Build Once, Promote by Tag"
 date: 2026-10-09 13:00:00 +0900

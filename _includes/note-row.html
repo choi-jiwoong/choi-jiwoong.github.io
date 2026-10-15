@@ -1,0 +1,6 @@
+{% assign note_topic = site.data.topics | where: 'id', include.post.topic | first %}
+<article class="note-row">
+  <div class="note-meta"><span>{{ note_topic.title | default: include.post.categories.first }}</span><time datetime="{{ include.post.date | date_to_xmlschema }}">{{ include.post.date | date: '%Y.%m.%d' }}</time></div>
+  <div><h3><a href="{{ include.post.url | relative_url }}">{{ include.post.title | escape }}</a></h3><p>{{ include.post.description | default: include.post.excerpt | strip_html | truncate: 140 }}</p></div>
+  <span class="note-arrow" aria-hidden="true">↗</span>
+</article>

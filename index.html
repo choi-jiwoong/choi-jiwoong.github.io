@@ -1,72 +1,28 @@
 ---
 layout: default
 title: Home
-description: DevOps, AWS, Terraform, Backend(Java·Node.js), Cloud Infrastructure와 AI Engineering을 직접 적용하며 배운 내용을 기록합니다.
+description: AI, 클라우드, 보안, 데이터와 개발을 주제별로 연결해 읽는 개발 기록.
 ---
-<section class="hero">
-  <div class="hero-copy">
-    <p class="eyebrow">DEVELOPER · DEVOPS · BACKEND</p>
-    <h1>복잡한 것을<br><span>단순하게 만드는</span><br>개발 기록.</h1>
-    <p class="hero-description">
-      DevOps, Terraform, Java, Node.js 그리고 운영 환경에서 부딪히며 배운 내용을 기록합니다.
-      정답보다 문제를 풀어가는 과정에 집중합니다.
-    </p>
-    <div class="hero-actions">
-      <a class="primary-button" href="#posts">글 보러가기 <span>↓</span></a>
-      <a class="text-link" href="{{ '/about/' | relative_url }}">About me →</a>
-    </div>
-  </div>
-  <div class="terminal-card" aria-label="개발자 프로필 요약">
-    <div class="terminal-bar"><i></i><i></i><i></i><span>profile.sh</span></div>
-    <pre><code><span class="prompt">$</span> whoami
-choi-jiwoong
-
-<span class="prompt">$</span> cat stack.txt
-DevOps      Terraform
-Java        Node.js
-Cloud       Automation
-
-<span class="prompt">$</span> echo $MOTTO
-"Automate the boring things."
-
-<span class="prompt">$</span> <span class="cursor">█</span></code></pre>
+<section class="knowledge-hero">
+  <div><p class="eyebrow">JIWOONG / ENGINEERING NOTES</p><h1>하나의 질문에서,<br><span>다음 이해로.</span></h1><p class="intro">AI와 인프라, 데이터와 코드.<br>문제를 풀어가는 기록을 주제별로 연결합니다.</p></div>
+  <aside class="index-summary"><span class="index-label">EXPLORE THE INDEX</span><strong>{{ site.posts.size }}<small>개의 기록</small></strong><p>5개의 주제, 이어지는 생각들.</p><a href="{{ '/archive/' | relative_url }}">전체 글 둘러보기 ↗</a></aside>
+</section>
+<section class="knowledge-section" id="topics">
+  <div class="section-heading"><div><p class="eyebrow">01 / TOPICS</p><h2>어떤 주제가 궁금한가요?</h2></div><span class="section-caption">관심 있는 분야부터 시작하세요.</span></div>
+  <div class="topic-grid">
+  {% for topic in site.data.topics %}{% assign entries = site.posts | where: 'topic', topic.id %}
+    <a class="topic-card topic-{{ topic.id }}" href="{{ '/topics/' | append: topic.id | append: '/' | relative_url }}">
+      <div class="topic-top"><span>{{ topic.number }}</span><span>{{ entries.size }}편 ↗</span></div>
+      <p class="topic-label">{{ topic.label }}</p><h3>{{ topic.title }}</h3><p>{{ topic.description }}</p>
+    </a>
+  {% endfor %}
   </div>
 </section>
-
-<section class="posts-section" id="posts">
-  <div class="section-heading">
-    <div>
-      <p class="eyebrow">LATEST NOTES</p>
-      <h2>최근 글</h2>
-    </div>
-    <span class="post-count">{{ site.posts | size }} posts</span>
-  </div>
-
-  {% if site.posts.size > 0 %}
-    <div class="post-grid">
-      {% for post in site.posts %}
-        <article class="post-card">
-          <a class="post-card-link" href="{{ post.url | relative_url }}" aria-label="{{ post.title }} 읽기"></a>
-          <div class="post-meta">
-            <span>{{ post.categories | first | default: 'Development' }}</span>
-            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
-          </div>
-          <h3>{{ post.title }}</h3>
-          <p>{{ post.description | default: post.excerpt | strip_html | truncate: 125 }}</p>
-          <div class="post-card-footer">
-            <div class="tag-list compact">
-              {% for tag in post.tags limit:3 %}<span class="tag">#{{ tag }}</span>{% endfor %}
-            </div>
-            <span class="arrow">↗</span>
-          </div>
-        </article>
-      {% endfor %}
-    </div>
-  {% else %}
-    <div class="empty-state">
-      <span class="empty-icon">⌁</span>
-      <h3>첫 번째 글을 준비 중입니다.</h3>
-      <p><code>_posts</code> 폴더에 Markdown 파일을 추가하면 이곳에 자동으로 표시됩니다.</p>
-    </div>
-  {% endif %}
+<section class="knowledge-section" id="series">
+  <div class="section-heading"><div><p class="eyebrow">02 / READING PATHS</p><h2>순서대로 이어 읽기</h2></div><a class="text-link" href="{{ '/series/' | relative_url }}">전체 목록 ↗</a></div>
+  {% include series-list.html %}
+</section>
+<section class="knowledge-section" id="posts">
+  <div class="section-heading"><div><p class="eyebrow">03 / RECENT NOTES</p><h2>새로 쓴 기록</h2></div><a class="text-link" href="{{ '/archive/' | relative_url }}">전체 {{ site.posts.size }}편 보기 ↗</a></div>
+  <div class="note-list">{% for post in site.posts limit:6 %}{% include note-row.html post=post %}{% endfor %}</div>
 </section>

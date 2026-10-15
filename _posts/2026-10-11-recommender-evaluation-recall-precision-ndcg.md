@@ -1,4 +1,7 @@
 ---
+topic: data
+series: recommendation
+series_order: 2
 title: "추천 시스템은 어떻게 평가할까 — Recall@K, Precision@K, NDCG"
 description: "추천 결과의 적중률과 순서 품질을 Recall@K, Precision@K, NDCG로 계산하고 Offline·Online 평가를 구분한다."
 date: 2026-10-11 12:05:00 +0900

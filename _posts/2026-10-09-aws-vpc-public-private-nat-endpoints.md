@@ -1,4 +1,5 @@
 ---
+topic: cloud
 layout: post
 title: "AWS VPC를 처음부터 설계한다면 — Public/Private Subnet, NAT, VPC Endpoint"
 date: 2026-10-09 13:10:00 +0900

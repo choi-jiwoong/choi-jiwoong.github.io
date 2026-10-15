@@ -1,4 +1,5 @@
 ---
+topic: security
 title: "AWS Security Agent는 기존 보안 스캐너와 뭐가 다를까"
 description: "AWS Security Agent와 AWS Continuum이 Design Review, Code Review, Threat Modeling, Penetration Testing을 어떻게 연결하는지 AppSec 관점에서 정리했다."
 date: 2026-10-08 13:25:00 +0900

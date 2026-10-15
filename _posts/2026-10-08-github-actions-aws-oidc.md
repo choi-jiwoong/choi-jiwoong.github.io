@@ -1,4 +1,5 @@
 ---
+topic: cloud
 title: "GitHub Actions에서 AWS Access Key 없이 배포하기: OIDC 구조 이해하기"
 description: "GitHub Actions에 장기 AWS Access Key를 저장하지 않고 OIDC와 IAM Role을 이용해 short-lived credential로 AWS에 접근하는 구조를 정리했다."
 date: 2026-10-08 09:10:00 +0900

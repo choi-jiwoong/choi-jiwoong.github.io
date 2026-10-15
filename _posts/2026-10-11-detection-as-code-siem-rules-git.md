@@ -1,4 +1,7 @@
 ---
+topic: security
+series: siem
+series_order: 3
 title: "Detection as Code — SIEM Rule도 Git으로 관리해야 하는 이유"
 description: "SIEM 탐지 규칙을 Git에서 버전 관리하고 Sigma, 테스트, CI/CD, 배포 및 Rollback까지 연결하는 실무 설계."
 date: 2026-10-11 12:10:00 +0900

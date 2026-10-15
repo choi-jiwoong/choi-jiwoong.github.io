@@ -1,4 +1,7 @@
 ---
+topic: security
+series: siem
+series_order: 1
 title: "SIEM이란 무엇인가: 로그 수집부터 탐지와 대응까지"
 description: "SIEM이 단순한 로그 저장소와 무엇이 다른지, Collection·Normalization·Correlation·Detection·Investigation 흐름을 기준으로 정리했다."
 date: 2026-09-29 13:15:00 +0900

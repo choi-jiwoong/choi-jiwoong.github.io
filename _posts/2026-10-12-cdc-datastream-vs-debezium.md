@@ -1,4 +1,7 @@
 ---
+topic: data
+series: cdc
+series_order: 1
 title: "CDC 아키텍처 비교 — GCP Datastream vs Debezium"
 description: "운영 DB를 BigQuery로 복제하는 Datastream과 Debezium·Kafka 기반 이벤트 파이프라인의 데이터 흐름, 운영 책임과 선택 기준을 비교한다."
 date: 2026-10-12 20:59:00 +0900

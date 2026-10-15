@@ -89,6 +89,7 @@
 
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/search.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/topics.css' | relative_url }}">
     <script>
       (function () {
         var saved = localStorage.getItem('theme');
@@ -105,7 +106,9 @@
           <span>{{ site.title }}</span>
         </a>
         <nav class="site-nav" aria-label="주요 메뉴">
-          <a href="{{ '/' | relative_url }}">Posts</a>
+          <a href="{{ '/' | relative_url }}#topics">주제</a>
+          <a href="{{ '/series/' | relative_url }}">이어 읽기</a>
+          <a href="{{ '/archive/' | relative_url }}">전체 글</a>
           <a href="{{ '/about/' | relative_url }}">About</a>
           <a href="https://github.com/choi-jiwoong" target="_blank" rel="noreferrer">GitHub</a>
           <button class="search-open" type="button" aria-label="포스트 검색" title="포스트 검색">
@@ -154,3 +157,4 @@
     <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
   </body>
 </html>
+

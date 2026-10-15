@@ -3,7 +3,7 @@ layout: default
 ---
 <article class="post-page">
   <div class="post-tools">
-    <a class="back-link" href="{{ '/' | relative_url }}">← 모든 글</a>
+    <a class="back-link" href="{{ '/archive/' | relative_url }}">← 모든 글</a>
     <button class="post-search-button search-open" type="button" aria-label="포스트 검색">
       <span aria-hidden="true">⌕</span>
       <span>글 검색</span>
@@ -11,6 +11,8 @@ layout: default
     </button>
   </div>
 
+  {% assign topic = site.data.topics | where: 'id', page.topic | first %}
+  {% if topic %}<a class="post-topic-link" href="{{ '/topics/' | append: topic.id | append: '/' | relative_url }}">{{ topic.title }} / 주제의 다른 글 ↗</a>{% endif %}
   <header class="post-header">
     <div class="post-kicker">
       {% if page.categories and page.categories.size > 0 %}
@@ -33,6 +35,14 @@ layout: default
     {{ content }}
   </div>
 
+  {% if page.series %}
+    {% assign related = site.posts | where: 'series', page.series | sort: 'series_order' %}
+    {% assign collection = site.data.series | where: 'id', page.series | first %}
+    <nav class="post-series reading-path" aria-label="이어 읽기">
+      <p class="eyebrow">READING PATH</p><h2>{{ collection.title | default: page.series }}</h2>
+      <ol>{% for entry in related %}<li>{% if entry.url == page.url %}<span aria-current="page">{{ entry.title | escape }} · 현재 글</span>{% else %}<a href="{{ entry.url | relative_url }}">{{ entry.title | escape }}</a>{% endif %}</li>{% endfor %}</ol>
+    </nav>
+  {% endif %}
   <footer class="post-end">
     <span>EOF</span>
     <a href="{{ '/' | relative_url }}">다른 글 보기 →</a>
@@ -41,3 +51,4 @@ layout: default
 
 
 <script src="{{ '/assets/js/diagrams.js' | relative_url }}" defer></script>
+
