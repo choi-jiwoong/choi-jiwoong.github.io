@@ -1,7 +1,8 @@
 ---
 title: "업무 시스템·규칙·LLM의 역할을 나누는 법"
 description: "원본 상태, 계산과 대조, 비정형 정보 추출, 사람 승인을 분리하고 AI의 제안을 검증된 업무 변경으로 연결한다."
-date: 2026-10-19 10:36:01 +0900
+date: 2026-10-16 16:00:00 +0900
+last_modified_at: 2026-10-19
 topic: ai
 series: internal-ai
 series_order: 2

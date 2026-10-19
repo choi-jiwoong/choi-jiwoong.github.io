@@ -4,8 +4,8 @@ series: agents
 series_order: 2
 title: "프롬프트 엔지니어링 다음은 왜 Harness Engineering인가"
 description: "에이전트의 반복 실패를 줄이기 위한 저장소 안내, 권한, 테스트와 관측·복구 설계를 DevOps 관점에서 정리한다."
-date: 2026-09-08 14:20:00 +0900
-last_modified_at: 2026-10-13
+date: 2026-09-08 14:35:00 +0900
+last_modified_at: 2026-10-19
 categories: [AI]
 tags: [AI, Agent, HarnessEngineering, Codex, DevOps, PlatformEngineering]
 ---
