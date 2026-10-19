@@ -4,8 +4,8 @@ series: siem
 series_order: 2
 title: "AWS 인프라로 SIEM 만들기: Security Lake와 OpenSearch"
 description: "Amazon Security Lake를 보안 분석용 Source of Truth로 두고 OpenSearch, Athena, Log Archive, Detection GitOps를 연결해 운영 가능한 AWS SIEM 구조를 정리했다."
-date: 2026-09-29 13:20:00 +0900
-last_modified_at: 2026-10-13
+date: 2026-08-05 11:00:00 +0900
+last_modified_at: 2026-10-19
 categories: [AWS]
 tags: [AWS, SIEM, SecurityLake, OpenSearch, OCSF, SecurityHub, CloudTrail, GitOps]
 ---

@@ -1,7 +1,7 @@
 ---
 title: "추천 시스템 Two-Tower 다음 단계 — ANN과 Vector Search"
 description: "Two-Tower의 벡터를 검색 후보로 연결하고 HNSW·IVF, 필터, 모델·인덱스 버전과 ANN Recall을 구분해 설계한다."
-date: 2026-10-10 15:00:00 +0900
+date: 2026-08-19 11:00:00 +0900
 last_modified_at: 2026-10-19
 topic: data
 series: recommendation

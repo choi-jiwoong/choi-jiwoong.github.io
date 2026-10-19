@@ -2,8 +2,8 @@
 topic: ai
 title: "검색 키워드 생성 모델 6종을 비교해보니, GPT-5.6 Luna가 의외로 강했다"
 description: "2,000건 평가에서 Luna와 Opus 5의 오탐률 차이는 측정 한계 안에 있었지만, 커버리지 차이와 비용 추정 결과를 비교하고, 평가 재현에 필요한 조건을 정리했다."
-date: 2026-09-04 17:45:00 +0900
-last_modified_at: 2026-10-13
+date: 2026-07-24 11:00:00 +0900
+last_modified_at: 2026-10-19
 categories: [AI]
 tags: [GPT5.6, Luna, Claude, Opus5, Gemini, Benchmark, LLM, Cost]
 ---

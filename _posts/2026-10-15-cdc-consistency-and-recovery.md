@@ -2,8 +2,8 @@
 layout: post
 title: "CDC 정합성과 장애 복구 — 중복·역순·재처리를 다루는 방법"
 description: "초기 적재 경계부터 멱등 upsert, 삭제 버전 보존과 replay까지. orders 예제로 CDC 목적지의 최신 상태를 지키고 복구 완료를 검증하는 방법을 정리한다."
-date: 2026-10-15 13:47:00 +0900
-last_modified_at: 2026-10-15
+date: 2026-08-27 11:00:00 +0900
+last_modified_at: 2026-10-19
 categories: [Data]
 tags: [CDC, Datastream, Debezium, Kafka, DataEngineering, Recovery]
 topic: data
