@@ -2,7 +2,7 @@
 layout: post
 title: "Debezium CDC 운영 — Kafka Connect와 Schema Evolution"
 description: "Kafka Connect의 worker·connector·task 운영과 schema history를 이해하고, coupon_code 추가 예제로 이벤트·소비자·목적지의 안전한 변경 순서를 정리한다."
-date: 2026-09-19 11:00:00 +0900
+date: 2026-10-17 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [Data]
 tags: [CDC, Debezium, Kafka, KafkaConnect, SchemaRegistry, DataEngineering]
