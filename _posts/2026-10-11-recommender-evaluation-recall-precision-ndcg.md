@@ -1,11 +1,11 @@
 ---
 topic: data
 series: recommendation
-series_order: 2
+series_order: 3
 title: "추천 시스템은 어떻게 평가할까 — Recall@K, Precision@K, NDCG"
 description: "추천 결과의 적중률과 순서 품질을 Recall@K, Precision@K, NDCG로 계산하고 Offline·Online 평가를 구분한다."
 date: 2026-10-11 12:05:00 +0900
-last_modified_at: 2026-10-13
+last_modified_at: 2026-10-19
 categories: [Data]
 tags: [Recommendation, Evaluation, Recall, Precision, NDCG, Ranking, ABTesting]
 ---
@@ -14,7 +14,7 @@ tags: [Recommendation, Evaluation, Recall, Precision, NDCG, Ranking, ABTesting]
 
 모델의 loss가 내려간다고 사용자가 좋아할 상품을 상단에 보여준다는 뜻은 아니다. 추천에서는 **무엇을 후보로 가져왔는지**와 **어떤 순서로 보여줬는지**를 따로 확인해야 한다.
 
-앞서 [MF와 Two-Tower를 비교한 글]({% post_url 2026-09-29-mf-vs-two-tower-recommendation-system %})에서 Retrieval과 Ranking의 구조를 살펴봤다. 이번에는 그 결과를 평가하는 방법을 정리한다.
+앞서 [MF와 Two-Tower를 비교한 글]({% post_url 2026-09-29-mf-vs-two-tower-recommendation-system %})에서 Retrieval과 Ranking의 구조를 살펴봤다. [ANN과 Vector Search 글](/posts/two-tower-ann-vector-search/)에서는 후보 검색과 근사 오차를 다뤘다. 이번에는 추천 결과를 평가하는 방법을 정리한다.
 
 ## 평가 데이터부터 정의하자
 

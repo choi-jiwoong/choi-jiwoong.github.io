@@ -112,7 +112,7 @@ AI 호출에 10초가 걸렸다고 10분짜리 업무가 10초로 줄었다고 �
 
 Anthropic은 미리 정해진 코드 경로를 따르는 workflow와 모델이 실행 경로를 결정하는 agent를 구분한다. 고정된 문의 추출·검토 업무라면 먼저 단순한 workflow로 평가하고, 실제로 동적 탐색이 필요한 부분에만 자율성을 늘릴 수 있다. [2]
 
-완료 기준을 정했다면 다음 질문은 각 단계의 책임이다. 이 시리즈의 [3편](/posts/internal-ai-marketing-support-accounting/)은 업무별 예제, [4편](/posts/internal-ai-architecture-data-permission-boundaries/)은 아키텍처, [5편](/posts/internal-ai-api-local-hybrid-infrastructure/)은 실행 환경, [6편](/posts/internal-ai-operations-recovery-evaluation/)은 복구와 성과 측정으로 이어진다.
+완료 기준을 정했다면 [2편의 시스템·규칙·LLM 역할 분리](/posts/internal-ai-system-rules-llm-roles/)에서 각 단계의 책임을 나눈다. 이 시리즈의 [3편](/posts/internal-ai-marketing-support-accounting/)은 업무별 예제, [4편](/posts/internal-ai-architecture-data-permission-boundaries/)은 아키텍처, [5편](/posts/internal-ai-api-local-hybrid-infrastructure/)은 실행 환경, [6편](/posts/internal-ai-operations-recovery-evaluation/)은 복구와 성과 측정으로 이어진다.
 
 ## 참고 자료
 

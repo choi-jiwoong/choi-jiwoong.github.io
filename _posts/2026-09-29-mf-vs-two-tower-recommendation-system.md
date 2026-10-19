@@ -5,7 +5,7 @@ series_order: 1
 title: "추천 시스템에서 MF 다음은 왜 Two-Tower인가"
 description: "CF와 MF에서 시작해 Two-Tower, Vector Search, Ranking으로 이어지는 현대 추천 시스템 구조를 쉽게 정리했다."
 date: 2026-09-29 11:40:00 +0900
-last_modified_at: 2026-10-13
+last_modified_at: 2026-10-19
 categories: [Data]
 tags: [Recommendation, CF, MF, TwoTower, Embedding, VectorSearch, Ranking]
 ---
@@ -272,7 +272,7 @@ MF는 추천 시스템의 기본 원리를 이해하기 좋은 모델이고, Two
 
 학습 목표, positive/negative 구성, 평가 시점의 feature를 먼저 정한다. 사용자·상품 tower의 출력 차원과 점수 함수가 맞아야 하고, 모델을 바꾸면 미리 계산한 상품 벡터와 검색 인덱스도 같은 버전으로 맞춰야 한다. 서빙 중 두 버전이 섞이면 점수의 의미가 달라질 수 있다.
 
-평가는 [Recall@K·Precision@K·NDCG 글]({% post_url 2026-10-11-recommender-evaluation-recall-precision-ndcg %})에서 이어서 다룬다.
+후보 검색 구현은 [ANN과 Vector Search 글](/posts/two-tower-ann-vector-search/)에서, 평가는 [Recall@K·Precision@K·NDCG 글]({% post_url 2026-10-11-recommender-evaluation-recall-precision-ndcg %})에서 이어서 다룬다.
 
 ## 참고 자료
 
