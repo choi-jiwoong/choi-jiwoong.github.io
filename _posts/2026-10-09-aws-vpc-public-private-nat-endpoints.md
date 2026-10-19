@@ -2,7 +2,7 @@
 topic: cloud
 layout: post
 title: "AWS VPC를 처음부터 설계한다면 — Public/Private Subnet, NAT, VPC Endpoint"
-date: 2026-08-23 11:00:00 +0900
+date: 2026-09-03 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [AWS, Networking]
 tags: [AWS, VPC, Subnet, NAT Gateway, VPC Endpoint, ALB]

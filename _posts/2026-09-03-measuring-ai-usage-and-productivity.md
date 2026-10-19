@@ -2,7 +2,7 @@
 topic: ai
 title: "AI 사용량을 측정하기 시작하니 오히려 AI를 더 쓰게 됐다"
 description: "ClaudeTuner를 사용하면서 느낀 점과 함께, 단순 사용량을 넘어 개발자의 AI 활용도를 어떻게 측정하면 좋을지 정리해봤다."
-date: 2026-07-23 11:00:00 +0900
+date: 2026-08-03 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [AI]
 tags: [AI, Claude, ClaudeTuner, Productivity, DeveloperTools, Automation]

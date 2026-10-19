@@ -2,7 +2,7 @@
 topic: security
 title: "Active Directory를 AWS에 연동해보니 IAM이 재미있어졌다"
 description: "AD와 AWS 연동 경험을 계기로 Okta, Entra ID, IAM Identity Center, JumpCloud, Keycloak 등 대표 IAM 솔루션의 역할과 장단점을 정리해봤다."
-date: 2026-07-20 11:00:00 +0900
+date: 2026-07-31 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [IAM]
 tags: [ActiveDirectory, AWS, Okta, EntraID, IAM, SSO, SCIM, Keycloak]

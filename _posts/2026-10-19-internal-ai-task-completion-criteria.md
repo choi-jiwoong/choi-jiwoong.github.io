@@ -1,7 +1,7 @@
 ---
 title: "사내 AI 도입, 업무와 완료 기준부터 정하기"
 description: "모델과 서버를 고르기 전에 입력·출력·완료 증거를 정의하고, 문의 후속 처리 예제로 작은 PoC의 평가 범위를 정한다."
-date: 2026-09-10 11:00:00 +0900
+date: 2026-09-21 11:00:00 +0900
 last_modified_at: 2026-10-19
 topic: ai
 series: internal-ai

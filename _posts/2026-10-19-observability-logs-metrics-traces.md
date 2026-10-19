@@ -1,7 +1,7 @@
 ---
 title: "로그·Metric·Trace는 무엇이 다를까 — Observability 기본 구조"
 description: "주문 API 지연 예제로 Metrics·Traces·Logs의 역할과 연결 방법을 살펴보고 OpenTelemetry 수집 경로와 비용·누락을 설계한다."
-date: 2026-08-25 11:00:00 +0900
+date: 2026-09-05 11:00:00 +0900
 last_modified_at: 2026-10-19
 topic: cloud
 categories: [DevOps]
