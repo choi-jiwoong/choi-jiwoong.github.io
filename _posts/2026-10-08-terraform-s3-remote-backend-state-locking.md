@@ -2,7 +2,7 @@
 topic: cloud
 title: "Terraform State는 왜 S3에 저장할까: Remote Backend와 Locking 이해하기"
 description: "Terraform state를 local 파일로 두면 어떤 문제가 생기는지, S3 Remote Backend와 native state locking을 왜 사용하는지 운영 관점에서 정리했다."
-date: 2026-08-07 11:00:00 +0900
+date: 2026-08-14 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [DevOps]
 tags: [Terraform, AWS, S3, IaC, DevOps, State, RemoteBackend]

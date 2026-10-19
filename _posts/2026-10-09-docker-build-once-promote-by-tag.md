@@ -2,7 +2,7 @@
 topic: cloud
 layout: post
 title: "Docker Image는 다시 Build하지 않는다 — Build Once, Promote by Tag"
-date: 2026-08-13 11:00:00 +0900
+date: 2026-08-21 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [DevOps, Docker]
 tags: [Docker, CI/CD, OCI, crane, GitHub Actions]

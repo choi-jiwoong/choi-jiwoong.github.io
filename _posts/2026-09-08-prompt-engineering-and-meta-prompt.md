@@ -4,7 +4,7 @@ series: agents
 series_order: 1
 title: "프롬프트 엔지니어링에서 메타프롬프트까지: AI에게 질문하는 법에서 행동을 설계하는 법으로"
 description: "좋은 질문을 만드는 Prompt Engineering과 AI의 행동 원칙을 정의하는 Meta Prompt의 차이를 개발자 관점에서 예제와 함께 정리했다."
-date: 2026-07-26 11:00:00 +0900
+date: 2026-07-28 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [AI]
 tags: [AI, PromptEngineering, MetaPrompt, ContextEngineering, LLM, Agent]

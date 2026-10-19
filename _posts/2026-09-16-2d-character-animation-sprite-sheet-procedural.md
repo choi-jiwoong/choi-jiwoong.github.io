@@ -2,7 +2,7 @@
 topic: development
 title: "2D 캐릭터 움직임은 어떻게 만들까: Sprite Sheet와 Procedural Animation"
 description: "2D 게임에서 캐릭터의 걷기, 점프, 공격 동작을 만드는 대표적인 두 방식인 Sprite Sheet 애니메이션과 Procedural Animation을 비교해봤다."
-date: 2026-07-30 11:00:00 +0900
+date: 2026-08-03 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [GameDev]
 tags: [2DGame, Phaser, SpriteSheet, Animation, ProceduralAnimation, GameDev]

@@ -4,7 +4,7 @@ series: recommendation
 series_order: 1
 title: "추천 시스템에서 MF 다음은 왜 Two-Tower인가"
 description: "CF와 MF에서 시작해 Two-Tower, Vector Search, Ranking으로 이어지는 현대 추천 시스템 구조를 쉽게 정리했다."
-date: 2026-08-01 11:00:00 +0900
+date: 2026-08-05 11:00:00 +0900
 last_modified_at: 2026-10-19
 categories: [Data]
 tags: [Recommendation, CF, MF, TwoTower, Embedding, VectorSearch, Ranking]
