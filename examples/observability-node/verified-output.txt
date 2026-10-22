@@ -1,0 +1,25 @@
+Listening on 127.0.0.1:3000
+{"event":"order_received","service":"order-demo","trace_id":"949fb047a2704d9d59cb76de0cc37bee","span_id":"4f50d8c2f85e2a47"}
+{
+  resource: {
+    attributes: {
+      'service.name': 'order-demo',
+      'telemetry.sdk.language': 'nodejs',
+      'telemetry.sdk.name': 'opentelemetry',
+      'telemetry.sdk.version': '1.30.1'
+    }
+  },
+  instrumentationScope: { name: 'order-demo', version: undefined, schemaUrl: undefined },
+  traceId: '949fb047a2704d9d59cb76de0cc37bee',
+  parentId: undefined,
+  traceState: undefined,
+  name: 'GET /orders/demo',
+  id: '4f50d8c2f85e2a47',
+  kind: 0,
+  timestamp: 1792675764125000,
+  duration: 13012.313,
+  attributes: { 'demo.order_id': 'demo' },
+  status: { code: 0 },
+  events: [],
+  links: []
+}

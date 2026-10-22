@@ -3,7 +3,7 @@ topic: development
 title: "2D 캐릭터 움직임은 어떻게 만들까: Sprite Sheet와 Procedural Animation"
 description: "2D 게임에서 캐릭터의 걷기, 점프, 공격 동작을 만드는 대표적인 두 방식인 Sprite Sheet 애니메이션과 Procedural Animation을 비교해봤다."
 date: 2026-08-14 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 categories: [GameDev]
 tags: [2DGame, Phaser, SpriteSheet, Animation, ProceduralAnimation, GameDev]
 ---
@@ -243,11 +243,7 @@ Spine 같은 도구는 몸통·팔·다리 이미지를 뼈대에 연결하고 �
 
 걷기, 달리기, 공격처럼 팔다리의 자세가 바뀌는 동작은 프레임 애니메이션이나 뼈대 애니메이션으로 표현할 수 있다. Sprite Sheet가 반드시 필요한 것은 아니다.
 
-결국 가장 실용적인 구조는:
-
-프레임 동작은 **Sprite Sheet**, 보조 연출은 **Procedural Animation**, 이동과 충돌은 **2D Physics**가 담당한다.
-
-조합이라고 생각한다.
+이 예제에서는 프레임 동작을 **Sprite Sheet**, 보조 연출을 **Procedural Animation**, 이동과 충돌을 **2D Physics**가 담당하도록 역할을 나눈다.
 
 ---
 

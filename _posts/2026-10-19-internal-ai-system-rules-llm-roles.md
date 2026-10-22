@@ -2,7 +2,7 @@
 title: "업무 시스템·규칙·LLM의 역할을 나누는 법"
 description: "원본 상태, 계산과 대조, 비정형 정보 추출, 사람 승인을 분리하고 AI의 제안을 검증된 업무 변경으로 연결한다."
 date: 2026-09-24 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 topic: ai
 series: internal-ai
 series_order: 2
@@ -122,6 +122,12 @@ API 타임아웃은 ‘변경이 안 됐다’는 증거가 아니다. 무조건
 Anthropic의 workflow·agent 구분은 이 선택을 설명하는 유용한 틀이다. 자율적인 루프가 필요하다는 근거 없이 모든 단계를 agent로 옮기면 실패 위치를 찾고 비용을 예측하기 어려워질 수 있다. [1]
 
 역할을 나눴다면 [3편의 마케팅·상담·회계 예시](/posts/internal-ai-marketing-support-accounting/)에서 같은 원칙이 서로 다른 입력과 검토 기준에 어떻게 적용되는지 확인할 수 있다.
+
+## case-042의 역할별 결과
+
+[1편](/posts/internal-ai-task-completion-criteria/)의 `case-042`에서는 LLM이 방문 요청과 일정 확인 약속을 추출하고, 규칙은 예약 ID가 없을 때 확정 상태를 허용하지 않는다. 업무 시스템은 현재 예약 상태를 조회하며, 사람은 제안된 후속 조치를 검토한다.
+
+`reservation_status=requested`, `confirmed_reservation_id=null`, `review_state=pending`이 이 사례의 기대 상태다. 문장의 자연스러움보다 이 필드와 원문 근거를 먼저 검증한다. 업무별 출력의 차이는 [3편](/posts/internal-ai-marketing-support-accounting/)에서 비교한다.
 
 ## 참고 자료
 

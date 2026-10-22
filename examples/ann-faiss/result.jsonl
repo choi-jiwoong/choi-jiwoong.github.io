@@ -1,0 +1,5 @@
+{"python": "3.12.14", "machine": "x86_64", "faiss": "1.12.0", "numpy": "2.2.6", "threads": 1, "items": 10000, "queries": 200, "dimension": 64, "k": 10, "build_seconds": 14.97986387100002, "serialized_index_bytes": 5277858}
+{"efSearch": 16, "recall_at_10": 0.686, "p50_ms": 0.04780299997264592, "p95_ms": 5.118249700035439, "process_peak_rss_mib": 65.875}
+{"efSearch": 32, "recall_at_10": 0.84, "p50_ms": 0.060380000036275305, "p95_ms": 1.2730392999969806, "process_peak_rss_mib": 65.875}
+{"efSearch": 64, "recall_at_10": 0.958, "p50_ms": 0.13520350000817416, "p95_ms": 2.4466541500260046, "process_peak_rss_mib": 65.875}
+{"efSearch": 128, "recall_at_10": 0.9965, "p50_ms": 0.49502950002988655, "p95_ms": 3.428068300081573, "process_peak_rss_mib": 65.875}

@@ -3,7 +3,7 @@ topic: security
 title: "AWS Security Agent는 기존 보안 스캐너와 뭐가 다를까"
 description: "AWS Security Agent와 AWS Continuum이 Design Review, Code Review, Threat Modeling, Penetration Testing을 어떻게 연결하는지 AppSec 관점에서 정리했다."
 date: 2026-08-30 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 categories: [AWS]
 tags: [AWS, Security, AWSContinuum, SecurityAgent, AppSec, DevSecOps, AI]
 ---
@@ -438,7 +438,7 @@ AI가 Fix PR을 만들었다고 해도:
 
 Security Fix를 검토할 때는 **성능, 하위 호환성, 비즈니스 로직에 미치는 영향**을 함께 확인한다.
 
-을 사람이 확인해야 한다.
+이 항목들은 사람이 검토하고 테스트로 확인해야 한다.
 
 Remediation이 자동화되더라도 Production Code에 대한 Review와 Test가 사라지는 것은 아니다.
 
@@ -455,8 +455,6 @@ Penetration Testing은 일반적인 Scan 횟수 기반이 아니라 **task-hour*
 그래서:
 
 여러 Agent Task가 병렬로 실행되면 **누적 Task Hour는 실제 경과 시간과 다를 수 있다.**
-
-로 보는 편이 맞다.
 
 Pentest를 실제 운영에 넣는다면 Scope와 Test 대상을 얼마나 잘 제한하느냐가 비용 관리에서도 중요하다.
 
@@ -496,7 +494,7 @@ Pentest를 실제 운영에 넣는다면 Scope와 Test 대상을 얼마나 잘 �
 
 기존 **SAST·SCA·DAST**와 **AWS Security Agent**를 함께 활용하는 구성을 검토한다.
 
-처럼 병행해서 결과를 비교하는 게 현실적이다.
+동일한 대상에서 결과를 비교한 뒤 도입 범위를 결정한다.
 
 확인하고 싶은 건 다음이다.
 

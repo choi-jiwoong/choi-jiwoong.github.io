@@ -2,7 +2,7 @@
 title: "로그·Metric·Trace는 무엇이 다를까 — Observability 기본 구조"
 description: "주문 API 지연 예제로 Metrics·Traces·Logs의 역할과 연결 방법을 살펴보고 OpenTelemetry 수집 경로와 비용·누락을 설계한다."
 date: 2026-09-05 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 topic: cloud
 categories: [DevOps]
 tags: [Observability, OpenTelemetry, Metrics, Logs, Tracing, Monitoring]
@@ -144,6 +144,41 @@ Head sampling은 trace 시작 단계에서 보존 여부를 결정한다. Tail s
 처음 도입한다면 주요 요청 경로 하나에서 서비스 식별자, 지연 Histogram, 핵심 span, trace와 연결되는 오류 로그부터 확인할 수 있다. 그 데이터로 실제 질문에 답할 수 있는지 확인한 뒤 범위를 늘리는 편이 비용과 운영 책임을 파악하기 쉽다.
 
 보안 탐지는 같은 로그를 사용할 수 있어도 탐지 규칙과 조사 절차가 별도로 필요하다. 관련 내용은 [Detection as Code](/posts/detection-as-code-siem-rules-git/)에서 이어서 볼 수 있다.
+
+## 직접 연결해 보기: HTTP 요청 → Span → 같은 ID의 로그
+
+2026-10-22에 Node.js 24.19.0에서 실행 확인한 최소 예제다. SDK 버전은 `@opentelemetry/sdk-node 0.57.2`, `sdk-trace-base 1.30.1`, `api 1.9.0`으로 고정했다. 최신 버전 안내가 아니라 아래 결과의 재현 조건이다.
+
+[전체 코드·잠금 파일·실행 출력](https://github.com/choi-jiwoong/choi-jiwoong.github.io/tree/main/examples/observability-node)에서 파일을 내려받고 해당 디렉터리에서 실행한다.
+
+```bash
+npm ci
+node app.cjs
+# 다른 터미널에서 실행
+curl http://127.0.0.1:3000/orders/demo
+```
+
+핵심은 요청 처리 안에서 Span을 열고, 그 컨텍스트의 ID를 로그에 넣는 것이다.
+
+```javascript
+tracer.startActiveSpan('GET /orders/demo', (span) => {
+  try {
+    const { traceId, spanId } = span.spanContext();
+    console.log(JSON.stringify({
+      event: 'order_received', trace_id: traceId, span_id: spanId
+    }));
+    // 응답에도 traceId를 포함해 요청과 대조한다.
+  } finally {
+    span.end();
+  }
+});
+```
+
+실제 실행에서 HTTP 응답의 `trace_id`, JSON 로그의 `trace_id`, ConsoleSpanExporter 출력의 `traceId`가 모두 `949fb047a2704d9d59cb76de0cc37bee`로 일치했다. 재실행하면 ID는 바뀌지만 세 값의 일치는 유지되어야 한다.
+
+데모는 매 요청을 내보내도록 `AlwaysOnSampler`를 명시하고 자원 자동 탐지는 끈다. 환경의 샘플링 비율이 낮으면 로그에는 ID가 있어도 해당 Trace가 저장되지 않을 수 있기 때문이다. 운영에서는 저장 비용과 조사 필요에 맞춰 샘플링 정책을 따로 정한다.
+
+이 코드는 수동 Span과 표준 출력 로그의 상관관계를 확인한다. HTTP 자동 계측, 서비스 사이의 컨텍스트 전파, OTLP 로그 전송을 구현한 예제는 아니다. Collector와 저장 백엔드 연결은 앞의 설계를 별도로 적용하고 검증해야 한다.
 
 ## 참고 자료
 

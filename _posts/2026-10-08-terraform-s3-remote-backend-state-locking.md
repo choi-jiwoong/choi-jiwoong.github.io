@@ -3,7 +3,7 @@ topic: cloud
 title: "Terraform State는 왜 S3에 저장할까: Remote Backend와 Locking 이해하기"
 description: "Terraform state를 local 파일로 두면 어떤 문제가 생기는지, S3 Remote Backend와 native state locking을 왜 사용하는지 운영 관점에서 정리했다."
 date: 2026-08-25 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 categories: [DevOps]
 tags: [Terraform, AWS, S3, IaC, DevOps, State, RemoteBackend]
 ---
@@ -241,8 +241,6 @@ terraform {
 - s3:GetObject
 - s3:PutObject
 
-권한이 필요하다.
-
 use_lockfile을 사용한다면 Lockfile에는:
 
 - s3:GetObject
@@ -296,7 +294,7 @@ SSE-KMS를 사용한다면 해당 KMS 키에 필요한 권한과 키 정책도 �
 
 ## 잠금 충돌과 복구
 
-앞의 WAIT는 개념도다. 다른 실행이 잠금을 잡았을 때 일정 시간 재시도하려면 대기 시간을 명시한다.
+앞의 잠금 대기 흐름은 개념도다. 다른 실행이 잠금을 잡았을 때 일정 시간 재시도하려면 대기 시간을 명시한다.
 
 ~~~bash
 terraform plan -lock-timeout=5m

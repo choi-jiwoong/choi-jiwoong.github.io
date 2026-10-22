@@ -1,0 +1,51 @@
+{
+  "raw": {
+    "eventSource": "signin.amazonaws.com",
+    "eventName": "ConsoleLogin",
+    "sourceIPAddress": "192.0.2.10",
+    "recipientAccountId": "111122223333",
+    "userIdentity": {
+      "principalId": "demo-user"
+    },
+    "responseElements": {
+      "ConsoleLogin": "Failure"
+    },
+    "eventID": "demo-5",
+    "eventTime": "2026-10-22T00:05:00Z"
+  },
+  "ocsf_projection": {
+    "metadata": {
+      "uid": "demo-5"
+    },
+    "time": 1792627500000,
+    "class_uid": 3002,
+    "activity_id": 1,
+    "type_uid": 300201,
+    "status_id": 2,
+    "src_endpoint": {
+      "ip": "192.0.2.10"
+    },
+    "user": {
+      "uid": "demo-user"
+    },
+    "cloud": {
+      "account": {
+        "uid": "111122223333"
+      }
+    }
+  },
+  "finding": {
+    "rule_id": "demo-console-failures-v1",
+    "account": "111122223333",
+    "source_ip": "192.0.2.10",
+    "window_end": "2026-10-22T00:05:00Z",
+    "failed_events": 5,
+    "event_ids": [
+      "demo-1",
+      "demo-2",
+      "demo-3",
+      "demo-4",
+      "demo-5"
+    ]
+  }
+}

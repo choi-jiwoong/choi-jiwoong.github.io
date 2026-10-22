@@ -5,7 +5,7 @@ series_order: 2
 title: "AWS 인프라로 SIEM 만들기: Security Lake와 OpenSearch"
 description: "Amazon Security Lake를 보안 분석용 Source of Truth로 두고 OpenSearch, Athena, Log Archive, Detection GitOps를 연결해 운영 가능한 AWS SIEM 구조를 정리했다."
 date: 2026-10-08 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 categories: [AWS]
 tags: [AWS, SIEM, SecurityLake, OpenSearch, OCSF, SecurityHub, CloudTrail, GitOps]
 ---
@@ -443,6 +443,54 @@ Slack / Jira / SOAR
 SIEM 자체의 개념부터 보고 싶다면 이전 글에서 정리했다.
 
 ← [SIEM이란 무엇인가: 로그 수집부터 탐지와 대응까지](/posts/what-is-siem/)
+
+## 이벤트 한 건을 끝까지 따라가기
+
+다음은 가상의 CloudTrail 로그인 실패를 이용한 로컬 탐지 실습이다. 2026-10-22에 Python으로 실행했으며 실제 AWS 로그나 계정을 사용하지 않았다. `192.0.2.10`은 문서용 주소다.
+
+```json
+{
+  "eventSource": "signin.amazonaws.com",
+  "eventName": "ConsoleLogin",
+  "eventTime": "2026-10-22T00:05:00Z",
+  "eventID": "demo-5",
+  "sourceIPAddress": "192.0.2.10",
+  "recipientAccountId": "111122223333",
+  "userIdentity": {"principalId": "demo-user"},
+  "responseElements": {"ConsoleLogin": "Failure"}
+}
+```
+
+이 이벤트에서 탐지에 필요한 값만 추려 OCSF 필드에 대응시킨다.
+
+| 원본 또는 해석 | 예제의 대응 필드 | 값 |
+|---|---|---|
+| ConsoleLogin → Authentication / Logon | class_uid / activity_id / type_uid | 3002 / 1 / 300201 |
+| Failure | status_id | 2 |
+| eventTime | time (epoch milliseconds) | 1792627500000 |
+| eventID | metadata.uid | demo-5 |
+| sourceIPAddress | src_endpoint.ip | 192.0.2.10 |
+| recipientAccountId | cloud.account.uid | 111122223333 |
+| principalId | user.uid | demo-user |
+
+**이 출력은 OCSF 필드의 일부만 사용한 학습용 투영이며, 완전한 OCSF 이벤트나 Security Lake 수집용 페이로드가 아니다.** 정식 구현은 사용하는 스키마 버전의 필수 필드와 제약을 충족해야 한다. 분류 기준은 [OCSF 1.1.0 Authentication 정의](https://github.com/ocsf/ocsf-schema/blob/v1.1.0/events/iam/authentication.json)를 참고한다. Security Lake 기본 지원 소스의 정규화와 이 로컬 학습용 변환기를 혼동하지 않는다.
+
+탐지 조건은 이벤트 시각 기준 `(종료 시각 - 5분, 종료 시각]` 안에서 **같은 계정·출발지 IP의 서로 다른 로그인 실패 이벤트가 5건 이상**인 경우다. `(계정 ID, eventID)`로 중복을 제거하고 성공 이벤트는 세지 않는다. 종료 시각 00:05에 00:01부터 00:05까지의 실패 5건을 넣으면 다음 결과가 나온다.
+
+```json
+{
+  "rule_id": "demo-console-failures-v1",
+  "account": "111122223333",
+  "source_ip": "192.0.2.10",
+  "window_end": "2026-10-22T00:05:00Z",
+  "failed_events": 5,
+  "event_ids": ["demo-1", "demo-2", "demo-3", "demo-4", "demo-5"]
+}
+```
+
+이 결과도 설명용 finding이며 Security Hub ASFF 또는 OCSF Finding 스키마는 아니다. 실제 연동에서는 목적지 형식으로 변환하고 안정적인 finding ID를 부여한다. 반복 윈도우에서 같은 사건을 계속 알리지 않도록 상태와 중복 알림 정책도 필요하다.
+
+[전체 변환·탐지 코드와 실행 결과](https://github.com/choi-jiwoong/choi-jiwoong.github.io/tree/main/examples/siem-event)를 내려받아 `python3 detect.py`로 실행할 수 있다. 5건 탐지 외에 4건, 중복 이벤트, 윈도우 밖 이벤트, 성공 이벤트가 섞인 경우도 assertion으로 확인했다. 운영에서는 지연 도착·누락·원본 보존·오탐 예외를 추가로 검증해야 한다. 실패 5건은 조사할 신호이지 침해가 확정됐다는 의미는 아니다.
 
 ## 참고 자료
 

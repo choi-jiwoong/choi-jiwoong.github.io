@@ -3,7 +3,7 @@ layout: post
 title: "Debezium CDC 운영 — Kafka Connect와 Schema Evolution"
 description: "Kafka Connect의 worker·connector·task 운영과 schema history를 이해하고, coupon_code 추가 예제로 이벤트·소비자·목적지의 안전한 변경 순서를 정리한다."
 date: 2026-10-17 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 categories: [Data]
 tags: [CDC, Debezium, Kafka, KafkaConnect, SchemaRegistry, DataEngineering]
 topic: data
@@ -15,7 +15,7 @@ series_order: 3
 
 [1편](/posts/cdc-datastream-vs-debezium/)에서는 Datastream과 Debezium의 아키텍처·운영 책임·선택 기준을 비교했다. [2편](/posts/cdc-consistency-and-recovery/)에서는 중복·역순·재처리와 복구 완료 검증을 다뤘다. 이번에는 **Debezium을 실행하는 Kafka Connect의 운영과, DB 스키마 변경을 소비자와 목적지까지 연결하는 방법**에 집중한다.
 
-> 초안의 공식 문서 확인일: 2026년 10월 14일. 10월 15일 게시 전 MySQL connector, Connect 운영·REST API, schema history 보존과 Registry 호환성 API를 다시 확인했다. 아래 설정·코드·예상 결과는 설계 설명용이며 실제 환경에서 실행하거나 측정한 결과가 아니다. 공식 문서의 동작 설명과 이 글에서 제안하는 배포 절차를 구분한다.
+> 초안의 공식 문서 확인일: 2026년 10월 14일. 10월 15일 MySQL connector, Connect 운영·REST API, schema history 보존과 Registry 호환성 API를 다시 확인했다. 아래 설정·코드·예상 결과는 설계 설명용이며 실제 환경에서 실행하거나 측정한 결과가 아니다. 공식 문서의 동작 설명과 이 글에서 제안하는 배포 절차를 구분한다.
 
 ## 1. 실행 기반과 예제의 전제
 
@@ -401,7 +401,7 @@ Kafka Connect 운영에서는 worker가 살아 있는지와 데이터가 목적�
 
 ## 공식 문서
 
-초안 작성 시 2026년 10월 14일 확인한 자료다. 게시 전 재확인 범위는 글 앞에 명시했다. `current`·`stable` 링크는 이후 내용이 바뀔 수 있으므로 실제 배포에서는 해당 버전 문서와 릴리스 정보를 함께 고정한다.
+초안 작성 시 2026년 10월 14일 확인한 자료다. 재확인 범위는 글 앞에 명시했다. `current`·`stable` 링크는 이후 내용이 바뀔 수 있으므로 실제 배포에서는 해당 버전 문서와 릴리스 정보를 함께 고정한다.
 
 1. [Debezium 3.7 — MySQL connector: 설정, schema history, task, metrics](https://debezium.io/documentation/reference/3.7/connectors/mysql.html)
 2. [Debezium — Avro serialization과 Confluent converter 설치](https://debezium.io/documentation/reference/stable/configuration/avro.html)

@@ -2,7 +2,7 @@
 title: "사내 AI 도입, 업무와 완료 기준부터 정하기"
 description: "모델과 서버를 고르기 전에 입력·출력·완료 증거를 정의하고, 문의 후속 처리 예제로 작은 PoC의 평가 범위를 정한다."
 date: 2026-09-21 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 topic: ai
 series: internal-ai
 series_order: 1
@@ -114,6 +114,12 @@ AI 호출에 10초가 걸렸다고 10분짜리 업무가 10초로 줄었다고 �
 Anthropic은 미리 정해진 코드 경로를 따르는 workflow와 모델이 실행 경로를 결정하는 agent를 구분한다. 고정된 문의 추출·검토 업무라면 먼저 단순한 workflow로 평가하고, 실제로 동적 탐색이 필요한 부분에만 자율성을 늘릴 수 있다. [2]
 
 완료 기준을 정했다면 [2편의 시스템·규칙·LLM 역할 분리](/posts/internal-ai-system-rules-llm-roles/)에서 각 단계의 책임을 나눈다. 이 시리즈의 [3편](/posts/internal-ai-marketing-support-accounting/)은 업무별 예제, [4편](/posts/internal-ai-architecture-data-permission-boundaries/)은 아키텍처, [5편](/posts/internal-ai-api-local-hybrid-infrastructure/)은 실행 환경, [6편](/posts/internal-ai-operations-recovery-evaluation/)은 복구와 성과 측정으로 이어진다.
+
+## 상담 요청 한 건의 완료 기준
+
+연재를 관통하는 가상 사례는 `case-042`다. 고객은 “다음 주 화요일 방문이 가능할까요?”라고 묻고, 직원은 “일정을 확인한 뒤 연락드리겠습니다”라고 답했다. 기준일과 시간대는 입력 메타데이터로 제공한다고 가정한다.
+
+이 작업의 목표는 예약 확정이 아니라 **요청·미확정 상태·원문 근거를 담은 후속 처리 초안 저장**이다. ‘예약이 확정됐다’고 출력하면 실패, 담당자 검토 대기로 남기면 의도한 결과다. 이 사례의 역할 분리는 [2편](/posts/internal-ai-system-rules-llm-roles/)에서 이어진다.
 
 ## 참고 자료
 

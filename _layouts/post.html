@@ -20,7 +20,12 @@ layout: default
       {% else %}
         <span>Development</span>
       {% endif %}
-      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time>
+      <span>게시 <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%Y.%m.%d' }}</time></span>
+      {% assign published_day = page.date | date: '%Y-%m-%d' %}
+      {% assign modified_day = page.last_modified_at | date: '%Y-%m-%d' %}
+      {% if page.last_modified_at and modified_day > published_day %}
+        <span>최종 수정 <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: '%Y.%m.%d' }}</time></span>
+      {% endif %}
     </div>
     <h1>{{ page.title }}</h1>
     {% if page.description %}<p class="post-description">{{ page.description }}</p>{% endif %}

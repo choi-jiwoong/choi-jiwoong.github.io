@@ -2,7 +2,7 @@
 title: "추천 시스템 Two-Tower 다음 단계 — ANN과 Vector Search"
 description: "Two-Tower의 벡터를 검색 후보로 연결하고 HNSW·IVF, 필터, 모델·인덱스 버전과 ANN Recall을 구분해 설계한다."
 date: 2026-09-07 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 topic: data
 series: recommendation
 series_order: 2
@@ -14,7 +14,7 @@ tags: [Recommendation, TwoTower, ANN, VectorSearch, HNSW, IVF, Faiss, OpenSearch
 
 ANN은 Approximate Nearest Neighbor, 즉 근사 최근접 이웃 검색이다. 추천 문맥에서는 거리뿐 아니라 내적처럼 학습에 사용한 점수에 맞춰 상위 후보를 찾는다. Vector Search 전체가 ANN인 것은 아니며, 작은 후보 집합에서는 exact search도 유효한 선택이다.
 
-아래 수치와 구성은 설계 예시다. 실제 추천 서비스의 성능 보고서가 아니며, Faiss·OpenSearch 실행과 부하 검증 결과를 제시하지 않는다.
+본문의 구성은 설계 예시이며, 뒤의 Faiss 보충 실험만 합성 데이터로 직접 실행한 결과다. 실제 추천 서비스나 OpenSearch의 부하 검증 결과는 아니다.
 
 ## 모델과 인덱스의 역할을 구분한다
 
@@ -88,7 +88,7 @@ print(f"Recommendation Recall@4={recommendation_recall:.3f}")
 
 ## Faiss로 exact와 HNSW를 비교하는 골격
 
-다음은 Python에서 `numpy`와 `faiss`를 사용하는 API 구성 예시다. 이 환경에서는 Faiss를 실행하지 않았으므로 특정 Recall이나 지연 수치를 주장하지 않는다. 실험할 때 설치한 패키지 버전·CPU·스레드 수와 실제 상품 벡터를 기록해야 한다.
+다음은 Python에서 `numpy`와 `faiss`를 사용하는 API 구성 예시다. 이 짧은 코드와 별도로 뒤의 보충 실험에서 고정 버전·파라미터별 결과를 제공한다. 실험할 때 설치한 패키지 버전·CPU·스레드 수와 실제 상품 벡터를 기록해야 한다.
 
 ```python
 import numpy as np
@@ -141,9 +141,35 @@ Faiss는 검색 라이브러리이고 OpenSearch는 검색 서비스 운영 기�
 
 실제 도입은 exact baseline에서 시작해, 목표 지연을 충족하지 못하는 범위를 확인하고, HNSW나 IVF의 탐색 폭을 조절해 비교할 수 있다. 검색 오차와 사용자 관련도, 필터 후 후보 수를 각각 기록해야 모델 문제와 인덱스 문제를 구분할 수 있다.
 
+## 보충 실험: efSearch를 바꾸면 무엇이 달라지나
+
+2026-10-22에 Linux x86_64 공유 실행 환경에서 Python 3.12.14, `faiss-cpu==1.12.0`, `numpy==2.2.6`으로 실행했다. 스레드는 1개, 난수 seed는 42다. 정규분포 난수로 만든 상품 10,000개와 질의 200개는 각각 64차원이며 L2 정규화했다. 이는 실제 상품 임베딩의 품질 실험이 아니다.
+
+`IndexFlatIP`의 exact Top-10을 기준으로 HNSW(`M=32`, `efConstruction=100`)를 비교했다. 각 설정은 10개 질의로 워밍업한 뒤 동일한 200개 질의를 5회 반복한다. 지연은 단일 질의 검색의 Python 호출 시간을 포함한다. 5회는 독립 데이터셋 실험이 아니다.
+
+| efSearch | Recall@10 | p50 (ms) | p95 (ms) | 프로세스 누적 최대 RSS (MiB) |
+|---|---:|---:|---:|---:|
+| 16 | 0.6860 | 0.048 | 5.118 | 65.875 |
+| 32 | 0.8400 | 0.060 | 1.273 | 65.875 |
+| 64 | 0.9580 | 0.135 | 2.447 | 65.875 |
+| 128 | 0.9965 | 0.495 | 3.428 | 65.875 |
+
+인덱스 생성은 약 14.980초, 직렬화 크기는 5,277,858바이트였다. 같은 인덱스의 탐색 폭만 바꿨으므로 직렬화 크기는 동일하다. RSS에는 원본 벡터·exact 인덱스·Python 런타임까지 포함되며, 각 행은 프로세스 시작 이후의 최대값이다. HNSW 단독 메모리 사용량이나 설정별 추가 메모리로 읽으면 안 된다.
+
+이 표에서는 탐색 폭 증가에 따라 Recall이 개선됐다. 반면 p95는 단조롭게 증가하지 않는다. 공유 환경의 스케줄링 편차가 포함된 짧은 측정이므로 `efSearch=32`가 항상 더 빠르다는 결론은 낼 수 없다. 운영 판단에는 전용 환경, 실제 벡터·필터, 동시 요청과 갱신 부하를 넣어 반복 측정해야 한다.
+
+[실행 코드·버전 파일·원본 결과](https://github.com/choi-jiwoong/choi-jiwoong.github.io/tree/main/examples/ann-faiss)를 내려받고 해당 디렉터리에서 실행한다. 메모리 측정은 Unix의 `resource` 모듈을 사용한다.
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+python benchmark.py
+```
+
 ## 참고 자료
 
-공식 자료 확인일: 2026-10-19. 집합 기반 Recall 계산은 실행 확인했으며 Faiss·OpenSearch 실행과 성능 측정은 하지 않았다. `latest` 문서는 변할 수 있으므로 실제 배포 버전의 엔진·필터 지원을 다시 확인한다.
+공식 자료 확인일: 2026-10-19. 집합 기반 Recall 계산을 실행 확인했고, 2026-10-22에 아래 조건의 Faiss 합성 실험을 추가했다. OpenSearch 실행과 운영 부하 검증은 하지 않았다. `latest` 문서는 변할 수 있으므로 실제 배포 버전의 엔진·필터 지원을 다시 확인한다.
 
 1. [Faiss — MetricType and distances](https://github.com/facebookresearch/faiss/wiki/MetricType-and-distances)
 2. [Faiss — Faiss indexes](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes)

@@ -3,7 +3,7 @@ topic: cloud
 title: "GitHub Actions에서 AWS Access Key 없이 배포하기: OIDC 구조 이해하기"
 description: "GitHub Actions에 장기 AWS Access Key를 저장하지 않고 OIDC와 IAM Role을 이용해 short-lived credential로 AWS에 접근하는 구조를 정리했다."
 date: 2026-10-12 11:00:00 +0900
-last_modified_at: 2026-10-19
+last_modified_at: 2026-10-22
 categories: [DevOps]
 tags: [GitHubActions, AWS, OIDC, IAM, CI/CD, Security, DevOps]
 ---
@@ -333,7 +333,7 @@ flowchart TD
 - **staging:** Staging Role
 - **production:** Production Role
 
-처럼 역할을 분리할 수 있다.
+각 환경에 필요한 권한과 승인 정책을 따로 적용한다.
 
 ---
 
@@ -414,7 +414,7 @@ AdministratorAccess
 
 GitHub Actions의 작업별로 **ECR Push Role, ECS Deploy Role, Terraform Plan Role, Terraform Apply Role**을 분리할 수 있다.
 
-처럼 역할을 나눌 수 있다.
+작업별 권한을 나누면 한 단계의 자격 증명으로 접근할 수 있는 범위를 줄일 수 있다.
 
 모든 프로젝트에서 Role을 세분화할 필요는 없지만 최소한 **CI/CD가 실제로 필요한 권한만 갖도록 설계**해야 한다.
 
@@ -435,11 +435,7 @@ OIDC가 모든 문제를 해결하는 것은 아니다.
 
 잘못된 Trust Policy를 만들거나 IAM Role에 과도한 권한을 주면 여전히 위험하다.
 
-핵심은:
-
-OIDC에 **엄격한 Trust Policy, 최소 권한 IAM, Environment Protection**을 함께 적용한다.
-
-이다.
+핵심은 OIDC에 **엄격한 Trust Policy, 최소 권한 IAM, Environment Protection**을 함께 적용하는 것이다.
 
 ---
 
