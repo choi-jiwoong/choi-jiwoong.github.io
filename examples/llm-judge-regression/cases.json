@@ -1,0 +1,52 @@
+{
+  "dataset_version": "library-fixtures-v1",
+  "rubric_version": "library-summary-v1",
+  "synthetic": true,
+  "criteria": [
+    "consistency",
+    "coverage",
+    "grounding"
+  ],
+  "cases": [
+    {
+      "id": "complete",
+      "source": "도서관은 월요일에 휴관한다. 화요일부터 일요일까지 9시부터 18시까지 운영한다. 어린이 자료실은 17시에 문을 닫는다.",
+      "candidate": "월요일은 휴관하며 화~일요일 9~18시에 운영하고 어린이 자료실은 17시에 닫는다.",
+      "expected": {
+        "consistency": "pass",
+        "coverage": "pass",
+        "grounding": "pass"
+      }
+    },
+    {
+      "id": "contradiction",
+      "source": "도서관은 월요일에 휴관한다. 화요일부터 일요일까지 9시부터 18시까지 운영한다. 어린이 자료실은 17시에 문을 닫는다.",
+      "candidate": "도서관은 매일 9~18시에 운영한다.",
+      "expected": {
+        "consistency": "fail",
+        "coverage": "fail",
+        "grounding": "pass"
+      }
+    },
+    {
+      "id": "missing-exception",
+      "source": "도서관은 월요일에 휴관한다. 화요일부터 일요일까지 9시부터 18시까지 운영한다. 어린이 자료실은 17시에 문을 닫는다.",
+      "candidate": "월요일은 휴관하며 화~일요일 9~18시에 운영한다.",
+      "expected": {
+        "consistency": "pass",
+        "coverage": "fail",
+        "grounding": "pass"
+      }
+    },
+    {
+      "id": "unsupported",
+      "source": "도서관은 월요일에 휴관한다. 화요일부터 일요일까지 9시부터 18시까지 운영한다. 어린이 자료실은 17시에 문을 닫는다.",
+      "candidate": "월요일은 휴관하며 화~일요일 9~18시에 운영하고 어린이 자료실은 17시에 닫으며 예약이 필수다.",
+      "expected": {
+        "consistency": "pass",
+        "coverage": "pass",
+        "grounding": "fail"
+      }
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 ---
 topic: ai
+series: llm-evaluation
+series_order: 1
 title: "LLM-as-Judge — AI가 매긴 점수를 어디까지 믿을 수 있을까"
 description: "LLM을 평가자로 사용하는 방법과 정답지 생성의 차이를 살펴보고, 평가 기준·편향·사람 검증을 포함한 평가 설계를 정리한다."
 date: 2026-10-05 11:00:00 +0900

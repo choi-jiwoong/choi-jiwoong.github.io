@@ -1,0 +1,45 @@
+{
+  "dataset_version": "library-fixtures-v1",
+  "rubric_version": "library-summary-v1",
+  "synthetic": true,
+  "prompt_version": "demo-p2",
+  "judge_model_id": null,
+  "results": [
+    {
+      "id": "complete",
+      "status": "ok",
+      "verdicts": {
+        "consistency": "pass",
+        "coverage": "pass",
+        "grounding": "pass"
+      }
+    },
+    {
+      "id": "contradiction",
+      "status": "ok",
+      "verdicts": {
+        "consistency": "pass",
+        "coverage": "fail",
+        "grounding": "pass"
+      }
+    },
+    {
+      "id": "missing-exception",
+      "status": "ok",
+      "verdicts": {
+        "consistency": "pass",
+        "coverage": "unclear",
+        "grounding": "pass"
+      }
+    },
+    {
+      "id": "unsupported",
+      "status": "ok",
+      "verdicts": {
+        "consistency": "pass",
+        "coverage": "pass",
+        "grounding": "fail"
+      }
+    }
+  ]
+}

@@ -23,5 +23,10 @@
     "id": "internal-ai",
     "title": "사내 AI 시스템 설계",
     "description": "업무 선정부터 아키텍처, 운영과 성과 측정까지."
+  },
+  {
+    "id": "llm-evaluation",
+    "title": "LLM 평가 설계와 검증",
+    "description": "평가자의 한계부터 기준표와 회귀 테스트까지."
   }
 ]
