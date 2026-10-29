@@ -1,9 +1,11 @@
 ---
 topic: ai
+series: bedrock-rag
+series_order: 1
 title: 'RAG는 어떻게 동작할까 — 검색부터 근거 있는 답변까지'
 description: '가상의 도서관 안내로 검색 증강 생성의 흐름을 살펴보고, 청크·임베딩·하이브리드 검색과 검색 품질·답변 품질의 평가를 구분한다.'
 date: 2026-10-18 11:00:00 +0900
-last_modified_at: 2026-10-28
+last_modified_at: 2026-10-29
 categories: [AI]
 tags: [RAG, LLM, Retrieval, Embedding, VectorSearch, Evaluation]
 ---
@@ -168,6 +170,10 @@ flowchart TD
 근거가 없는 질문에 대한 정책도 필요하다. 예를 들어 안내문에 공휴일 운영 여부가 없다면 일요일 규정을 그대로 적용하지 않고, 현재 자료로는 확인할 수 없다고 알려야 한다. 문서끼리 충돌하면 적용 대상과 유효 기간을 확인하고 해결되지 않은 충돌을 드러낸다.
 
 RAG의 품질은 모델뿐 아니라 **어떤 자료를 준비했고, 무엇을 검색해 전달했으며, 답변의 근거를 어떻게 확인했는지**에 달려 있다. 먼저 작은 범위의 문서와 가상 질문으로 각 단계의 기록을 남기면, 개선해야 할 지점을 구분하기 쉬워진다.
+
+## Bedrock 실습으로 이어 읽기
+
+다음 편부터는 제공된 실습 노트북의 코드와 저장 출력을 검토하며 구현과 평가를 연결한다. [검색·생성 통합 호출](/posts/bedrock-rag-retrieve-and-generate/) → [검색·생성 분리와 기록](/posts/bedrock-rag-retrieve-generation-records/) → [RAGAS 점수 해석](/posts/bedrock-ragas-metrics-diagnosis/) → [Guardrails와 trace](/posts/bedrock-rag-guardrails-trace/) 순서다. 새 클라우드 실험 결과가 아니라 원본 관찰, 개선 제안과 오프라인 예제를 구분한 설명이다.
 
 ## 참고 자료
 

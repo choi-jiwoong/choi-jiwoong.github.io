@@ -28,5 +28,10 @@
     "id": "llm-evaluation",
     "title": "LLM 평가 설계와 검증",
     "description": "평가자의 한계부터 기준표, 회귀 테스트, 위치 편향과 프롬프트 주입까지."
+  },
+  {
+    "id": "bedrock-rag",
+    "title": "RAG 구현과 평가 — Amazon Bedrock 실습",
+    "description": "RAG 기본 구조에서 통합 호출, 검색·생성 분리, RAGAS 평가와 Guardrails까지."
   }
 ]
