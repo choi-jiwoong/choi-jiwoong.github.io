@@ -1,0 +1,2472 @@
+{
+  "checked_at": "2026-10-29",
+  "source": "GitHub repository search: org:aws-solutions-library-samples, pages 1-4, 100 per page; pages 5-6 empty",
+  "count": 352,
+  "note": "Search snapshot, not a guarantee of exhaustive current organization inventory. README-reviewed projects are identified separately.",
+  "repositories": [
+    {
+      "name": "guidance-for-training-an-aws-deepracer-model-using-amazon-sagemaker",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-training-an-aws-deepracer-model-using-amazon-sagemaker",
+      "default_branch": "master",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "cloud-intelligence-dashboards-framework",
+      "url": "https://github.com/aws-solutions-library-samples/cloud-intelligence-dashboards-framework",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "video-on-demand-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/video-on-demand-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "data-lakes-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/data-lakes-on-aws",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "qnabot-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/qnabot-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-claude-code-with-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-claude-code-with-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "fraud-detection-using-machine-learning",
+      "url": "https://github.com/aws-solutions-library-samples/fraud-detection-using-machine-learning",
+      "default_branch": "master",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "accelerated-intelligent-document-processing-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/accelerated-intelligent-document-processing-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "live-streaming-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/live-streaming-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-provider-generative-ai-gateway-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-provider-generative-ai-gateway-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-personalized-ecommerce-recommendations-using-amazon-bedrock-agents",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-personalized-ecommerce-recommendations-using-amazon-bedrock-agents",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-deploying-model-context-protocol-servers-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-model-context-protocol-servers-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "network-orchestration-for-aws-transit-gateway",
+      "url": "https://github.com/aws-solutions-library-samples/network-orchestration-for-aws-transit-gateway",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-media2cloud-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-media2cloud-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "video-on-demand-on-aws-foundation",
+      "url": "https://github.com/aws-solutions-library-samples/video-on-demand-on-aws-foundation",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "data-transfer-hub",
+      "url": "https://github.com/aws-solutions-library-samples/data-transfer-hub",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "live-streaming-on-aws-with-amazon-s3",
+      "url": "https://github.com/aws-solutions-library-samples/live-streaming-on-aws-with-amazon-s3",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "eks-saas-gitops",
+      "url": "https://github.com/aws-solutions-library-samples/eks-saas-gitops",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-open-source-3d-reconstruction-toolbox-for-gaussian-splats-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-open-source-3d-reconstruction-toolbox-for-gaussian-splats-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-a-multi-tenant-generative-ai-gateway-with-cost-and-usage-tracking-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-a-multi-tenant-generative-ai-gateway-with-cost-and-usage-tracking-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "aws-ops-automator",
+      "url": "https://github.com/aws-solutions-library-samples/aws-ops-automator",
+      "default_branch": "master",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-modernizing-electric-vehicle-charging-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-modernizing-electric-vehicle-charging-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-clickstream-analytics-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-clickstream-analytics-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "eks-troubleshooting-agentic-ai-chatops",
+      "url": "https://github.com/aws-solutions-library-samples/eks-troubleshooting-agentic-ai-chatops",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "cloud-intelligence-dashboards-data-collection",
+      "url": "https://github.com/aws-solutions-library-samples/cloud-intelligence-dashboards-data-collection",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "aws-batch-arch-for-protein-folding",
+      "url": "https://github.com/aws-solutions-library-samples/aws-batch-arch-for-protein-folding",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-agent-orchestration-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-agent-orchestration-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "automated-forensic-orchestrator-for-amazon-ec2",
+      "url": "https://github.com/aws-solutions-library-samples/automated-forensic-orchestrator-for-amazon-ec2",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-natural-language-queries-of-relational-databases-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-natural-language-queries-of-relational-databases-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-multimodal-data-processing-using-amazon-bedrock-data-automation",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multimodal-data-processing-using-amazon-bedrock-data-automation",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-edit-in-the-cloud-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-edit-in-the-cloud-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-digital-assets-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-digital-assets-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-custom-game-backend-hosting-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-custom-game-backend-hosting-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deploying-sap-abap-accelerator-for-amazon-q-developer",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-sap-abap-accelerator-for-amazon-q-developer",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-voice-agents-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-voice-agents-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "aws-health-events-insight",
+      "url": "https://github.com/aws-solutions-library-samples/aws-health-events-insight",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-ec2-spot-placement-score-tracker",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ec2-spot-placement-score-tracker",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "global-capacity-orchestrator-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/global-capacity-orchestrator-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-low-code-intelligent-document-processing-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-low-code-intelligent-document-processing-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-agent-orchestration-using-bedrock-agentcore-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-agent-orchestration-using-bedrock-agentcore-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-building-a-real-time-bidder-for-advertising-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-building-a-real-time-bidder-for-advertising-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-developing-infrastructure-as-code-templates-from-architecture-diagrams-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-developing-infrastructure-as-code-templates-from-architecture-diagrams-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "real-time-live-sports-updates-using-aws-appsync",
+      "url": "https://github.com/aws-solutions-library-samples/real-time-live-sports-updates-using-aws-appsync",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automating-network-monitoring-and-alerting-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automating-network-monitoring-and-alerting-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "account-assessment-for-aws-organizations",
+      "url": "https://github.com/aws-solutions-library-samples/account-assessment-for-aws-organizations",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-cross-network-traffic-inspection-with-aws-network-firewall",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-cross-network-traffic-inspection-with-aws-network-firewall",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-machine-learning-inference-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-machine-learning-inference-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-developing-data-and-ai-foundation-with-amazon-sagemaker",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-developing-data-and-ai-foundation-with-amazon-sagemaker",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-conversational-chatbots-using-retrieval-augmented-generation-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-conversational-chatbots-using-retrieval-augmented-generation-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-vibe-coding-with-aws-mcp-servers",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-vibe-coding-with-aws-mcp-servers",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-agent-orchestration-langgraph-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-agent-orchestration-langgraph-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "real-time-analytics-spark-streaming",
+      "url": "https://github.com/aws-solutions-library-samples/real-time-analytics-spark-streaming",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-agent-orchestration-agent-squad-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-agent-orchestration-agent-squad-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-provisioning-of-application-ready-amazon-eks-clusters",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-provisioning-of-application-ready-amazon-eks-clusters",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "aws-insurancelake-etl",
+      "url": "https://github.com/aws-solutions-library-samples/aws-insurancelake-etl",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-cell-based-architecture-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-cell-based-architecture-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-asynchronous-inference-with-stable-diffusion-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-asynchronous-inference-with-stable-diffusion-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-game-analytics-pipeline-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-game-analytics-pipeline-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "machine-learning-for-telecommunications",
+      "url": "https://github.com/aws-solutions-library-samples/machine-learning-for-telecommunications",
+      "default_branch": "master",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-medialake-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-medialake-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-sql-based-etl-with-apache-spark-on-amazon-eks",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-sql-based-etl-with-apache-spark-on-amazon-eks",
+      "default_branch": "master",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-developing-apple-ios-and-vision-pro-applications-with-unity-on-amazon-ec2",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-developing-apple-ios-and-vision-pro-applications-with-unity-on-amazon-ec2",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-self-healing-code-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-self-healing-code-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-aws-sustainability-insights-framework",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-aws-sustainability-insights-framework",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-agentic-ai-operational-foundations-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-agentic-ai-operational-foundations-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-a-secure-chat-user-interface-for-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-a-secure-chat-user-interface-for-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-intelligent-document-processing-agents-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-intelligent-document-processing-agents-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-piping-and-instrumentation-diagrams-digitization-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-piping-and-instrumentation-diagrams-digitization-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "scalable-analytics-using-apache-druid-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/scalable-analytics-using-apache-druid-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-digital-thread-using-graph-and-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-digital-thread-using-graph-and-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-electric-vehicle-battery-health-prediction-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-electric-vehicle-battery-health-prediction-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-payment-systems-using-event-driven-architecture-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-payment-systems-using-event-driven-architecture-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "secure-media-delivery-at-the-edge-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/secure-media-delivery-at-the-edge-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-baseline-security-assessment-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-baseline-security-assessment-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-collaborative-unified-data-and-ai-development-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-collaborative-unified-data-and-ai-development-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-secure-access-to-external-package-repositories-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-secure-access-to-external-package-repositories-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-carbon-data-lake-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-carbon-data-lake-on-aws",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-persistent-world-game-hosting-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-persistent-world-game-hosting-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-secure-blockchain-validation-using-aws-nitro-enclaves",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-secure-blockchain-validation-using-aws-nitro-enclaves",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "multi-region-infrastructure-deployment",
+      "url": "https://github.com/aws-solutions-library-samples/multi-region-infrastructure-deployment",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-advanced-multi-modal-chatbot-including-speech-to-speech-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-advanced-multi-modal-chatbot-including-speech-to-speech-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "clickstream-analytics-on-aws-web-sdk",
+      "url": "https://github.com/aws-solutions-library-samples/clickstream-analytics-on-aws-web-sdk",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-advertising-agents-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-advertising-agents-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-ai-driven-robotic-simulation-and-training-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ai-driven-robotic-simulation-and-training-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-crossregion-failover-and-graceful-failback-and-observability-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-crossregion-failover-and-graceful-failback-and-observability-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generative-ai-shopping-assistant-using-agents-for-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generative-ai-shopping-assistant-using-agents-for-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "aws-insurancelake-infrastructure",
+      "url": "https://github.com/aws-solutions-library-samples/aws-insurancelake-infrastructure",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-game-server-hosting-using-agones-and-open-match-on-amazon-eks",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-game-server-hosting-using-agones-and-open-match-on-amazon-eks",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-game-production-environment-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-game-production-environment-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-investment-analysis-using-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-investment-analysis-using-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-creating-a-personalized-avatar-with-amazon-sagemaker",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-creating-a-personalized-avatar-with-amazon-sagemaker",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-battery-digital-twin-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-battery-digital-twin-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-aws-deepracer-event-management",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-aws-deepracer-event-management",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-scalable-model-inference-and-agentic-ai-on-amazon-eks",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-scalable-model-inference-and-agentic-ai-on-amazon-eks",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-iso20022-messaging-workflows-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-iso20022-messaging-workflows-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-region-serverless-batch-applications-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-region-serverless-batch-applications-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-cost-analysis-and-optimization-with-amazon-bedrock-agents",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-cost-analysis-and-optimization-with-amazon-bedrock-agents",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-galaxy-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-galaxy-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-ai-assistants-with-amazon-q-business",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ai-assistants-with-amazon-q-business",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-rolling-back-changes-to-datasets-in-amazon-s3",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-rolling-back-changes-to-datasets-in-amazon-s3",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-accelerating-sap-clean-core-journey-using-kiro-agents",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-accelerating-sap-clean-core-journey-using-kiro-agents",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generative-ai-deployments-using-amazon-sagemaker-jumpstart",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generative-ai-deployments-using-amazon-sagemaker-jumpstart",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-processing-overhead-imagery-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-processing-overhead-imagery-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-media-provenance-with-c2pa-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-media-provenance-with-c2pa-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "clickstream-analytics-on-aws-android-sdk",
+      "url": "https://github.com/aws-solutions-library-samples/clickstream-analytics-on-aws-android-sdk",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-industrial-digital-twin-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-industrial-digital-twin-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "data-transfer-hub-cli",
+      "url": "https://github.com/aws-solutions-library-samples/data-transfer-hub-cli",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-external-connectivity-amazon-vpc-lattice",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-external-connectivity-amazon-vpc-lattice",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "distributed-compute-on-aws-with-cross-regional-dask",
+      "url": "https://github.com/aws-solutions-library-samples/distributed-compute-on-aws-with-cross-regional-dask",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "prebid-server-deployment-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/prebid-server-deployment-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "Guidance-for-AI-enhanced-customer-experience-with-Amazon-Connect",
+      "url": "https://github.com/aws-solutions-library-samples/Guidance-for-AI-enhanced-customer-experience-with-Amazon-Connect",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "amazon-personalize-online-recommendations-with-google-tag-manager",
+      "url": "https://github.com/aws-solutions-library-samples/amazon-personalize-online-recommendations-with-google-tag-manager",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "clickstream-analytics-on-aws-swift-sdk",
+      "url": "https://github.com/aws-solutions-library-samples/clickstream-analytics-on-aws-swift-sdk",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-geospatial-insights-for-sustainability-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-geospatial-insights-for-sustainability-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-custom-search-of-an-enterprise-knowledge-base-with-amazon-opensearch-service",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-custom-search-of-an-enterprise-knowledge-base-with-amazon-opensearch-service",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-improving-application-development-productivity-with-the-sap-abap-assistant-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-improving-application-development-productivity-with-the-sap-abap-assistant-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-low-cost-semantic-search-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-low-cost-semantic-search-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-high-speed-rag-chatbots-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-high-speed-rag-chatbots-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-virtual-personal-stylist-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-virtual-personal-stylist-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-modal-data-analysis-with-aws-health-and-ml-services",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-modal-data-analysis-with-aws-health-and-ml-services",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-setup-of-aws-transform",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-setup-of-aws-transform",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "Guidance-for-Authentication-with-Digital-Wallets-on-AWS",
+      "url": "https://github.com/aws-solutions-library-samples/Guidance-for-Authentication-with-Digital-Wallets-on-AWS",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-using-google-tag-manager-for-server-side-website-analytics-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-using-google-tag-manager-for-server-side-website-analytics-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-cost-analysis-and-optimization-with-amazon-bedrock-agentcore",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-cost-analysis-and-optimization-with-amazon-bedrock-agentcore",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-agentic-data-exploration-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-agentic-data-exploration-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "sample-ai-assisted-call-center-agent-training",
+      "url": "https://github.com/aws-solutions-library-samples/sample-ai-assisted-call-center-agent-training",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "serverless-fixity-for-digital-preservation-compliance",
+      "url": "https://github.com/aws-solutions-library-samples/serverless-fixity-for-digital-preservation-compliance",
+      "default_branch": "master",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-media-extraction-and-dynamic-content-policy-framework-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-media-extraction-and-dynamic-content-policy-framework-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-fraud-detection-with-intelligent-document-processing-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-fraud-detection-with-intelligent-document-processing-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-datalake-with-sap-and-non-sap-data-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-datalake-with-sap-and-non-sap-data-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-creating-a-customized-coding-companion-with-amazon-q-developer",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-creating-a-customized-coding-companion-with-amazon-q-developer",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-migrating-tabular-data-from-amazon-s3-to-s3-tables",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-migrating-tabular-data-from-amazon-s3-to-s3-tables",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-connecting-data-products-with-amazon-datazone",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-connecting-data-products-with-amazon-datazone",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-agentic-data-analyst-using-amazon-bedrock-agentcore-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-agentic-data-analyst-using-amazon-bedrock-agentcore-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-no-code-multi-agent-ai-orchestration-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-no-code-multi-agent-ai-orchestration-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-bioinformatics-workflow-development-using-devops-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-bioinformatics-workflow-development-using-devops-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-patient-entity-resolution-with-aws-healthlake",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-patient-entity-resolution-with-aws-healthlake",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generating-support-case-insights-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generating-support-case-insights-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-intelligent-route-optimization-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-intelligent-route-optimization-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-building-a-sap-cloud-data-warehouse-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-building-a-sap-cloud-data-warehouse-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-simple-ecommerce-website-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-simple-ecommerce-website-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-building-a-high-performance-numerical-weather-prediction-system-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-building-a-high-performance-numerical-weather-prediction-system-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-scalable-cryo-em-on-aws-parallel-computing-service",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-scalable-cryo-em-on-aws-parallel-computing-service",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-monitoring-and-optimizing-energy-usage-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-monitoring-and-optimizing-energy-usage-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-container-runtime-security-monitoring-with-cncf-falco-and-aws-security-hub",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-container-runtime-security-monitoring-with-cncf-falco-and-aws-security-hub",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-incremental-data-exports-from-amazon-dynamodb-to-amazon-s3",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-incremental-data-exports-from-amazon-dynamodb-to-amazon-s3",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-text-generation-using-embeddings-from-enterprise-data-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-text-generation-using-embeddings-from-enterprise-data-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-region-resilient-microservice-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-region-resilient-microservice-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-account-machine-learning-model-governance-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-account-machine-learning-model-governance-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generating-product-descriptions-with-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generating-product-descriptions-with-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-retrieving-data-using-natural-language-queries-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-retrieving-data-using-natural-language-queries-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-account-environment-on-amazon-quicksight",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-account-environment-on-amazon-quicksight",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-disaster-recovery-using-amazon-aurora",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-disaster-recovery-using-amazon-aurora",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-predicting-player-behavior-with-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-predicting-player-behavior-with-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-analytics-observability-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-analytics-observability-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-omnichannel-claims-processing-powered-by-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-omnichannel-claims-processing-powered-by-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-agent-employee-virtual-assistant-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-agent-employee-virtual-assistant-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-geospatial-insights-engine-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-geospatial-insights-engine-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-preparing-and-validating-records-for-entity-resolution-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-preparing-and-validating-records-for-entity-resolution-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-automated-insight-extraction-framework-for-customer-feedback-analysis-with-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-automated-insight-extraction-framework-for-customer-feedback-analysis-with-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-querying-sustainability-documents-using-generative-ai-for-esg-reporting-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-querying-sustainability-documents-using-generative-ai-for-esg-reporting-on-aws",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deploying-amazon-connect-with-infrastructure-as-code-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-amazon-connect-with-infrastructure-as-code-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-ultra-low-latency-machine-learning-feature-stores-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ultra-low-latency-machine-learning-feature-stores-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-sap-generative-ai-assistant-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-sap-generative-ai-assistant-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automating-amazon-vpc-routing-in-a-global-cloud-wan-deployment",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automating-amazon-vpc-routing-in-a-global-cloud-wan-deployment",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-dynamic-game-npc-dialogue-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-dynamic-game-npc-dialogue-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-live-chat-content-moderation-with-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-live-chat-content-moderation-with-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-devops-on-amazon-redshift",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-devops-on-amazon-redshift",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-content-management-using-salesforce-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-content-management-using-salesforce-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-securing-sensitive-data-in-rag-applications-using-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-securing-sensitive-data-in-rag-applications-using-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-tracking-assets-and-locating-devices-using-aws-iot",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-tracking-assets-and-locating-devices-using-aws-iot",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "clickstream-analytics-on-aws-flutter-sdk",
+      "url": "https://github.com/aws-solutions-library-samples/clickstream-analytics-on-aws-flutter-sdk",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-real-time-multilingual-subtitling-for-live-video-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-real-time-multilingual-subtitling-for-live-video-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "amazon-elasticache-caching-for-amazon-rds",
+      "url": "https://github.com/aws-solutions-library-samples/amazon-elasticache-caching-for-amazon-rds",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-connected-mobility-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-connected-mobility-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-product-substitutions-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-product-substitutions-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-smart-and-sustainable-buildings-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-smart-and-sustainable-buildings-on-aws",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-agentic-ai-research-platform-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-agentic-ai-research-platform-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-cloud-native-fast-turnaround-media-workflows-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-cloud-native-fast-turnaround-media-workflows-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-restore-and-copy-for-amazon-s3-glacier-objects",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-restore-and-copy-for-amazon-s3-glacier-objects",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-managing-aws-quotas-through-automation",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-managing-aws-quotas-through-automation",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-enterprise-agentic-ai-platform-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-enterprise-agentic-ai-platform-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "security-automations-for-aws-waf-using-terraform",
+      "url": "https://github.com/aws-solutions-library-samples/security-automations-for-aws-waf-using-terraform",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-multi-cluster-application-management-with-karmada-and-amazon-eks",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-cluster-application-management-with-karmada-and-amazon-eks",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-handling-data-during-traffic-spikes-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-handling-data-during-traffic-spikes-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-assisted-diagnosis-and-troubleshooting",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-assisted-diagnosis-and-troubleshooting",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-meter-data-analytics-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-meter-data-analytics-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-e-commerce-products-similarity-search-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-e-commerce-products-similarity-search-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-building-a-poc-for-amazon-fsx-for-lustre",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-building-a-poc-for-amazon-fsx-for-lustre",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-disaster-recovery-of-vmware-workloads-using-aws-elastic-disaster-recovery-service",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-disaster-recovery-of-vmware-workloads-using-aws-elastic-disaster-recovery-service",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-understanding-your-data-lineage-on-amazon-quickSight",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-understanding-your-data-lineage-on-amazon-quickSight",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-live-streams-hosted-by-digital-humans-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-live-streams-hosted-by-digital-humans-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-voice-ai-in-app-ordering-using-amazon-bedrock-agentcore",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-voice-ai-in-app-ordering-using-amazon-bedrock-agentcore",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-amazon-vpc-lattice-automated-dns-configuration-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-amazon-vpc-lattice-automated-dns-configuration-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generative-ai-assistant-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generative-ai-assistant-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "breweries-sitewise-simulator",
+      "url": "https://github.com/aws-solutions-library-samples/breweries-sitewise-simulator",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-receiving-digital-imaging-and-communications-in-medicine-images-in-amazon-s3",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-receiving-digital-imaging-and-communications-in-medicine-images-in-amazon-s3",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-similarity-search-based-retrieval-augmented-generation-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-similarity-search-based-retrieval-augmented-generation-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-kubernetes-based-game-load-testing-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-kubernetes-based-game-load-testing-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-ivr-migration-to-amazon-connect-using-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ivr-migration-to-amazon-connect-using-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-american-sign-language-3d-avatar-translator-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-american-sign-language-3d-avatar-translator-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automating-ethereum-node-validator-using-graviton-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automating-ethereum-node-validator-using-graviton-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-video-content-optimization-assistant-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-video-content-optimization-assistant-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-management-of-aws-capacity-blocks",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-management-of-aws-capacity-blocks",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-scaling-electronic-design-automation-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-scaling-electronic-design-automation-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "clickstream-analytics-on-aws-react-native-sdk",
+      "url": "https://github.com/aws-solutions-library-samples/clickstream-analytics-on-aws-react-native-sdk",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-evaluating-generative-ai-applications-using-oss-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-evaluating-generative-ai-applications-using-oss-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-using-email-templates-with-amazon-pinpoint-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-using-email-templates-with-amazon-pinpoint-on-aws",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-retail-analytics-using-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-retail-analytics-using-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "sample-smus-aiops",
+      "url": "https://github.com/aws-solutions-library-samples/sample-smus-aiops",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-sustainability-data-management-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-sustainability-data-management-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-incremental-data-exports-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-incremental-data-exports-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-full-duplex-open-platform-communication-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-full-duplex-open-platform-communication-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-personalized-engagement-using-online-and-mobile-user-behaviors-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-personalized-engagement-using-online-and-mobile-user-behaviors-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-sentiment-analysis-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-sentiment-analysis-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-implementing-the-google-privacy-sandbox-aggregation-service-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-implementing-the-google-privacy-sandbox-aggregation-service-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-transactional-fraud-detection-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-transactional-fraud-detection-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-ev-digital-twin-ai-powered-operational-monitoring",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ev-digital-twin-ai-powered-operational-monitoring",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-protein-language-esm-model-training-with-sagemaker-hyperpod",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-protein-language-esm-model-training-with-sagemaker-hyperpod",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-video-analysis-as-a-service-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-video-analysis-as-a-service-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-ecs-canary-deployments-for-backend-workloads-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ecs-canary-deployments-for-backend-workloads-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-streamlining-data-access-with-jira-service-management-and-amazon-datazone",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-streamlining-data-access-with-jira-service-management-and-amazon-datazone",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-enterprise-search-and-audit-for-amazon-s3",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-enterprise-search-and-audit-for-amazon-s3",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-data-management-core-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-data-management-core-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "gudiance-for-farm-management-ai-agent-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/gudiance-for-farm-management-ai-agent-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-machine-translation-pipelines-using-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-machine-translation-pipelines-using-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-scheduling-batch-jobs-for-mainframe-modernization-service-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-scheduling-batch-jobs-for-mainframe-modernization-service-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-attachment-management-to-aws-cloud-wan",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-attachment-management-to-aws-cloud-wan",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-customizing-normalization-library-for-aws-entity-resolution",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-customizing-normalization-library-for-aws-entity-resolution",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deploying-high-performance-computing-clusters-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-high-performance-computing-clusters-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "cfn-ps-microsoft-activedirectory",
+      "url": "https://github.com/aws-solutions-library-samples/cfn-ps-microsoft-activedirectory",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-high-availability-oracle-databases-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-high-availability-oracle-databases-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-utility-bill-processing-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-utility-bill-processing-on-aws",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-region-application-data-using-amazon-aurora",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-region-application-data-using-amazon-aurora",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-real-time-text-search-using-amazon-opensearch-service",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-real-time-text-search-using-amazon-opensearch-service",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-low-latency-high-throughput-model-inference-using-amazon-sagemaker",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-low-latency-high-throughput-model-inference-using-amazon-sagemaker",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-programmatic-deployment-of-ndi-discovery-servers-for-broadcast-workflows-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-programmatic-deployment-of-ndi-discovery-servers-for-broadcast-workflows-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "data-transfer-from-amazon-s3-glacier-vaults-to-amazon-s3",
+      "url": "https://github.com/aws-solutions-library-samples/data-transfer-from-amazon-s3-glacier-vaults-to-amazon-s3",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-customer-lifetime-value-analytics-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-customer-lifetime-value-analytics-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-optimizing-heterogeneous-auto-scaling-group-resource-utilization-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-optimizing-heterogeneous-auto-scaling-group-resource-utilization-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-sap-data-integration-and-management-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-sap-data-integration-and-management-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": true
+    },
+    {
+      "name": "guidance-for-resilient-data-applications-using-amazon-dynamodb",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-resilient-data-applications-using-amazon-dynamodb",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-integrating-3rd-party-saas-data-with-amazon-appflow-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-integrating-3rd-party-saas-data-with-amazon-appflow-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-predictive-maintenance-with-amazon-monitron",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-predictive-maintenance-with-amazon-monitron",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-maximum-data-availability-architecture-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-maximum-data-availability-architecture-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-integrating-external-single-sign-on-providers-with-amazon-eks",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-integrating-external-single-sign-on-providers-with-amazon-eks",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-connecting-automated-inputs-to-contact-centers-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-connecting-automated-inputs-to-contact-centers-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-chatbot-user-feedback-and-analytics-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-chatbot-user-feedback-and-analytics-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-custom-domain-names-on-amazon-api-gateway-private-endpoints",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-custom-domain-names-on-amazon-api-gateway-private-endpoints",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-identifying-diagnosis-codes-from-clinical-notes-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-identifying-diagnosis-codes-from-clinical-notes-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-detecting-malware-threats-using-aws-transfer-family-managed-workflows-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-detecting-malware-threats-using-aws-transfer-family-managed-workflows-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-a-predictive-responsible-gaming-model-using-amazon-sagemaker",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-a-predictive-responsible-gaming-model-using-amazon-sagemaker",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-integrating-amazon-connect-with-sap-sales-and-service-cloud-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-integrating-amazon-connect-with-sap-sales-and-service-cloud-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-game-backend-and-infrastructure-agentic-workflows",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-game-backend-and-infrastructure-agentic-workflows",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-agentic-erp-account-payable-and-receivable-exception-handling-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-agentic-erp-account-payable-and-receivable-exception-handling-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-agentic-live-ops-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-agentic-live-ops-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automating-sap-configuration-health-checks-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automating-sap-configuration-health-checks-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-aws-sustainability-insights-framework-cli",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-aws-sustainability-insights-framework-cli",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multimodal-video-analytics-of-smart-product-subscription-services-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multimodal-video-analytics-of-smart-product-subscription-services-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "sample-voice-ai-powered-drive-thru-with-amazon-nova-sonic",
+      "url": "https://github.com/aws-solutions-library-samples/sample-voice-ai-powered-drive-thru-with-amazon-nova-sonic",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-product-catalog-enhancement-with-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-product-catalog-enhancement-with-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-deletion-of-vault-archives-in-amazon-s3-glacier",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-deletion-of-vault-archives-in-amazon-s3-glacier",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-visual-search-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-visual-search-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-self-calibrating-level-4-digital-twins-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-self-calibrating-level-4-digital-twins-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-environmental-impact-factor-mapping-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-environmental-impact-factor-mapping-on-aws",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-processing-real-time-data-using-amazon-dynamo-db",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-processing-real-time-data-using-amazon-dynamo-db",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deploying-an-aws-deepracer-chatbot",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-an-aws-deepracer-chatbot",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-setup-for-elastic-vmware-service-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-setup-for-elastic-vmware-service-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-designing-resilient-applications-with-amazon-aurora-and-amazon-rds-proxy",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-designing-resilient-applications-with-amazon-aurora-and-amazon-rds-proxy",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-querying-of-amazon-s3-logs-with-amazon-athena",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-querying-of-amazon-s3-logs-with-amazon-athena",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-oracle-migrations-to-amazon-aurora-postgresql-using-aws-dms",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-oracle-migrations-to-amazon-aurora-postgresql-using-aws-dms",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deploying-a-data-transfer-dashboard-for-adtech-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-a-data-transfer-dashboard-for-adtech-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-workforce-management-using-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-workforce-management-using-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-responsible-content-moderation-with-ai-services-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-responsible-content-moderation-with-ai-services-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automotive-data-platform-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automotive-data-platform-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-llm-training-operations-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-llm-training-operations-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-integrated-scalable-search-for-amazon-documentdb",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-integrated-scalable-search-for-amazon-documentdb",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-intelligent-application-modernization-explorer",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-intelligent-application-modernization-explorer",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-active-active-replication-on-amazon-rds-for-mysql",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-active-active-replication-on-amazon-rds-for-mysql",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-creating-player-insights-with-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-creating-player-insights-with-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-sustainability-sourcing-assistant-for-sap-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-sustainability-sourcing-assistant-for-sap-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-implementing-google-privacy-sandbox-key-value-service-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-implementing-google-privacy-sandbox-key-value-service-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-managing-planograms-with-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-managing-planograms-with-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-buy-it-now-on-third-party-website-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-buy-it-now-on-third-party-website-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-analyzing-customer-conversations-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-analyzing-customer-conversations-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-realtime-3d-product-visualization-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-realtime-3d-product-visualization-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-object-level-insights-and-cost-savings-with-amazon-s3",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-object-level-insights-and-cost-savings-with-amazon-s3",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-cell-based-architecture-for-amazon-eks",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-cell-based-architecture-for-amazon-eks",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-fsx-for-lustre-data-repository-task-scheduler",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-fsx-for-lustre-data-repository-task-scheduler",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "cfn-ps-dotnetcore-fargate-cicd",
+      "url": "https://github.com/aws-solutions-library-samples/cfn-ps-dotnetcore-fargate-cicd",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-managing-ec2-instance-expiration-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-managing-ec2-instance-expiration-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-building-hybrid-architecture-using-amazon-ecs-anywhere-with-cross-region-load-balancing",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-building-hybrid-architecture-using-amazon-ecs-anywhere-with-cross-region-load-balancing",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-product-attribution-and-personalization-using-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-product-attribution-and-personalization-using-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-personalized-retail-seller-listings-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-personalized-retail-seller-listings-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-event-driven-application-auto-scaling-with-keda-on-amazon-eks",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-event-driven-application-auto-scaling-with-keda-on-amazon-eks",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-building-agentic-ai-powered-hyper-personalized-customer-experience-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-building-agentic-ai-powered-hyper-personalized-customer-experience-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-retail-hyper-personalization-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-retail-hyper-personalization-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-enhancing-smart-products-through-device-telemetry-and-amazon-connect",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-enhancing-smart-products-through-device-telemetry-and-amazon-connect",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-building-an-event-driven-sportsbook-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-building-an-event-driven-sportsbook-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-monitoring-high-cardinality-telecom-metrics-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-monitoring-high-cardinality-telecom-metrics-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-ai-powered-devops-agent-for-prometheus-anomaly-detection",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ai-powered-devops-agent-for-prometheus-anomaly-detection",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-virtual-try-ons-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-virtual-try-ons-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-sensitive-information-scanning-with-amazon-macie-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-sensitive-information-scanning-with-amazon-macie-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-third-party-marketplace-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-third-party-marketplace-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generating-recommendation-of-rules-for-aws-entity-resolution",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generating-recommendation-of-rules-for-aws-entity-resolution",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "sample-support-case-insights-with-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/sample-support-case-insights-with-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-scalable-game-playtesting-and-qa-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-scalable-game-playtesting-and-qa-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-configuring-virtual-calls-on-salesforce-using-amazon-chime",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-configuring-virtual-calls-on-salesforce-using-amazon-chime",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-recency-frequency-and-monetization-analysis-on-amazon-pinpoint",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-recency-frequency-and-monetization-analysis-on-amazon-pinpoint",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deploying-ai-agents-to-device-fleets-using-aws-iot-greengrass",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-ai-agents-to-device-fleets-using-aws-iot-greengrass",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-near-real-time-data-migration-from-apache-cassandra-to-amazon-keyspaces",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-near-real-time-data-migration-from-apache-cassandra-to-amazon-keyspaces",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-multi-account-outposts-operations-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-multi-account-outposts-operations-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-simplifying-virtual-appointments-using-salesforce-health-cloud-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-simplifying-virtual-appointments-using-salesforce-health-cloud-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-cdk-construct-compatability-testing-using-amazon-bedrock-agentcore",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-cdk-construct-compatability-testing-using-amazon-bedrock-agentcore",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-intelligent-identification-of-2d-3d-assets-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-intelligent-identification-of-2d-3d-assets-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deploying-a-poc-for-amazon-s3-tables",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-a-poc-for-amazon-s3-tables",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-intelligent-data-modernization-assistant-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-intelligent-data-modernization-assistant-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-accelerator-optimized-agentic-bidding-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-accelerator-optimized-agentic-bidding-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generative-ai-model-optimization-using-amazon-sagemaker",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generative-ai-model-optimization-using-amazon-sagemaker",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-ai-driven-resilience-testing-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-ai-driven-resilience-testing-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-of-gaming-messaging-system-with-amazon-dynamodb",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-of-gaming-messaging-system-with-amazon-dynamodb",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-using-amazon-eks-capabilities-for-workload-orchestration-and-cloud-resource-management",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-using-amazon-eks-capabilities-for-workload-orchestration-and-cloud-resource-management",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deduplicating-syndicated-data-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deduplicating-syndicated-data-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-faster-amazon-ec2-autoscaling-with-target-tracking",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-faster-amazon-ec2-autoscaling-with-target-tracking",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-real-time-monitoring-of-aws-elastic-disaster-recovery-using-amazon-q-developer",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-real-time-monitoring-of-aws-elastic-disaster-recovery-using-amazon-q-developer",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-sap-intelligent-document-processing-and-insights-using-generative-ai-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-sap-intelligent-document-processing-and-insights-using-generative-ai-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-enhancing-the-customer-experience-for-travel-and-hospitality-using-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-enhancing-the-customer-experience-for-travel-and-hospitality-using-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-capturning-retail-video-analytics-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-capturning-retail-video-analytics-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-continuous-data-migration-from-apache-cassandra-to-amazon-keyspaces",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-continuous-data-migration-from-apache-cassandra-to-amazon-keyspaces",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-using-floating-virtual-fixed-ip-address-with-load-balancing-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-using-floating-virtual-fixed-ip-address-with-load-balancing-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-content-compliance-with-ai-powered-video-analysis-and-agents-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-content-compliance-with-ai-powered-video-analysis-and-agents-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-deploying-a-poc-on-amazon-fsx-for-openzfs",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-deploying-a-poc-on-amazon-fsx-for-openzfs",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "deploy-a-poc-of-aws-backup",
+      "url": "https://github.com/aws-solutions-library-samples/deploy-a-poc-of-aws-backup",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-application-and-data-connectors-for-amazon-q-business",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-application-and-data-connectors-for-amazon-q-business",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automating-password-rotation-with-amazon-fsx-for-netapp-ontap",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automating-password-rotation-with-amazon-fsx-for-netapp-ontap",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-aws-iot-greengrass-foundations",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-aws-iot-greengrass-foundations",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-trade-promotion-deduction-agents-using-amazon-bedrock-agentcore",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-trade-promotion-deduction-agents-using-amazon-bedrock-agentcore",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-okta-phone-based-multi-factor-authentication-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-okta-phone-based-multi-factor-authentication-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-retail-pricing-agent-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-retail-pricing-agent-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-restaurant-monitoring-agents-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-restaurant-monitoring-agents-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-product-traceability-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-product-traceability-on-aws",
+      "default_branch": "main",
+      "archived": true,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-demand-forecast-for-retail-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-demand-forecast-for-retail-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-intelligent-legacy-to-saas-application-migration",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-intelligent-legacy-to-saas-application-migration",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": ".github",
+      "url": "https://github.com/aws-solutions-library-samples/.github",
+      "default_branch": "master",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-integrating-sap-and-non-sap-data-using-snowflake-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-integrating-sap-and-non-sap-data-using-snowflake-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generating-a-bill-of-material-from-blueprints-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generating-a-bill-of-material-from-blueprints-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-agentic-vehicle-experience-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-agentic-vehicle-experience-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automated-deployment-of-l2-stretch-network-extensions-with-cisco-8000v",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automated-deployment-of-l2-stretch-network-extensions-with-cisco-8000v",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-product-information-management-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-product-information-management-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-automating-non-conformance-reviews-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-automating-non-conformance-reviews-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-generating-food-concepts-using-amazon-bedrock",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-generating-food-concepts-using-amazon-bedrock",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    },
+    {
+      "name": "guidance-for-agentic-complaint-management-on-aws",
+      "url": "https://github.com/aws-solutions-library-samples/guidance-for-agentic-complaint-management-on-aws",
+      "default_branch": "main",
+      "archived": false,
+      "readme_reviewed": false
+    }
+  ]
+}
