@@ -33,5 +33,10 @@
     "id": "bedrock-rag",
     "title": "RAG 구현과 평가 — Amazon Bedrock 실습",
     "description": "RAG 기본 구조에서 통합 호출, 검색·생성 분리, RAGAS 평가와 Guardrails까지."
+  },
+  {
+    "id": "agent-design",
+    "title": "AI 에이전트 설계 — 원리부터 운영까지",
+    "description": "CoT·ReAct와 구조 선택부터 승인, 도구 권한, 기억, 평가, 결정적 실행까지."
   }
 ]
