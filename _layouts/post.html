@@ -43,8 +43,8 @@ layout: default
   {% if page.series %}
     {% assign related = site.posts | where: 'series', page.series | sort: 'series_order' %}
     {% assign collection = site.data.series | where: 'id', page.series | first %}
-    <nav class="post-series reading-path" aria-label="이어 읽기">
-      <p class="eyebrow">READING PATH</p><h2>{{ collection.title | default: page.series }}</h2>
+    <nav class="post-series reading-path" aria-label="시리즈">
+      <p class="eyebrow">SERIES</p><h2>{{ collection.title | default: page.series }}</h2>
       <ol>{% for entry in related %}<li>{% if entry.url == page.url %}<span aria-current="page">{{ entry.title | escape }} · 현재 글</span>{% else %}<a href="{{ entry.url | relative_url }}">{{ entry.title | escape }}</a>{% endif %}</li>{% endfor %}</ol>
     </nav>
   {% endif %}
